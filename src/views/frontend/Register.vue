@@ -1,0 +1,233 @@
+<template>
+  <div class="background-login">
+    <v-app id="inspire">
+      <v-container fluid fill-height>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="6" lg="4">
+            <v-card class="elevation-1 pa-3" width="800">
+              <v-card-text class="mb-0 pb-0">
+                <div class="layout column align-center">
+                  <img
+                    :src="require('../../assets/app/logo.png')"
+                    alt="percursu"
+                    width="100"
+                    height="100"
+                  />
+                  <h1 class="flex my-4 font-weight-light primary--text" @click="showAlert">EICM-GDC</h1>
+                  <small>Criar uma conta de utilizador</small>
+                </div>
+                <v-form ref="form">
+                  <v-container grid-list-md ma-0 pa-0>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-alert type="error" outlined :value="hasError">
+                          <small>Erros resultantes do processamento, corrija-os e re-envie</small>
+                        </v-alert>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12" md="6" class="py-0 my-0">
+                        <v-text-field
+                          v-model="formData.folk.name"
+                          name="name"
+                          label="Nome"
+                          type="text"
+                          v-validate="'required|alpha'"
+                          data-vv-name="name"
+                          :error-messages="errors.collect('name')"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6" class="py-0 my-0">
+                        <v-text-field
+                          v-model="formData.folk.lastname"
+                          name="lastname"
+                          label="Apelidos"
+                          type="text"
+                          v-validate="'required|alpha_spaces'"
+                          data-vv-name="lastname"
+                          :error-messages="errors.collect('lastname')"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="12" class="py-0 my-0">
+                        <v-text-field
+                          v-model="formData.email"
+                          name="email"
+                          label="Correio Eletrónico"
+                          type="text"
+                          hint="exemplo@exemplo.cv"
+                          v-validate="'required|email'"
+                          data-vv-name="email"
+                          :error-messages="(errors.has('email')) ? errors.collect('email'): formErrors.email"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" class="py-0 my-0">
+                        <v-text-field
+                          v-model="formData.username"
+                          name="username"
+                          label="Nome de Utilizador"
+                          type="text"
+                          v-validate="'required|alpha_dash'"
+                          data-vv-name="username"
+                          :error-messages="(errors.has('username')) ? errors.collect('username'): formErrors.username"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="12" md="6" class="py-0 my-0">
+                        <v-text-field
+                          v-model="formData.password"
+                          name="password"
+                          label="Palavra Passe"
+                          type="password"
+                          ref="password"
+                          v-validate="'required|min:8'"
+                          data-vv-name="password"
+                          :error-messages="errors.collect('password')"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="12" md="6" class="py-0 my-0">
+                        <v-text-field
+                          v-model="formData.password_confirmation"
+                          name="password"
+                          label="Confirmar Palavra Passe"
+                          type="password"
+                          v-validate="'required|confirmed:password'"
+                          data-vv-name="password_confirmation"
+                          :error-messages="errors.collect('password_confirmation')"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col cols="12" class="py-0 my-0">
+                        <v-radio-group
+                          row
+                          v-model="formData.folk.gender"
+                          v-validate="'required|included:0,1,2'"
+                          data-vv-name="gender"
+                          :error-messages="errors.collect('gender')"
+                        >
+                          <v-radio label="Masculino" value="0"></v-radio>
+                          <v-radio label="Feminino" value="1"></v-radio>
+                        </v-radio-group>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-form>
+              </v-card-text>
+              <v-card-actions class="my-0 py-0">
+                <v-row>
+                  <v-col cols="12" class="py-0 my-0">
+                    <v-btn
+                      class="text-none font-weight-light"
+                      :to="{name: 'login_page'}"
+                      small
+                      text
+                      dark
+                      color="primary"
+                    >Tenho uma conta registada, quero entrar...</v-btn>
+                  </v-col>
+                  <v-col>
+                    <small>Regsitar conta utilizando:</small>
+                  </v-col>
+                  <v-col cols="12" class="py-0 my-0">
+                    <v-btn fab x-small color="facebook" dark>
+                      <v-icon dark x-smal>mdi-facebook</v-icon>
+                    </v-btn>
+                    <v-btn x-small fab dark color="twitter">
+                      <v-icon dark>mdi-twitter</v-icon>
+                    </v-btn>
+                    <v-btn x-small fab dark color="google">
+                      <v-icon dark>mdi-google-plus</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="12" align="right" class="pr-5">
+                    <v-btn
+                    small
+                    text
+                      @click="register()"
+                      outlined
+                      :color="hasError?'error':'primary'"
+                    >{{hasError?'Re-Enviar':'Enviar'}}</v-btn>
+                    <v-btn text small @click="register()" outlined>Sair</v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-app>
+  </div>
+</template>
+
+<script>
+import { flashAlert } from "@/mixins/AppAlerts";
+import { clearForm } from "@/mixins/Form";
+
+export default {
+  name: "register_page",
+  mixins: [flashAlert, clearForm],
+
+  data() {
+    return {
+      formErrors: [],
+      hasError: false,
+
+      formData: {
+        username: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        folk: {
+          name: "",
+          lastname: ""
+        }
+      },
+      sending: false,
+      acoountCreated: false
+    };
+  },
+
+  methods: {
+    showAlert() {
+      // Use sweetalert2
+      this.$swal("Hello Vue world!!!");
+    },
+    register() {
+      this.$validator.validateAll().then(valid => {
+        if (valid) {
+          this.sending = true;
+          //eslint-disable-next-line
+          axios
+            .post("register", this.$data.formData)
+            //eslint-disable-next-line
+            .then(response => {
+              this.hasError = false;
+              this.formErrors = [];
+              this.sending = false;
+              this.acoountCreated = true;
+
+              this.registerCreated(
+                "info",
+                "Conta Criada com Sucesso",
+                "Os seus dados já foram registados, aguarde a sua ativação",
+                "EICM-GDC aprecía muito pela sua colaboração"
+              );
+
+              this.clear();
+              this.$router.push({ path: "/" });
+            })
+            .catch(err => {
+              this.sending = false;
+              this.acoountCreated = false;
+              if (err.response) {
+                this.hasError = true;
+                this.formErrors = err.response.data.errors;
+              }
+            });
+        }
+      });
+    }
+  }
+};
+</script>
