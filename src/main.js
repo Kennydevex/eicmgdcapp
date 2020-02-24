@@ -8,6 +8,8 @@ import VeeValidate, { Validator } from 'vee-validate';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import VueProgressBar from 'vue-progressbar';
+
 
 import AOS from 'aos';
 import 'animate.css';
@@ -24,15 +26,20 @@ AOS.init();
 Vue.use(VueAwesomeSwiper);
 import 'swiper/dist/css/swiper.css';
 Vue.use(VueSweetalert2, { confirmButtonColor: '#004D40', cancelButtonColor: '#C62828' });
+Vue.use(VueProgressBar, {
+  color: '#2698d9',
+  failedColor: 'red',
+  height: '3px'
+});
 
 Vue.use(VeeValidate);
 Validator.localize('pt', pt);
 
 // Global mixins
+
 Vue.mixin({
-  computed: {
-    authUser: function () { return this.$store.getters.authUser; }
-  },
+  data() { return { apiUrl: 'http://localhost:8000' } },
+  computed: { authUser: function () { return this.$store.getters.authUser; } },
 });
 Vue.mixin(acl);
 

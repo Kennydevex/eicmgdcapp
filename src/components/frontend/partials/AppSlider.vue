@@ -1,206 +1,68 @@
 <template>
   <v-card tile flat mt-0 pt-0>
     <swiper ref="mySwiper" :options="swiperOption">
-      <swiper-slide>
-        <v-img
-          class="white--text slide--igm"
-          :src="require('@/assets/app/sliders/slide1.gif')"
-          aspect-ratio="2.75"
-          min-height="220"
-        >
-          <div class="appCard ani" swiper-animate-effect="fadeIn" swiper-animate-duration="4s">
-            <div
-              class="appCard-header ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="fadeIn"
-              swiper-animate-duration="2s"
-            >
-              <div
-                class="title font-weight-light text-uppercase grey--text text--lighten-2"
-              >Fromação Profissional</div>
-            </div>
+      <template v-for="(slider, s) in sliders">
+        <swiper-slide :key="'slider_'+s">
+          <v-img
+            class="white--text slide--igm"
+            :src="`${apiUrl}/images/app/sliders/${slider.image}`"
+            aspect-ratio="2.75"
+            min-height="220"
+          >
+            <!-- ====================================== -->
+            <section class="ani" swiper-animate-effect="slideInLeft" swiper-animate-duration="3s">
+              <!-- <div id="slide-bg-diagonal"></div> -->
+              <v-container grid-list-xs fluid class="ma-0 pa-0 slide-container">
+                <v-row class="ma-0 pa-0">
+                  <v-col class="ma-0 pa-0">
+                    <div class="slide-content-box">
+                      <div class="slide-content-box-outer">
+                        <div class="slide-content-box-inner">
+                          <div class="slide-title">
+                            <h3
+                              class="ani text-uppercase"
+                              swiper-animate-effect="flipInX"
+                              swiper-animate-delay="3s"
+                              swiper-animate-duration="2s"
+                            >
+                              <b>{{slider.header}}</b>
+                            </h3>
+                            <div class="slide-title-underline"></div>
+                          </div>
+                          <div
+                            class="slide-descrition ani"
+                            swiper-animate-effect="slideInLeft"
+                            swiper-animate-delay="1s"
+                            swiper-animate-duration="3s"
+                          >
+                            <p>{{slider.body|truncate(300)}}</p>
+                          </div>
 
-            <v-divider
-              class="ani ml-5"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="rotateInDownRight"
-              swiper-animate-duration="2s"
-              inset
-            ></v-divider>
+                          <div
+                            class="slide-read-more ani"
+                            swiper-animate-effect="fadeInLeft"
+                            swiper-animate-delay="2s"
+                            swiper-animate-duration="3s"
+                          >
+                            <!-- <a href class="text-center btn">Nosso Trabalho</a> -->
+                            <v-btn
+                              class="ma-0 px-5"
+                              outlined
+                              color="indigo"
+                            >{{slider.button_text?slider.button_text:'Ler Mais'}}</v-btn>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </section>
 
-            <div
-              class="appCard-content ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="slideInRight"
-              swiper-animate-duration="2s"
-            >
-              <p class="font-weight-medium">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.
-              </p>
-              <div
-                class="appCard-footer ani text-xs-right"
-                swiper-animate-effect="bounceInUp"
-                swiper-animate-duration="3s"
-              >
-                <v-btn small outlined color="grey lighten-3" tile>Detalhes</v-btn>
-              </div>
-            </div>
-          </div>
-        </v-img>
-      </swiper-slide>
-      <swiper-slide>
-        <v-img
-          class="white--text slide--igm"
-          :src="require('@/assets/app/sliders/slide2.gif')"
-          aspect-ratio="2.75"
-          min-height="220"
-        >
-          <div class="appCard ani" swiper-animate-effect="fadeIn" swiper-animate-duration="4s">
-            <div
-              class="appCard-header ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="fadeIn"
-              swiper-animate-duration="2s"
-            >
-              <div
-                class="title font-weight-light text-uppercase grey--text text--lighten-2"
-              >Comunidade educativa</div>
-            </div>
-
-            <v-divider
-              class="ani ml-5"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="rotateInDownRight"
-              swiper-animate-duration="2s"
-              inset
-            ></v-divider>
-
-            <div
-              class="appCard-content ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="slideInRight"
-              swiper-animate-duration="2s"
-            >
-              <p
-                class="font-weight-medium"
-              >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.</p>
-              <div
-                class="appCard-footer ani text-xs-right"
-                swiper-animate-effect="bounceInUp"
-                swiper-animate-duration="3s"
-              >
-                <v-btn small outlined color="grey lighten-3" tile>Detalhes</v-btn>
-              </div>
-            </div>
-          </div>
-        </v-img>
-      </swiper-slide>
-
-      <swiper-slide>
-        <v-img
-          class="white--text slide--igm"
-          :src="require('@/assets/app/sliders/slide3.gif')"
-          aspect-ratio="2.75"
-          min-height="220"
-        >
-          <div class="appCard ani" swiper-animate-effect="fadeIn" swiper-animate-duration="4s">
-            <div
-              class="appCard-header ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="fadeIn"
-              swiper-animate-duration="2s"
-            >
-              <div
-                class="title font-weight-light text-uppercase grey--text text--lighten-2"
-              >Fromação Profissional</div>
-            </div>
-            <!-- <div class="header_divider"></div> -->
-
-            <v-divider
-              class="ani ml-5"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="rotateInDownRight"
-              swiper-animate-duration="2s"
-              inset
-            ></v-divider>
-
-            <div
-              class="appCard-content ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="slideInRight"
-              swiper-animate-duration="2s"
-            >
-              <p class="font-weight-medium">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.
-              </p>
-              <div
-                class="appCard-footer ani text-xs-right"
-                swiper-animate-effect="bounceInUp"
-                swiper-animate-duration="3s"
-              >
-                <v-btn small outlined color="grey lighten-3" tile>Detalhes</v-btn>
-              </div>
-            </div>
-          </div>
-        </v-img>
-      </swiper-slide>
-
-      <swiper-slide>
-        <v-img
-          class="white--text slide--igm"
-          :src="require('@/assets/app/sliders/slide4.gif')"
-          aspect-ratio="2.75"
-          min-height="220"
-        >
-          <div class="appCard ani" swiper-animate-effect="fadeIn" swiper-animate-duration="4s">
-            <div
-              class="appCard-header ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="fadeIn"
-              swiper-animate-duration="2s"
-            >
-              <div
-                class="title font-weight-light text-uppercase grey--text text--lighten-2"
-              >Fromação Profissional</div>
-            </div>
-            <!-- <div class="header_divider"></div> -->
-
-            <v-divider
-              class="ani ml-5"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="rotateInDownRight"
-              swiper-animate-duration="2s"
-              inset
-            ></v-divider>
-
-            <div
-              class="divider ani inset"
-              swiper-animate-effect="rotateInUpRight"
-              swiper-animate-duration="4s"
-            ></div>
-            <div
-              class="appCard-content ani"
-              swiper-animate-delay="1s"
-              swiper-animate-effect="slideInRight"
-              swiper-animate-duration="2s"
-            >
-              <p class="font-weight-medium">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae accusamus quisquam provident natus.
-              </p>
-              <div
-                class="appCard-footer ani text-xs-right"
-                swiper-animate-effect="bounceInUp"
-                swiper-animate-duration="3s"
-              >
-                <v-btn small outlined color="grey lighten-3" tile>Detalhes</v-btn>
-              </div>
-            </div>
-          </div>
-        </v-img>
-      </swiper-slide>
+            <!-- ====================================== -->
+          </v-img>
+        </swiper-slide>
+      </template>
 
       <div class="swiper-button-prev hidden-xs-only" slot="button-prev"></div>
       <div class="swiper-button-next hidden-xs-only" slot="button-next"></div>
@@ -210,12 +72,54 @@
 
 <script>
 import * as swiperAni from "@/plugins/swiper.animate.min.js";
-import { appFilters } from "@/mixins/Filters";
+import { truncateFilter } from "@/mixins/Filters";
 
 export default {
-  mixins: [appFilters],
+  mixins: [truncateFilter],
   data() {
     return {
+      sliders: [
+        {
+          id: 1,
+          header: "Formação Profissional em Cabo Verde",
+          body:
+            "Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+          button_text: "",
+          image: "slide1.gif",
+          link: "slug do artigo",
+          type: 1,
+          status: true,
+          position: "topLeft",
+          color: "rgba(221, 54, 118, 0.5)"
+        },
+        {
+          id: 1,
+          header: "O desafio da educação em Cabo Verde",
+          body:
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+          button_text: "Vert mais",
+          image: "slide2.gif",
+          link: "slug do artigo",
+          type: 1,
+          status: true,
+          position: "topRight",
+          color: "rgba(151, 103, 57, 0.5)"
+        },
+        {
+          id: 1,
+          header: "O futuro da nossa juventude",
+          body:
+            "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
+          button_text: "Vert mais",
+          image: "slide3.gif",
+          link: "slug do artigo",
+          type: 1,
+          status: true,
+          position: "bottomRight",
+          color: "rgba(34, 140, 221, 0.5)"
+        }
+      ],
+
       swiperOption: {
         spaceBetween: 60,
         centeredSlides: true,
@@ -245,123 +149,81 @@ export default {
     swiper() {
       return this.$refs.mySwiper.swiper;
     }
+  },
+
+  methods: {
+    slideEffect(position) {
+      if (position == "topRight" || position == "bottomRight") {
+        return "slideInRight";
+      }
+      if (position == "topLeft" || position == "bottomLeft") {
+        return "slideInLeft";
+      }
+    }
   }
 };
 </script>
 
-
-// rgb(34,140,221)
-// #228cdd
 <style  scoped  lang="scss">
-$primary_background: rgb(34,140,221);
-$background: linear-gradient(
-  90deg,
-  rgba(34, 140, 221, 1) 0%,
-  rgba(34, 140, 221, 0.9) 10%,
-  rgba(34, 140, 221, 0.8) 20%,
-  rgba(34, 140, 221, 0.7) 30%,
-  rgba(34, 140, 221, 0.6) 40%,
-  rgba(34, 140, 221, 0.5) 50%,
-  rgba(34, 140, 221, 0.4) 60%,
-  rgba(34, 140, 221, 0.3) 70%,
-  rgba(34, 140, 221, 0.2) 80%,
-  rgba(34, 140, 221, 0.1) 90%,
-  rgba(34, 140, 221, 0) 100%
-);
-$polign: polygon(0 0, 100% 0, 72% 94%, 0 100%);
-$screen-xs: 600px;
-$screen-sm: 600px;
-$screen-md: 600px;
-
-@mixin xs {
-  @media only screen and (max-width: #{$screen-xs}) {
-    @content;
-  }
-}
-
-@mixin sm {
-  @media only screen and (min-width: 600px) {
-    @content;
-  }
-}
-
-@mixin md {
-  @media only screen and (min-width: 768px) {
-    @content;
-  }
-}
-
-.swiper-slide {
-  background-size: cover;
-  background-position: center;
-}
-
-.appCard {
-  margin: 0;
-  padding: 0px;
+.slide-container {
   height: 50%;
-  overflow: hidden;
-  left: 0px;
-  top: 50%;
-  position: absolute;
-  background: $primary_background;
-  background: $background;
+  width: 50%;
+  background: rgba(255, 255, 255, 1);
+  background: linear-gradient(
+    to right,
+    black 0%,
+    rgba(	0,0,0, 0.738) 19%,
+    rgba(	0,0,0, 0.541) 34%,
+    rgba(	0,0,0, 0.382) 47%,
+    rgba(	0,0,0, 0.278) 56.5%,
+    rgba(	0,0,0, 0.194) 65%,
+    rgba(	0,0,0, 0.126) 73%,
+    rgba(	0,0,0, 0.075) 80.2%,
+    rgba(	0,0,0, 0.042) 86.1%,
+    rgba(	0,0,0, 0.021) 91%,
+    rgba(	0,0,0, 0.008) 95.2%,
+    rgba(	0,0,0, 0.002) 98.2%,
+    transparent 100%
+  );
+}
+.slide-content-box {
+  float: left;
+  height: 700px;
+}
 
-  @include xs {
-    width: 100%;
-    font-size: 12px;
-  }
-  @include sm {
-    width: 70%;
-    // -webkit-clip-path: $polign;
-    // clip-path: $polign;
-  }
-  @include md {
-    width: 50%;
-    // -webkit-clip-path: $polign;
-    // clip-path: $polign;
-  }
+.slide-content-box-outer {
+  width: 50%;
+  height: 100%;
+  display: table;
+  padding: 45px;
+}
 
-  &-header {
-    width: 100%;
-    padding: 10px 40px;
-    display: block;
-    box-sizing: border-box;
-    @include xs {
-      padding: 10px 20px;
-    }
-    @include sm {
-      padding: 20px;
-    }
-  }
-  &-content {
-    width: 100%;
-    height: auto;
-    padding: 40px;
-    display: block;
-    box-sizing: border-box;
-    justify-content: flex-end;
-    overflow: inherit;
-    color: #d1d0d0;
-    background: rgb(245, 244, 244);
-    @include xs {
-      padding: 20px;
-      background: transparent;
-    }
-    @include sm {
-      padding: 10px 75px 10px 10px;
-    }
-    @include md {
-      padding-left: 70px;
-      padding-right: 70px;
-    }
-  }
-  .divider {
-    position: absolute;
-    right: 40px;
-    top: 30px;
-    bottom: 10%;
-    border-left: 1px solid #d3f3f3;
-  }
+.slide-content-box-inner {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 20px;
+}
+
+.slide-title h3 {
+  text-align: left;
+  color: rgb(235, 235, 235);
+}
+
+.slide-title-underline {
+  width: 70px;
+  height: 2px;
+  background-color: rgb(80, 89, 212);
+  text-align: left;
+  margin-top: 10px;
+}
+
+.slide-descrition p {
+  margin-top: 20px;
+  text-align: justify;
+  color: rgb(209, 209, 209);
+}
+
+.slide-read-more {
+  margin-top: 20px;
 }
 </style>

@@ -5,4 +5,4 @@ export const clearForm = {
             this.$refs.form.reset();
         },
     }
-}
+};

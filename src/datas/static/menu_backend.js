@@ -19,14 +19,14 @@ const Menu = [
                 name: 'list-users',
                 title: 'Utilizadores',
                 component: 'list_users',
-                icon: 'mdi-account',
+                icon: 'mdi-square-small',
                 permission: 'Gerir'
             },
             {
                 name: 'access-role',
                 title: 'Permissões e Acessos',
                 component: 'access_role',
-                icon: 'mdi-door-closed-lock',
+                icon: 'mdi-square-small',
                 permission: 'Gerir',
             },
         ]
@@ -42,21 +42,21 @@ const Menu = [
                 name: 'list-articles',
                 title: 'Artigos',
                 component: 'list_articles',
-                icon: 'mdi-newspaper-variant-outline',
+                icon: 'mdi-square-small',
                 permission: 'Gerir'
             },
             {
                 name: 'list-categories',
                 title: 'Categorias',
                 component: 'list_categories',
-                icon: 'mdi-folder',
+                icon: 'mdi-square-small',
                 permission: 'Gerir',
             },
             {
                 name: 'list-tags',
                 title: 'Marcadores',
                 component: 'list_tags',
-                icon: 'mdi-tag',
+                icon: 'mdi-square-small',
                 permission: 'Gerir',
             },
         ]
@@ -70,7 +70,7 @@ const Menu = [
             {
                 name: 'list-medias',
                 title: 'Medias',
-                icon: 'mdi-image',
+                icon: 'mdi-square-small',
                 component: 'list_medias',
                 permission: 'Gerir'
             },
@@ -80,7 +80,33 @@ const Menu = [
 
     {
         divider: true
-    }, {
+    },
+    {
+        header: 'Aplicativo'
+    },
+    {
+        title: 'Configurações',
+        group: 'settings',
+        icon: 'mdi-help-box',
+        name: 'teste',
+    },
+    {
+        title: 'Inteface',
+        group: 'settings',
+        role: 'Administrador',
+        icon: 'mdi-tune',
+        items: [
+            {
+                name: 'app-sliders',
+                title: 'Sliders',
+                component: 'app_sliders',
+                icon: 'mdi-square-small',
+                permission: 'Configurar Aplicativo',
+            },
+        ]
+    },
+
+    {
         title: 'Ajuda',
         group: 'extra',
         icon: 'mdi-help-box',

@@ -1,7 +1,7 @@
  <template>
   <v-container my-5>
     <v-row>
-      <v-col cols="12" md="4" align="center" justify="center">
+      <!-- <v-col cols="12" md="4" align="center" justify="center">
         <div>
           <v-icon color="grey darken-1" size="65">mdi-run</v-icon>
         </div>
@@ -13,9 +13,9 @@
             class="font-weight-regular"
           >Alguem investiu em mim com a certiza que eu conseguiria. Mesmo não tendo armas certas, venci as batalhas...</p>
         </div>
-      </v-col>
+      </v-col> -->
 
-      <v-col cols="12" md="4" align="center" justify="center">
+      <v-col cols="12" md="6" align="center" justify="center">
         <div>
           <v-icon color="grey darken-1" size="65">mdi-heart</v-icon>
         </div>
@@ -29,7 +29,7 @@
         </div>
       </v-col>
 
-      <v-col cols="12" md="4" align="center" justify="center">
+      <v-col cols="12" md="6" align="center" justify="center">
         <div>
           <v-icon color="grey darken-1" size="65">mdi-diamond-stone</v-icon>
         </div>

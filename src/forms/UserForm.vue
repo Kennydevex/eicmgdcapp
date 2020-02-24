@@ -149,7 +149,6 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import moment from "moment";
 import { sendFormData, getDatas } from "@/mixins/SendForm";
 
 export default {

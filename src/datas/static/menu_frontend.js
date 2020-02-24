@@ -46,15 +46,22 @@ const Menu = [{
         // }, 
         {
             id: 2,
-            name: 'cursos_via_tecnica',
-            slug: 'cursos_via_tecnica',
+            name: 'courses',
+            slug: 'via_tecnica',
             title: 'Cursos Via Técnica',
         }, {
             id: 3,
-            name: 'formacao_profissional',
-            slug: 'formacao_profissional',
+            name: 'courses',
+            slug: 'profissional',
             title: 'Formação Profissional',
         },]
+},
+{
+    id: 4,
+    title: 'Blog',
+    name: 'published_articles',
+    slug: 'published_articles',
+    icon: 'fa-user-graduate',
 },
     // ===============================================
 ];

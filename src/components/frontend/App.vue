@@ -21,40 +21,42 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app class="elevation-2">
       <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="toggle_mobile_front_menu"></v-app-bar-nav-icon>
       <v-img
         class="mx-2"
-        :src="require('../../assets/logo.png')"
+        :src="require('@/assets/logo.png')"
         max-height="40"
         max-width="40"
         contain
       ></v-img>
 
-      <v-toolbar-title class="headline text-uppercase">
-        <span>EICM-</span>
-        <span class="font-weight-light">GDC</span>
+      <v-toolbar-title class="text-uppercase primary--text">
+        <span class="font-weight-light">EICM-</span>
+        <span class="font-weight-thin">GDC</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/" class="pa-2" text color="primary">
-          <span class="font-weight-regular">Início</span>
+        <v-btn to="/" class="pa-2 mybtn" text color>
+          <span class="font-weight-light">Início</span>
         </v-btn>
 
         <template v-for="menu in menus">
           <v-btn
-            :key="menu.id"
+            class="mybtn"
+            color
+            :key="'menu1'+menu.id"
             text
             :to="{name: 'login_page'}"
             v-if="!menu.submenus"
             @click="menuLink(menu.name, '')"
           >
-            <span class="font-weight-regular">{{menu.title}}</span>
+            <span class="font-weight-light">{{menu.title}}</span>
           </v-btn>
 
           <v-menu
-            :key="menu.id"
+            :key="'menu2'+menu.id"
             :nudge-width="100"
             v-else
             offset-y
@@ -63,8 +65,8 @@
             right
           >
             <template v-slot:activator="{ on }">
-              <v-btn text v-on="on" color="primary">
-                <span class="font-weight-regular">{{menu.title}}</span>
+              <v-btn class="mybtn" text v-on="on" color>
+                <span class="font-weight-light">{{menu.title}}</span>
                 <v-icon dark>mdi-menu-down</v-icon>
               </v-btn>
             </template>
@@ -74,7 +76,7 @@
                 :key="submenu.id"
                 @click="menuLink(submenu.name, submenu.slug)"
               >
-                <v-list-item-title class="font-weight-regular" dark>{{submenu.title}}</v-list-item-title>
+                <v-list-item-title class="font-weight-light" dark>{{submenu.title}}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -82,15 +84,15 @@
       </v-toolbar-items>
 
       <template v-if="!authUser">
-        <v-btn color="primary" icon :to="{name: 'login_page'}">
-          <v-icon>mdi-login-variant</v-icon>
+        <v-btn small color icon :to="{name: 'login_page'}">
+          <v-icon small>mdi-login-variant</v-icon>
         </v-btn>
       </template>
 
       <template v-else>
         <v-menu left bottom>
           <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on" text color="primary">
+            <v-btn icon v-on="on" text color>
               <v-avatar size="28px">
                 <img :src="require('../../assets/logo.png')" alt="Avatar" />
               </v-avatar>
@@ -98,19 +100,19 @@
           </template>
 
           <v-list shaped>
-            <v-list-item-group color="primary">
+            <v-list-item-group color>
               <v-list-item
-                v-for="(item, i) in items"
-                :key="i"
-                :to="!item.href ? { name: item.name } : null"
-                :href="item.href"
-                @click="item.click"
+                v-for="(dropmenu, i) in dropmenus"
+                :key="'dropmenu'+i"
+                :to="!dropmenu.href ? { name: dropmenu.name } : null"
+                :href="dropmenu.href"
+                @click="dropmenu.click"
               >
                 <v-list-item-icon>
-                  <v-icon v-text="item.icon"></v-icon>
+                  <v-icon v-text="dropmenu.icon"></v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
+                  <v-list-item-title v-text="dropmenu.title"></v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -119,7 +121,7 @@
       </template>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="white">
       <router-view></router-view>
     </v-content>
 
@@ -139,11 +141,12 @@ export default {
     return {
       mobile_front_menu: false,
       menus: menus,
-      items: [
+      dropmenus: [
         {
           icon: "mdi-account-card-details",
           href: "#",
           title: "Meu Perfil",
+          //eslint-disable-next-line
           click: e => {
             this.$router.push({
               name: "app-perfil",
@@ -156,6 +159,7 @@ export default {
           href: "#",
           title: "Dashboard",
           permission: "acess admin panel",
+          //eslint-disable-next-line
           click: e => {
             this.$router.push({ name: "admin_page" });
           }
@@ -164,6 +168,7 @@ export default {
           icon: "mdi-logout",
           href: "#",
           title: "Terminar Sessão",
+          //eslint-disable-next-line
           click: e => {
             this.logout();
           }
@@ -177,13 +182,13 @@ export default {
       this.mobile_front_menu = !this.mobile_front_menu;
     },
 
-    menuLink: function(menu, param) {
-      this.$router.push({ name: menu, params: { param } });
+    menuLink: function(menu, slug) {
+      this.$router.push({ name: menu, params: { slug } });
     },
 
     logout: function() {
       this.$store.commit("logout");
-      this.$router.push("/");
+      this.$router.push("/"); 
     }
   },
 
@@ -192,3 +197,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+
+// Ponto a melhorar, pois os conteudos do botao nao podem se mecher durante a navegacao
+.mybtn:hover {
+  border-bottom: 2px #2698d9 solid;
+}
+
+</style>

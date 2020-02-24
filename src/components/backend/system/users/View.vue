@@ -31,9 +31,12 @@ export default {
   },
 
   created() {
-    window.getApp.$on("APP_USER_INFO_MODAL", user => {
+    window.getApp.$on("APP_USER_INFO_MODAL", () => {
       this.handleUserInfoModal();
     });
+    //  window.getApp.$on("APP_USER_INFO_MODAL", user => {
+    //   this.handleUserInfoModal();
+    // });
   },
 
   methods: {

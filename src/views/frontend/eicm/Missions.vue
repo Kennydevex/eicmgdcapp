@@ -1,75 +1,52 @@
 <template>
   <v-container grid-list-xs>
-    <v-row>
-      <v-col cols="12">
-        <!-- <v-card v-if="publishedMissions.length>0" flat>
-          <v-card-title primary-title>
-            <v-spacer></v-spacer>
-            <v-btn color="grey lighten-1" icon flat>
-              <v-icon>print</v-icon>
-            </v-btn>
-            <v-btn color="grey lighten-1" icon flat>
-              <v-icon>email</v-icon>
-            </v-btn>
-          </v-card-title>
-          <template v-for="mission in publishedMissions">
-            <v-flex xs12 :key="mission.id">
+    <v-layout row wrap>
+      <v-card flat>
+        <v-card-text class="ma-0 pa-0">
+          <template v-for="(mission, m) in missions">
+            <div :key="'mission_'+m">
               <v-card flat>
-                <v-card-title primary-title class="text-xs-center">
+                <v-card-title primary-title>
                   <h3 class="headline primary--text">{{mission.name}}</h3>
                 </v-card-title>
                 <v-card-text>
-                  <p>{{mission.description}}</p>
+                  <p class="text-justify">{{mission.content}}</p>
                 </v-card-text>
               </v-card>
-            </v-flex>
+              <v-divider v-if="m != missions.length-1"></v-divider>
+            </div>
           </template>
-        </v-card> -->
-
-         <v-card tile>
-          <v-card-title primary-title>
-            <v-spacer></v-spacer>
-            <v-btn color="grey lighten-1" icon flat>
-              <v-icon>mdi-printer</v-icon>
-            </v-btn>
-            <v-btn color="grey lighten-1" icon flat>
-              <v-icon>mdi-mail</v-icon>
-            </v-btn>
-          </v-card-title>
-            <v-flex xs12>
-              <v-card flat>
-                <v-card-title primary-title>
-                  <h3 class="headline primary--text">Missao</h3>
-                </v-card-title>
-                <v-card-text>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas hic dolor atque tempora cupiditate odit voluptatibus illo veritatis saepe a provident quae minima odio sit laudantium, ipsa sed, nobis doloremque!</p>
-                </v-card-text>
-              </v-card>
-            </v-flex>
-
-             <v-flex xs12>
-              <v-card flat>
-                <v-card-title primary-title>
-                  <h3 class="headline primary--text">Visão</h3>
-                </v-card-title>
-                <v-card-text>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas hic dolor atque tempora cupiditate odit voluptatibus illo veritatis saepe a provident quae minima odio sit laudantium, ipsa sed, nobis doloremque!</p>
-                </v-card-text>
-              </v-card>
-            </v-flex>
-
-             <v-flex xs12>
-              <v-card flat>
-                <v-card-title primary-title>
-                  <h3 class="headline primary--text">Valares</h3>
-                </v-card-title>
-                <v-card-text>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas hic dolor atque tempora cupiditate odit voluptatibus illo veritatis saepe a provident quae minima odio sit laudantium, ipsa sed, nobis doloremque!</p>
-                </v-card-text>
-              </v-card>
-            </v-flex>
-        </v-card>
-      </v-col>
-    </v-row>
+        </v-card-text>
+      </v-card>
+    </v-layout>
   </v-container>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      missions: [
+        {
+          id: 1,
+          name: "Missão",
+          content:
+            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates asperiores eius odit sequi a adipisci commodi cupiditate doloremque obcaecati iure, maxime eveniet accusamus ipsa possimus reiciendis. Ut praesentium rerum dolore ad ea laudantium officiis recusandae veniam ipsum eum deserunt deleniti, natus quam delectus suscipit consequuntur facilis blanditiis molestias asperiores eligendi odit? Magni nisi odio optio error ratione ad dolore, saepe iure cum eveniet nesciunt autem adipisci eaque molestias odit delectus hic repellat deleniti natus modi veritatis!"
+        },
+        {
+          id: 2,
+          name: "Visão",
+          content:
+            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates asperiores eius odit sequi a adipisci commodi cupiditate doloremque obcaecati iure, maxime eveniet accusamus ipsa possimus reiciendis. Ut praesentium rerum dolore ad ea laudantium officiis recusandae veniam ipsum eum deserunt deleniti, natus quam delectus suscipit consequuntur facilis blanditiis molestias asperiores eligendi odit? Magni nisi odio optio error ratione ad dolore, saepe iure cum eveniet nesciunt autem adipisci eaque molestias odit delectus hic repellat deleniti natus modi veritatis!"
+        },
+        {
+          id: 3,
+          name: "Valores",
+          content:
+            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates asperiores eius odit sequi a adipisci commodi cupiditate doloremque obcaecati iure, maxime eveniet accusamus ipsa possimus reiciendis. Ut praesentium rerum dolore ad ea laudantium officiis recusandae veniam ipsum eum deserunt deleniti, natus quam delectus suscipit consequuntur facilis blanditiis molestias asperiores eligendi odit? Magni nisi odio optio error ratione ad dolore, saepe iure cum eveniet nesciunt autem adipisci eaque molestias odit delectus hic repellat deleniti natus modi veritatis!"
+        }
+      ]
+    };
+  }
+};
+</script>

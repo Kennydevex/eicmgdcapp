@@ -2,7 +2,8 @@
   <v-form ref="form">
     <v-container fluid grid-list-xs>
       <v-row>
-        <v-col cols="12" md="9" class="my-0 py-0">
+        <v-col cols="12" md="9" class="my-0 py-0" v-if="updating">imagem aqui</v-col>
+        <v-col cols="12" :md="updating?'12':'9'" class="my-0 py-0">
           <v-text-field
             label="Título da Publicação*"
             name="name"
@@ -16,7 +17,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="3" class="my-0 py-0">
+        <v-col cols="12" md="3" class="my-0 py-0" v-if="!updating">
           <!-- <file-upload
             :accept="'image/png, image/jpeg, image/bmp'"
             :label="'Capa da publicação'"
@@ -75,7 +76,7 @@
           <v-row>
             <v-col cols="12" class="my-0 py-0">
               <v-autocomplete
-                v-model="formData.category"
+                v-model="formData.category_id"
                 outlined
                 no-data-text="Nenhuma categoria com este nome"
                 hide-selected
@@ -83,7 +84,7 @@
                 clearable
                 :items="categories"
                 item-text="name"
-                item-value="key"
+                item-value="id"
                 prepend-inner-icon="mdi-folder-plus-outline"
                 v-validate="'required'"
                 data-vv-name="category"
@@ -103,7 +104,7 @@
                 deletable-chips
                 :items="tags"
                 item-text="name"
-                item-value="key"
+                item-value="id"
                 prepend-inner-icon="mdi-tag-outline"
               ></v-autocomplete>
             </v-col>
@@ -128,11 +129,72 @@
             </v-col>
 
             <v-col cols="12" md="6" class="my-0 py-0">
-              <v-text-field outlined name="name" label="Início" id="id"></v-text-field>
+              <input
+                style="display:none"
+                name="start_field_target"
+                ref="valStartRef"
+                v-model="actual_date"
+                type="text"
+              />
+              <v-menu
+                v-model="start_menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    outlined
+                    name="start"
+                    :value="formated(formData.start)"
+                    label="Início"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-on="on"
+                    v-validate="'date_format:dd/MM/yyyy|after:valStartRef'"
+                    data-vv-as="start"
+                    :error-messages="errors.collect('start')"
+                  ></v-text-field>
+                  <!-- error-messages="Teste" -->
+                </template>
+                <v-date-picker v-model="formData.start" @input="start_menu=false" locale="pt-pt"></v-date-picker>
+              </v-menu>
             </v-col>
 
             <v-col cols="12" md="6" class="my-0 py-0">
-              <v-text-field outlined name="name" label="Fim" id="id"></v-text-field>
+              <input
+                style="display:none"
+                name="end_field_target"
+                v-model="initialEndDate"
+                ref="valEndRef"
+                type="text"
+              />
+              <v-menu
+                v-model="end_menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    outlined
+                    name="end"
+                    :value="formated(formData.end)"
+                    label="Fím"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-on="on"
+                    v-validate="'date_format:dd/MM/yyyy|after:valEndRef'"
+                    data-vv-as="end"
+                    :error-messages="errors.collect('end')"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="formData.end" @input="end_menu=false" locale="pt-pt"></v-date-picker>
+              </v-menu>
             </v-col>
           </v-row>
         </v-col>
@@ -144,15 +206,19 @@
 <script>
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
-// import moment from "moment";
+import { dateFormat } from "@/mixins/DateTime";
 import { sendFormData, getDatas } from "@/mixins/SendForm";
+import moment from "moment";
 
 export default {
-  mixins: [clearForm, sendFormData, getDatas],
-  props: ["formData"],
+  mixins: [clearForm, dateFormat, sendFormData, getDatas],
+  props: ["formData", "updating"],
 
   data() {
     return {
+      start_menu: false,
+      end_menu: false,
+      formErrors: [],
       imgTemp: null,
       dictionary: validateDictionary,
       coverRules: [
@@ -175,6 +241,10 @@ export default {
     },
     tags: function() {
       return this.$store.getters.tags;
+    },
+
+    initialEndDate() {
+      return moment(this.$props.formData.start).format("DD/MM/YYYY");
     }
   },
 
@@ -192,13 +262,13 @@ export default {
       );
     });
 
-    // window.getApp.$on("APP_UPDATE_ARTICLE", () => {
-    //   this.update(
-    //     "users/" + this.$props.formData.id,
-    //     this.$props.formData,
-    //     "APP_CANCEL_UPDATE_ARTICLE"
-    //   );
-    // });
+    window.getApp.$on("APP_UPDATE_ARTICLE", () => {
+      this.update(
+        "articles/" + this.$props.formData.slug,
+        this.$props.formData,
+        "APP_UPDATE_ALL_ARTICLES_DATA"
+      );
+    });
   },
 
   methods: {
@@ -207,7 +277,7 @@ export default {
       try {
         fileReader.readAsDataURL(e);
         fileReader.onload = ev => {
-          this.formData.image = ev.target.result;
+          this.formData.media.image = ev.target.result;
         };
       } catch (error) {
         //eslint-disable-next-line

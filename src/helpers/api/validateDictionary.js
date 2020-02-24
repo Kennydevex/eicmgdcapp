@@ -33,6 +33,7 @@ export default {
         start: {
             before: () =>
                 'Data de início de uma publicação não pode ser superior a 6 meses',
+            after: () => 'Data de início tem de ser depois da data atual',
         },
 
         start_date: {

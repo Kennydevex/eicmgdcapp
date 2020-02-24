@@ -1,17 +1,33 @@
 // jshint esversion:6
 export default ({
-    state: { categories: [], },
+    state: { categories: [], articles_by_categories: [], },
+    // Ca bu skeci de bem ivita que tudo artigo bem na 
+    //categorais, pois ninguem ca pode tem acesso a 
+    //artigos n\ao publicado e atraves des ac;\ao es ta 
+    //tem acesso.
+    getters: {
+        categories(state) { return state.categories; },
+        articles_by_categories(state) { return state.articles_by_categories; },
+        category: (state) => (slug) => {
+            return state.articles_by_categories.find(category => category.slug === slug);
+        }
 
-    getters: { categories(state) { return state.categories; }, },
+    },
 
     mutations: {
         updateCategories(state, payload) { state.categories = payload; },
+        updateArticlesByCategories(state, payload) { state.articles_by_categories = payload; },
+
     },
 
     actions: {
         getCategories(context) {
             // eslint-disable-next-line no-undef
             axios.get('categories').then(function (response) { context.commit('updateCategories', response.data.data); });
+        },
+        getArticleByCategories(context) {
+            // eslint-disable-next-line no-undef
+            axios.get('articlesByCategories').then(function (response) { context.commit('updateArticlesByCategories', response.data.data); });
         },
     }
 });

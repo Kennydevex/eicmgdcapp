@@ -1,7 +1,10 @@
 /* eslint-disable no-undef */
+/*jshint esversion: 6 */
+
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
+// import { articles } from '@backmodules/Articles';
 
 
 export const getDatas = {
@@ -36,6 +39,7 @@ export const sendFormData = {
         add(add_new, url, form_data, data_update, modal) {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
+                    this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
                     axios
@@ -47,11 +51,14 @@ export const sendFormData = {
                             if (!add_new) {
                                 window.getApp.$emit(modal);
                             }
+                            this.$Progress.finish();
+
                         })
                         .catch(err => {
                             if (err.response) {
                                 this.hasError = true;
                                 this.formErrors = err.response.data.errors;
+                                this.$Progress.fail();
                             }
                         });
                 }
@@ -61,6 +68,7 @@ export const sendFormData = {
         update(url, form_data, modal) {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
+                    this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
                     axios
@@ -68,11 +76,13 @@ export const sendFormData = {
                         .then(response => {
                             this.feedback("success", response.data.msg, 3000, true, "top");
                             window.getApp.$emit(modal);
+                            this.$Progress.finish();
                         })
                         .catch(err => {
                             if (err.response) {
                                 this.hasError = true;
                                 this.formErrors = err.response.data.errors;
+                                this.$Progress.fail();
                             }
                         });
                 }
@@ -82,7 +92,6 @@ export const sendFormData = {
 };
 
 export const getData = {
-
     methods: {
         getSingle(url, give_id, entity) {
             if (entity.length) {
@@ -90,19 +99,8 @@ export const getData = {
                     finded => finded.id == give_id
                 );
             }
-            else {
-                axios
-                    .get(url + "/" + give_id)
-                    .then(response => {
-                        return response.data.data;
-                    })
-                    .catch(error => {
-                        // eslint-disable-next-line no-console
-                        console.log(error);
-                    });
-            }
 
-        }
+        },
     }
 };
 
@@ -116,14 +114,14 @@ export const deleteData = {
     methods: {
         setDeleteMult() {
             let mthis = this;
-            this.ids=[];
+            this.ids = [];
             this.selected.forEach(function (mdata) {
                 mthis.ids.push(mdata.id);
             });
             return this.ids;
         },
 
-        onDelete: function (url, id, update_datas, delete_mult=false) {
+        onDelete: function (url, id, update_datas, delete_mult = false) {
             this.setDeleteMult();
             if (!delete_mult) {
                 this.ids = id;
@@ -137,7 +135,7 @@ export const deleteData = {
                 if (result.value) {
                     this.selected = [];
                     this.deleteData(url, this.ids, update_datas);
-                    this.ids=[];
+                    this.ids = [];
                 } else if (result.dismiss === "cancel") {
                     this.selected = [];
                     this.ids = [];
@@ -225,3 +223,4 @@ export const handleActivation = {
         }
     }
 };
+

@@ -4,6 +4,10 @@ export function init(store, router) {
         const authUser = store.state.auth.authUser;
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
+        // if (to.path == '/cursos') {
+        //     this.$router.go(-1);
+        // }
+
         if (authUser) {
             // eslint-disable-next-line no-undef
             axios.defaults.headers.common = {
@@ -17,6 +21,7 @@ export function init(store, router) {
             next({ name: 'login_page' });
         } else if (to.path == '/autenticar' && authUser) {
             next('/');
+            // this.$router.go(-1);
         } else {
             next();
         }

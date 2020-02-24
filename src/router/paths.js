@@ -7,6 +7,12 @@ import LoginPage from '@/views/frontend/Login.vue';
 import RegisterPage from '@/views/frontend/Register.vue';
 import Perfil from '@/views/common/Perfil.vue';
 import Missions from '@/views/frontend/eicm/Missions.vue';
+import Blog from '@/views/frontend/articles/Index.vue';
+import PublishedArticles from '@/views/frontend/articles/List.vue';
+import ReadArticle from '@/views/frontend/articles/View.vue';
+import FilteredByCategory from '@/views/frontend/articles/filters/ArticleCategories.vue';
+import FilteredByUser from '@/views/frontend/articles/filters/ArticlesByUser.vue';
+import FilteredByTag from '@/views/frontend/articles/filters/ArticlesByTag.vue';
 // Menu EICM
 import Histories from '@/views/frontend/eicm/Histories.vue';
 import Equipe from '@/views/frontend/eicm/Equipe.vue';
@@ -15,8 +21,11 @@ import Equipe from '@/views/frontend/eicm/Equipe.vue';
 import Quadros from '@/views/frontend/students/Quadros.vue';
 
 // Menu EICM
-import CursosViaTecnica from '@/views/frontend/formations/CursosViaTecnica.vue';
-import FormacaoProfissional from '@/views/frontend/formations/FormacaoProfissional.vue';
+import CoursesHome from '@/views/frontend/courses/Index.vue';
+import Courses from '@/views/frontend/courses/List.vue';
+import Course from '@/views/frontend/courses/View.vue';
+// import CursosViaTecnica from '@/views/frontend/courses/CursosViaTecnica.vue';
+// import FormacaoProfissional from '@/views/frontend/courses/FormacaoProfissional.vue';
 
 //  Administration pages
 import Admin from '@/views/backend/Admin.vue';
@@ -113,15 +122,53 @@ export default [
             },
 
             {
-                path: '/formacoes/cursos_via_tecnica',
-                component: CursosViaTecnica,
-                name: 'cursos_via_tecnica'
+                // Optimização a se fazer, pois se o utilizador alterar url para cursos, não irá se listar nenhum curso, mas fica-se na página principal (Index)...
+                path: '/cursos',
+                component: CoursesHome,
+                children: [
+                    {
+                        path: ':slug',
+                        name: 'courses',
+                        component: Courses
+                    }, {
+                        path: 'detalhes/:slug',
+                        name: 'course_info',
+                        component: Course
+                    },
+                ]
             },
 
+
+
+
+
             {
-                path: '/formacoes/formacao_profissional',
-                component: FormacaoProfissional,
-                name: 'formacao_profissional'
+                path: '/blog',
+                component: Blog,
+                children: [
+                    {
+                        path: '/',
+                        name: 'published_articles',
+                        component: PublishedArticles
+                    }, {
+                        path: 'ler/:slug',
+                        name: 'read_article',
+                        component: ReadArticle
+                    }, {
+                        path: 'categoria/:slug',
+                        name: 'article_categories',
+                        component: FilteredByCategory
+                    }, {
+                        path: 'autor/:slug',
+                        name: 'articles_by_user',
+                        component: FilteredByUser
+                    },
+                    {
+                        path: 'marcador/:slug',
+                        name: 'articles_by_tag',
+                        component: FilteredByTag
+                    },
+                ]
             },
 
             {
@@ -229,7 +276,7 @@ export default [
                 component: Medias
             },
 
-         
+
         ]
     },
 ];

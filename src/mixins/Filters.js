@@ -1,6 +1,6 @@
 // jshint esversion:6
 
-export const appFilters = {
+export const truncateFilter = {
     filters: {
         truncate: function (value, limit) {
             if (value.length > limit) {

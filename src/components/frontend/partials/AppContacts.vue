@@ -1,11 +1,13 @@
 <template lang="html">
-  <v-card color="white" flat tile mr-5>
-    <v-container fluid grid-list-xs,sm,md,lg,xl>
-        <v-row>
-            <v-col cols="12" align="center" justify="center">
-                <h3 class="text-uppercase font-weight-light text--primary">Contactos</h3>
-            </v-col>
-        </v-row>
+    <v-container grid-list-xs>
+          <v-row>
+      <v-col cols="12" align="left" justify="center">
+        <h4 class="text-uppercase font-weight-light">Contactos</h4>
+        <div class="title-divider"></div>
+      </v-col>
+    </v-row>
+        
+          <!-- <v-divider></v-divider> -->
 
          <v-row>
             <v-col cols="12" sm="6">
@@ -18,7 +20,6 @@
             </v-col>
         </v-row>
     </v-container>
-  </v-card>
 </template>
 
 <script>
