@@ -7,7 +7,55 @@ const Menu = [
         group: 'general',
         icon: 'mdi-view-dashboard-variant',
         name: 'admin_page',
+    },
+    
+    {
+        header: 'EICM-GDC'
     }, {
+        title: 'Instituição',
+        group: 'institution',
+        role: 'Administrador',
+        icon: 'mdi-domain',
+        items: [
+            {
+                name: 'list-schools',
+                title: 'Escola',
+                component: 'list_schools',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+            {
+                name: 'list-histories',
+                title: 'Histórias',
+                component: 'list_histories',
+                icon: 'mdi-square-small',
+                permission: 'Gerir',
+            },
+            {
+                name: 'list-marks',
+                title: 'Marcos Históricos',
+                component: 'list_marks',
+                icon: 'mdi-square-small',
+                permission: 'Gerir',
+            },
+            {
+                name: 'list-murals',
+                title: 'Mural',
+                component: 'list_murals',
+                icon: 'mdi-square-small',
+                permission: 'Gerir',
+            },
+            {
+                name: 'list-guidelines',
+                title: 'Missão, Visão e Valores',
+                component: 'list_guidelines',
+                icon: 'mdi-square-small',
+                permission: 'Gerir',
+            },
+        ]
+    },
+    
+    {
         header: 'Sistema'
     }, {
         title: 'Sistema',
@@ -31,9 +79,9 @@ const Menu = [
             },
         ]
     }, {
-        header: 'Gestão de Conteúdos'
+        header: 'Gestão de Conteúdos e Publicações'
     }, {
-        title: 'Conteúdos e Publicações',
+        title: 'Publicações',
         group: 'cms',
         role: 'Gestor de Artigo',
         icon: 'mdi-post',
@@ -84,6 +132,7 @@ const Menu = [
     {
         header: 'Aplicativo'
     },
+    
     {
         title: 'Configurações',
         group: 'settings',
@@ -91,15 +140,15 @@ const Menu = [
         name: 'teste',
     },
     {
-        title: 'Inteface',
+        title: 'Layout',
         group: 'settings',
         role: 'Administrador',
         icon: 'mdi-tune',
         items: [
             {
-                name: 'app-sliders',
+                name: 'list-sliders',
                 title: 'Sliders',
-                component: 'app_sliders',
+                component: 'list_sliders',
                 icon: 'mdi-square-small',
                 permission: 'Configurar Aplicativo',
             },

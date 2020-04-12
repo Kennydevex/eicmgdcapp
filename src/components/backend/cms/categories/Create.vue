@@ -2,10 +2,10 @@
   <v-dialog v-model="addCategoryModal" max-width="940px" persistent>
     <v-card>
       <v-card-title primary-title>
-         <small class="font-weight-light text-capitalize">
-        <v-icon>mdi-folder-plus-outline</v-icon>
-        <small>&emsp;Criar Categoria</small>
-      </small>
+        <small class="font-weight-light text-capitalize">
+          <v-icon>mdi-folder-plus-outline</v-icon>
+          <small>&emsp;Criar Categoria</small>
+        </small>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pt-3">
@@ -32,6 +32,8 @@ export default {
       addCategoryModal: false,
       formData: {
         name: "",
+        display: "",
+        color: "",
         description: ""
       }
     };

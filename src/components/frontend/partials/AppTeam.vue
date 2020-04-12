@@ -11,7 +11,9 @@
         <v-col :key="'team_'+t" cols="12" md="2" sm="6" align="center" justify="center">
           <div class="team_display" @click.stop="$set(team_dialog, team.id, true)">
             <v-avatar :size="team.charge=='Diretor'?'145':'110'" color="primary">
-              <img :src="require('@/assets/app/logo.png')" alt="alt" />
+              <img :src="'https://i.pravatar.cc/150'
+" alt="alt" />
+              <!-- <img :src="require('@/assets/app/logo.png')" alt="alt" /> -->
             </v-avatar>
             <div class="mt-2">
               <h4 class="text-none grey--text text--darken-3">{{team.name}}</h4>

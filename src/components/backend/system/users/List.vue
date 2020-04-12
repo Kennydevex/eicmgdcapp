@@ -55,9 +55,9 @@
               </template>
 
               <template v-slot:item.action="{ item }">
-                <v-icon small class="mr-2" @click="userInfoModal(item.id)">mdi-information</v-icon>
+                <!-- <v-icon small class="mr-2" @click="userInfoModal(item.id)">mdi-information</v-icon> -->
                 <!-- ===================================== -->
-                <!-- <v-btn color="primary" @click="updateUserModal(item.id)">Editar</v-btn> -->
+                <v-btn color="primary" @click="updateUserModal(item.id)">Editar</v-btn>
 
                 <v-icon
                   v-if="canEdit()"

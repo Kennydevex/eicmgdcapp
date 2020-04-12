@@ -32,6 +32,9 @@ export default {
       formData: {
         id: "",
         name: "",
+        display: "",
+        color: "",
+        description: "",
         roles: []
       }
     };

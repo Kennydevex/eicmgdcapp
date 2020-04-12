@@ -1,5 +1,5 @@
 <template>
     <div>
-        Update Sliders
+        Ver escola
     </div>
 </template>

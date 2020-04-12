@@ -29,12 +29,12 @@
                     <v-card-actions class="pb-3 pt-0 pl-2">
                       <v-btn
                         color="primary"
-                        rounded
                         text
                         small
+                        :ripple="false"
                         @click="onView('read_article', article.slug)"
-                        class="text-none"
-                      >Ler</v-btn>
+                        class="text-none font-weight-light"
+                      >Saber mais</v-btn>
                     </v-card-actions>
                   </v-card>
                 </swiper-slide>

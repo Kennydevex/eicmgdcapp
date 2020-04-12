@@ -4,8 +4,8 @@
       <app-slider></app-slider>
     </section>
 
-    <section>
-      <app-missions></app-missions>
+    <section v-if="missions.length">
+      <app-missions :missions="missions"></app-missions>
     </section>
 
     <!-- <section>
@@ -16,15 +16,15 @@
       <app-team :teams="teams"></app-team>
     </section>
 
-    <section>
+    <section v-if="formations.length">
       <app-featured-formations :formations="formations"></app-featured-formations>
     </section>
 
-    <section v-if="published_articles" class="white">
+    <section v-if="published_articles.length" class="white">
       <v-container grid-list-xs>
         <v-row>
           <v-col cols="12" align="left" justify="center">
-            <h4 class="text-uppercase font-weight-light">Publicações rápidas</h4>
+            <h4 class="text-uppercase font-weight-light">EICM Blog</h4>
             <div class="title-divider"></div>
           </v-col>
         </v-row>
@@ -54,6 +54,29 @@ export default {
 
   data() {
     return {
+      missions: [
+        {
+          id: 1,
+          title: "Sonho é Possível",
+          description:
+            "Sonhei e fui à luta com fé e determinação, não sei se já consegui, mas, sei que quero ir tentando...",
+          icon: "mdi-diamond-stone"
+        },
+        {
+          id: 2,
+          title: "A Luta Continua",
+          description:
+            "Alguem investiu em mim com a certiza que eu conseguiria. Mesmo não tendo armas certas, venci as batalhas...",
+          icon: "mdi-run"
+        },
+        {
+          id: 3,
+          title: "Sonho é Possível",
+          description:
+            "Já sei exatamente o que sei, não preciso provar nada. Tenho Amor e Paixão como as minhas ferrementas...",
+            icon: "mdi-heart"
+        }
+      ],
       teams: [
         {
           id: 1,

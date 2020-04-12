@@ -1,16 +1,12 @@
 <template>
-  <v-container grid-list-xs fluid class="mt-0">
-    <v-layout row wrap class="mt-0">
-      <v-flex xs12 md2>
-        aside direita
-      </v-flex>
-      <v-flex xs12 md8>
+  <v-container grid-list-xs pt-0>
+    <v-row>
+      <v-col class="mt-0 pt-0">
         <read-article :article="article" :flat="true"></read-article>
-      </v-flex>
-      <v-flex xs12 md2>
-        aside esquerda
-      </v-flex>
-    </v-layout>
+      </v-col>
+      
+    </v-row>
+    
   </v-container>
 </template>
 

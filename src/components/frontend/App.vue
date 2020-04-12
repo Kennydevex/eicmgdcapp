@@ -38,12 +38,13 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/" class="pa-2 mybtn" text color>
+        <v-btn :ripple="false" to="/" class="pa-2 mybtn" text color>
           <span class="font-weight-light">Início</span>
         </v-btn>
 
         <template v-for="menu in menus">
           <v-btn
+          :ripple="false"
             class="mybtn"
             color
             :key="'menu1'+menu.id"
@@ -65,16 +66,18 @@
             right
           >
             <template v-slot:activator="{ on }">
-              <v-btn class="mybtn" text v-on="on" color>
+              <v-btn :ripple="false" class="mybtn" text v-on="on" color>
                 <span class="font-weight-light">{{menu.title}}</span>
                 <v-icon dark>mdi-menu-down</v-icon>
               </v-btn>
             </template>
             <v-list>
               <v-list-item
+              :ripple="false"
                 v-for="submenu in menu.submenus"
                 :key="submenu.id"
                 @click="menuLink(submenu.name, submenu.slug)"
+                class="submenuitem"
               >
                 <v-list-item-title class="font-weight-light" dark>{{submenu.title}}</v-list-item-title>
               </v-list-item>
@@ -84,7 +87,7 @@
       </v-toolbar-items>
 
       <template v-if="!authUser">
-        <v-btn small color icon :to="{name: 'login_page'}">
+        <v-btn :ripple="false" small color icon :to="{name: 'login_page'}">
           <v-icon small>mdi-login-variant</v-icon>
         </v-btn>
       </template>
@@ -92,7 +95,7 @@
       <template v-else>
         <v-menu left bottom>
           <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on" text color>
+            <v-btn :ripple="false" icon v-on="on" text color>
               <v-avatar size="28px">
                 <img :src="require('../../assets/logo.png')" alt="Avatar" />
               </v-avatar>
@@ -107,6 +110,8 @@
                 :to="!dropmenu.href ? { name: dropmenu.name } : null"
                 :href="dropmenu.href"
                 @click="dropmenu.click"
+                :ripple="false"
+                class="submenuitem"
               >
                 <v-list-item-icon>
                   <v-icon v-text="dropmenu.icon"></v-icon>
@@ -201,8 +206,8 @@ export default {
 <style lang="scss" scoped>
 
 // Ponto a melhorar, pois os conteudos do botao nao podem se mecher durante a navegacao
-.mybtn:hover {
-  border-bottom: 2px #2698d9 solid;
+.mybtn:hover, .submenuitem:hover {
+  border-left: 2px #2698d9 solid;
 }
 
 </style>

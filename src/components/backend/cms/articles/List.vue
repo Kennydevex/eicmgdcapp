@@ -4,7 +4,17 @@
       <v-col>
         <v-card tile>
           <v-card-title primary-title>
+           
             <v-row>
+              <v-col cols="12" md="4" align="end">
+                <v-autocomplete
+                  outlined
+                  label="Numero de artigos"
+                  :items="rows"
+                  prepend-inner-icon="mdi-folder-plus-outline"
+                ></v-autocomplete>
+              </v-col>
+
               <v-col cols="12" md="4">
                 <v-text-field
                   prepend-icon="mdi-magnify"
@@ -13,8 +23,10 @@
                   id="search"
                 ></v-text-field>
               </v-col>
-              <span>Modo de Visialização</span>
-              <span> Opção de Visialização</span>
+
+              <v-col cols="12" md="4">
+               Modo de visualizacao (Linha ou Coluna)
+              </v-col>
             </v-row>
           </v-card-title>
           <v-divider></v-divider>
@@ -24,7 +36,59 @@
                 <v-card flat>
                   <v-card-title primary-title>Filtro</v-card-title>
                   <v-divider></v-divider>
-                  <v-card-text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, dolorem. Quae inventore cupiditate quod ea sit neque facilis commodi qui natus, sed architecto veritatis a voluptatem quos enim facere dicta!</v-card-text>
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="12">
+                        <div>Categoria</div>
+                        <div class="ml-5">
+                          <v-radio-group v-model="value">
+                            <v-radio label="label" value="value"></v-radio>
+                            <v-radio label="label" value="value"></v-radio>
+                            <v-radio label="label" value="value"></v-radio>
+                            <v-radio label="label" value="value"></v-radio>
+                          </v-radio-group>
+                        </div>
+                      </v-col>
+
+                      <v-col cols="12">
+                        <div>Marcadores</div>
+                        <div class="ml-5">
+                          <v-checkbox label="label" v-model="value" value="value"></v-checkbox>
+                          <v-checkbox label="label" v-model="value" value="value"></v-checkbox>
+                          <v-checkbox label="label" v-model="value" value="value"></v-checkbox>
+                        </div>
+                      </v-col>
+
+                      <v-col cols="12">
+                        <div>Estado</div>
+                        <div class="ml-5">
+                          <v-radio-group v-model="value">
+                            <v-radio label="Ativo" value="value"></v-radio>
+                            <v-radio label="Desativo" value="value"></v-radio>
+                          </v-radio-group>
+                        </div>
+                      </v-col>
+
+                      <v-col cols="12">
+                        <div>Ano</div>
+                        <div class="ml-5">
+                          <v-autocomplete
+                            outlined
+                            label="Ano"
+                            :items="years"
+                            prepend-inner-icon="mdi-folder-plus-outline"
+                          ></v-autocomplete>
+                        </div>
+                      </v-col>
+
+                      <v-col cols="12">
+                        <div>Em Destaques</div>
+                        <div class="ml-5">
+                          <v-checkbox label="Artigos em destaques" v-model="value" value="value"></v-checkbox>
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
                 </v-card>
               </v-col>
               <!-- <v-divider vertical></v-divider> -->
@@ -125,7 +189,9 @@ export default {
   ],
   data() {
     return {
-      fab: false
+      fab: false,
+      years: ["2000", "2020", "2030", "2040"],
+      rows: ["10", "20", "50", "100", "200"]
     };
   },
   computed: {

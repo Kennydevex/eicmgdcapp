@@ -1,11 +1,11 @@
 <template>
   <v-container grid-list-xs>
-    <v-layout row wrap>
-      <v-col cols="12" class="pa-0 ma-0">
+    <v-row>
+      <v-col cols="12" class="py-0 my-0">
         <div class="pa-2 ma-0 grey lighten-4"><span>Todos os Artigos da Categoria: <i class="primary--text">{{category.name}}</i></span></div>
       </v-col>
       <template v-for="article in category.articles">
-        <v-col cols="12" md="3" class="ma-0 pa-2" :key="article.id">
+        <v-col cols="12" md="3" class="mx-1" :key="article.id">
           <v-card tile class="elevation-1">
             <v-list-item>
               <v-list-item-avatar color="grey"></v-list-item-avatar>
@@ -42,7 +42,7 @@
           </v-card>
         </v-col>
       </template>
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 

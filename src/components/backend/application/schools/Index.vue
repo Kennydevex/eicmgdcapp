@@ -1,7 +1,7 @@
 <template>
-  <v-container grid-list-xs fluid class="white darken-4">
+  <v-container grid-list-xs fluid>
     <v-row>
-      <v-col class="mt-0 pt-0">
+      <v-col>
         <router-view></router-view>
       </v-col>
     </v-row>

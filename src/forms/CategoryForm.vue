@@ -13,20 +13,39 @@
             :error-messages="(errors.has('name')) ? errors.collect('name'): formErrors.name"
           ></v-text-field>
         </v-col>
-         <v-col cols="12" class="my-0 py-0">
+        <v-col cols="12" class="my-0 py-0">
           <v-textarea
             label="Descrição da Categoria (Opcional)"
             name="description"
             hint="Apresente um pequena descrição desta categoria"
-            persistent-hint
             v-model="formData.description"
             outlined
             rows="4"
             counter
             v-validate="'max:250'"
             data-vv-name="description"
-             :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
+            :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
           ></v-textarea>
+        </v-col>
+        <v-col cols="12" class="my-0 py-0">
+          <span>Dispor artigos desta categoria em:</span>
+          <v-radio-group v-model="formData.display" row>
+            <v-radio label="Row" value="1"></v-radio>
+            <v-radio label="Cols" value="2"></v-radio>
+          </v-radio-group>
+        </v-col>
+
+        <v-col cols="12" sm="6" md="4" class="my-0 py-0">
+          <v-autocomplete
+            v-model="formData.color"
+            outlined
+            label="Identifique a categoria com uma cor"
+            :items="colors"
+            item-text="name"
+            item-value="key"
+            prepend-inner-icon="mdi-folder-plus-outline"
+            :color="formData.color"
+          ></v-autocomplete>
         </v-col>
       </v-row>
     </v-container>
@@ -45,7 +64,11 @@ export default {
 
   data() {
     return {
-      dictionary: validateDictionary
+      dictionary: validateDictionary,
+      colors: [
+        { key: "red", name: "Vermelho" },
+        { key: "green", name: "Verde" }
+      ]
     };
   },
 
@@ -63,7 +86,6 @@ export default {
         "APP_ADD_CATEGORY_MODAL"
       );
     });
-
 
     window.getApp.$on("APP_UPDATE_CATEGORY", () => {
       this.update(

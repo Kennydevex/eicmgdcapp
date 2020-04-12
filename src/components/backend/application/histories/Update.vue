@@ -1,5 +1,5 @@
 <template>
     <div>
-        Update Sliders
+        Update História
     </div>
 </template>

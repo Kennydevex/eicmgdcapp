@@ -1,5 +1,5 @@
 <template>
     <div>
-        Update Sliders
+        Criar Murals
     </div>
 </template>

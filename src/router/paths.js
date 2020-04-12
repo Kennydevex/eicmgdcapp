@@ -10,7 +10,7 @@ import Missions from '@/views/frontend/eicm/Missions.vue';
 import Blog from '@/views/frontend/articles/Index.vue';
 import PublishedArticles from '@/views/frontend/articles/List.vue';
 import ReadArticle from '@/views/frontend/articles/View.vue';
-import FilteredByCategory from '@/views/frontend/articles/filters/ArticleCategories.vue';
+import FilteredByCategory from '@/views/frontend/articles/filters/ArticleByCategories.vue';
 import FilteredByUser from '@/views/frontend/articles/filters/ArticlesByUser.vue';
 import FilteredByTag from '@/views/frontend/articles/filters/ArticlesByTag.vue';
 // Menu EICM
@@ -51,6 +51,32 @@ import Categories from '@/components/backend/cms/categories/Index.vue';
 import Medias from '@/components/backend/cms/categories/Index.vue';
 
 
+// Application/Institution
+import Schools from '@/components/backend/application/schools/Index.vue';
+import ListSchools from '@/components/backend/application/schools/List.vue';
+import AddSchool from '@/components/backend/application/schools/Create.vue';
+import SchoolInfo from '@/components/backend/application/schools/View.vue';
+import UpdateSchool from '@/components/backend/application/schools/Update.vue';
+
+import SchoolHistories from '@/components/backend/application/histories/Index.vue';
+
+import Marks from '@/components/backend/application/marks/Index.vue';
+
+import Murals from '@/components/backend/application/murals/Index.vue';
+
+import Guidelines from '@/components/backend/application/guidelines/Index.vue';
+
+
+// Layout
+import Sliders from '@/components/backend/layout/sliders/Index.vue';
+import ListSliders from '@/components/backend/layout/sliders/List.vue';
+import AddSlider from '@/components/backend/layout/sliders/Create.vue';
+import SliderInfo from '@/components/backend/layout/sliders/View.vue';
+import UpdateSlider from '@/components/backend/layout/sliders/Update.vue';
+
+
+
+
 // Errors
 import Error_403 from '@/views/errors/403.vue';
 
@@ -84,37 +110,26 @@ export default [
                 component: RegisterPage,
                 name: 'register_page'
             },
-
             {
                 path: '/perfil',
                 component: Perfil,
                 name: 'perfil'
             },
-
             {
                 path: '/eicm-gdc/historia',
                 component: Histories,
                 name: 'eicm_histories'
             },
-
             {
                 path: '/eicm-gdc/missao',
                 component: Missions,
                 name: 'eicm_missions'
             },
-
             {
                 path: '/eicm-gdc/equipe',
                 component: Equipe,
                 name: 'eicm_equipe'
             },
-
-            // {
-            //     path: '/eicm-gdc/equipe',
-            //     component: Equipe,
-            //     name: 'eicm_equipe'
-            // },
-
             {
                 path: '/estudantes/quadros',
                 component: Quadros,
@@ -137,10 +152,6 @@ export default [
                     },
                 ]
             },
-
-
-
-
 
             {
                 path: '/blog',
@@ -177,8 +188,6 @@ export default [
                 component: Error_403
             },
 
-
-
             {
                 path: '/teste',
                 component: Teste,
@@ -204,7 +213,7 @@ export default [
 
             //  Users modules
             {
-                path: '/users',
+                path: 'users',
                 component: Users,
                 children: [
                     {
@@ -229,13 +238,13 @@ export default [
 
             // Generic Access Role
             {
-                path: '/access',
+                path: 'access',
                 name: 'access_role',
                 component: Access
             },
             //  CMS modules
             {
-                path: '/articles',
+                path: 'articles',
                 component: Articles,
                 children: [
                     {
@@ -259,24 +268,92 @@ export default [
             },
 
             {
-                path: '/tags',
+                path: 'tags',
                 name: 'list_tags',
                 component: Tags
             },
 
             {
-                path: '/categories',
+                path: 'categories',
                 name: 'list_categories',
                 component: Categories
             },
 
             {
-                path: '/medias',
+                path: 'medias',
                 name: 'list_medias',
                 component: Medias
             },
+            // Application/Institution
+            {
+                path: 'escola',
+                component: Schools,
+                children: [
+                    {
+                        path: '/',
+                        name: 'list_schools',
+                        component: ListSchools
+                    }, {
+                        path: 'add',
+                        name: 'add_school',
+                        component: AddSchool
+                    }, {
+                        path: 'editar/:slug',
+                        name: 'update_school',
+                        component: UpdateSchool
+                    }, {
+                        path: 'ver/:slug',
+                        name: 'view_school',
+                        component: SchoolInfo
+                    },
+                ]
+            },
 
+            {
+                path: 'histories',
+                name: 'list_histories',
+                component: SchoolHistories
+            },
+            {
+                path: 'histories_marks',
+                name: 'list_marks',
+                component: Marks
+            },
+            {
+                path: 'murals',
+                name: 'list_murals',
+                component: Murals
+            },
+            {
+                path: 'guidelines',
+                name: 'list_guidelines',
+                component: Guidelines
+            },
 
+            // Layouts
+            {
+                path: 'sliders',
+                component: Sliders,
+                children: [
+                    {
+                        path: '/',
+                        name: 'list_sliders',
+                        component: ListSliders
+                    }, {
+                        path: 'add',
+                        name: 'add_slider',
+                        component: AddSlider
+                    }, {
+                        path: 'editar/:slug',
+                        name: 'update_slider',
+                        component: UpdateSlider
+                    }, {
+                        path: 'ver/:slug',
+                        name: 'view_slider',
+                        component: SliderInfo
+                    },
+                ]
+            },
         ]
     },
 ];
