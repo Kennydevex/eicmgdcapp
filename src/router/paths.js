@@ -21,9 +21,9 @@ import Equipe from '@/views/frontend/eicm/Equipe.vue';
 import Quadros from '@/views/frontend/students/Quadros.vue';
 
 // Menu EICM
-import CoursesHome from '@/views/frontend/courses/Index.vue';
-import Courses from '@/views/frontend/courses/List.vue';
-import Course from '@/views/frontend/courses/View.vue';
+import CursosHome from '@/views/frontend/courses/Index.vue';
+import Cursos from '@/views/frontend/courses/List.vue';
+import Curso from '@/views/frontend/courses/View.vue';
 // import CursosViaTecnica from '@/views/frontend/courses/CursosViaTecnica.vue';
 // import FormacaoProfissional from '@/views/frontend/courses/FormacaoProfissional.vue';
 
@@ -59,12 +59,20 @@ import SchoolInfo from '@/components/backend/application/schools/View.vue';
 import UpdateSchool from '@/components/backend/application/schools/Update.vue';
 
 import SchoolHistories from '@/components/backend/application/histories/Index.vue';
+import SchoolsGeralSettings from '@/components/backend/application/settings/Index.vue';
 
 import Marks from '@/components/backend/application/marks/Index.vue';
 
 import Murals from '@/components/backend/application/murals/Index.vue';
 
 import Guidelines from '@/components/backend/application/guidelines/Index.vue';
+
+// Courses/Formations
+import Courses from '@/components/backend/formations/courses/Index.vue';
+import ListCourses from '@/components/backend/formations/courses/List.vue';
+import AddCourse from '@/components/backend/formations/courses/Create.vue';
+import CourseInfo from '@/components/backend/formations/courses/View.vue';
+import UpdateCourse from '@/components/backend/formations/courses/Update.vue';
 
 
 // Layout
@@ -139,16 +147,16 @@ export default [
             {
                 // Optimização a se fazer, pois se o utilizador alterar url para cursos, não irá se listar nenhum curso, mas fica-se na página principal (Index)...
                 path: '/cursos',
-                component: CoursesHome,
+                component: CursosHome,
                 children: [
                     {
                         path: ':slug',
                         name: 'courses',
-                        component: Courses
+                        component: Cursos
                     }, {
                         path: 'detalhes/:slug',
                         name: 'course_info',
-                        component: Course
+                        component: Curso
                     },
                 ]
             },
@@ -310,6 +318,12 @@ export default [
             },
 
             {
+                path: 'schools_geral_settings',
+                name: 'schools_geral_settings',
+                component: SchoolsGeralSettings
+            },
+
+            {
                 path: 'histories',
                 name: 'list_histories',
                 component: SchoolHistories
@@ -328,6 +342,30 @@ export default [
                 path: 'guidelines',
                 name: 'list_guidelines',
                 component: Guidelines
+            },
+
+            {
+                path: 'courses',
+                component: Courses,
+                children: [
+                    {
+                        path: '/',
+                        name: 'list_courses',
+                        component: ListCourses
+                    }, {
+                        path: 'add',
+                        name: 'add_course',
+                        component: AddCourse
+                    }, {
+                        path: 'editar/:slug',
+                        name: 'update_course',
+                        component: UpdateCourse
+                    }, {
+                        path: 'ver/:slug',
+                        name: 'view_course',
+                        component: CourseInfo
+                    },
+                ]
             },
 
             // Layouts

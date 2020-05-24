@@ -10,7 +10,8 @@ export const dateFormat = {
     methods: {
         formated(date) {
             return date ? moment(date).format("DD/MM/YYYY") : "";
-        }
+        },
+
     },
 }
 

@@ -11,11 +11,18 @@ export default {
         password_confirmation: 'Confirmação',
         display_name: 'Rótulo',
         entity: 'Entidade',
+        abbr: 'Abreviatura'
     },
     messages: {
         required: 'Campo de preenchimento obrigatório',
+        alpha: 'Aceita-se apenas letras',
+        alpha_spaces:'O nome não pode conter além de letras e espaços'
     },
     custom: {
+
+        abbr: {
+            alpha: () => "Abreviatura só pode ser letras"
+        },
 
         title: {
             required: () => 'É obrigatório introduzir um título numa publicação',
@@ -29,6 +36,11 @@ export default {
 
         category: {
             required: () => 'Escolha uma categoria!!',
+        },
+
+        opning: {
+            before: () =>
+                'Insira uma data válida. Aceita-se uma data anterior a data atual',
         },
         start: {
             before: () =>
@@ -88,8 +100,5 @@ export default {
             required: () => "Nenhum comentário inserido"
         },
 
-        entity: {
-            required: () => "É obrigatório escolher uma entidade para uma categoria"
-        },
     }
 };

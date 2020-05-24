@@ -13,6 +13,13 @@ import tags from './modules/cms/Tags';
 import categories from './modules/cms/Categories';
 import medias from './modules/cms/Medias';
 
+//Application
+import schools from './modules/application/Schools';
+import histories from './modules/application/Histories';
+import marks from './modules/application/Marks';
+import guidelines from './modules/application/Guidelines';
+import murals from './modules/application/Murals';
+
 //Auth
 import auth from './modules/auth/auth';
 
@@ -28,6 +35,11 @@ export default new Vuex.Store({
         tags,
         categories,
         medias,
+        schools,
+        histories,
+        marks,
+        guidelines,
+        murals,
         auth
     },
 });

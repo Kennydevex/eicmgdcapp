@@ -2,72 +2,62 @@
   <div>
     <v-row>
       <template v-for="(school, s) in schools">
-        <v-col :key="'school_'+s" class="mt-0 pt-0">
+        <v-col cols="12" md="6" :key="'school_'+s" class="mt-0 pt-0">
           <v-card tile>
             <v-list-item>
               <v-list-item-avatar>
                 <v-img :src="require('@/assets/app/logo.png')"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title class="headline">{{school.abbreviation}}</v-list-item-title>
+                <v-list-item-title class="headline">{{school.abbr}}</v-list-item-title>
                 <v-list-item-subtitle>{{school.name}}</v-list-item-subtitle>
               </v-list-item-content>
               <v-spacer></v-spacer>
-               <v-btn icon color="grey">
+              <v-btn icon color="grey">
                 <v-icon>mdi-share</v-icon>
               </v-btn>
             </v-list-item>
 
             <v-img :src="require('@/assets/app/sliders/slide2.gif')" height="194"></v-img>
 
-            <v-card-actions>
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-               <v-btn icon>
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-
-              <v-spacer></v-spacer>
-
-              <v-btn icon @click="show_contact_info = !show_contact_info">
-                <v-icon>{{ show_contact_info ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-              </v-btn>
-            </v-card-actions>
-
             <v-expand-transition>
-              <div v-show="show_contact_info">
+              <div v-show="show_contact_info[school.id]">
                 <v-divider></v-divider>
                 <v-card-text>
                   <v-list two-line>
-                    <template v-for="(phone, k) in school.phones">
-                      <v-list-item :key="k+'sphone'">
-                        <v-list-item-action>
-                          <v-icon v-if="k == 0" color="primary">mdi-phone</v-icon>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                          <v-list-item-title v-text="phone.number"></v-list-item-title>
-                          <v-list-item-subtitle v-text="phone.description"></v-list-item-subtitle>
-                        </v-list-item-content>
-
-                        <v-list-item-action>
-                          <v-icon>mdi-message-text</v-icon>
-                        </v-list-item-action>
-                      </v-list-item>
+                    <template v-for="(contact, k) in school.contacts">
+                      <div :key="'phone'+k">
+                        <v-list-item v-if="contact.type==1">
+                          <v-list-item-action>
+                            <!-- <v-icon v-if="k == 0" color="primary">mdi-phone</v-icon> -->
+                          </v-list-item-action>
+                          <v-list-item-content>
+                            <v-list-item-title v-text="contact.contact"></v-list-item-title>
+                            <v-list-item-subtitle v-text="contact.description"></v-list-item-subtitle>
+                          </v-list-item-content>
+                          <v-list-item-action>
+                            <v-icon>mdi-message-text</v-icon>
+                          </v-list-item-action>
+                        </v-list-item>
+                      </div>
                     </template>
 
                     <v-divider></v-divider>
-                    <template v-for="(email, k) in school.emails">
-                      <v-list-item :key="k+'semail'">
-                        <v-list-item-action>
-                          <v-icon v-if="k == 0" color="primary">mdi-email</v-icon>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                          <v-list-item-title v-text="email.email"></v-list-item-title>
-                          <v-list-item-subtitle v-text="email.description"></v-list-item-subtitle>
-                        </v-list-item-content>
-                      </v-list-item>
+
+                    <template v-for="(contact, e) in school.contacts">
+                      <div :key="'email'+e">
+                        <v-list-item v-if="contact.type==2">
+                          <v-list-item-action>
+                            <!-- <v-icon v-if="e < e+1" color="primary">mdi-email</v-icon> -->
+                          </v-list-item-action>
+                          <v-list-item-content>
+                            <v-list-item-title v-text="contact.contact"></v-list-item-title>
+                            <v-list-item-subtitle v-text="contact.description"></v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </div>
                     </template>
+
                     <v-divider></v-divider>
 
                     <v-list-item @click="testes">
@@ -83,6 +73,22 @@
                 </v-card-text>
               </div>
             </v-expand-transition>
+
+            <v-card-actions>
+              <v-btn icon @click="onView('view_school', school.slug)">
+                <v-icon>mdi-eye</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon @click="onUpdate('update_school', school.slug)">mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn icon @click="onDelete('schools',school.id,'APP_UPDATE_ALL_SCHOOLS_DATA')">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.stop="more_details(school.id)">
+                <v-icon>{{ show_contact_info[school.id] ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </template>
@@ -113,64 +119,48 @@
 </template>
 
 <script>
+import { viewAndUpdate } from "@/mixins/Redirects";
+import { getDatas, getData, deleteData } from "@/mixins/SendForm";
+import { flashAlert, actionAlert } from "@/mixins/AppAlerts";
+
 export default {
+  mixins: [
+    viewAndUpdate,
+    getDatas,
+    getData,
+    deleteData,
+    flashAlert,
+    actionAlert
+  ],
   data() {
     return {
       fab: false,
-      show_contact_info: false,
-      schools: [
-        {
-          id: 1,
-          name: "Escola Industrial e Comercial do Mindelo",
-          abbreviation: "EICM-GDC",
-          description: "Escola técnica do Mindelo",
-          slogan: "Educação para crescer",
-          logo: "",
-          cover: "",
-          primary_color: "#00ff00",
-          secundary_color: "#00ffaa",
-          opning: "1989-03-03",
-          phones: [
-            {
-              id: 1,
-              number: "+238 2324563",
-              description: "Telefone da secretaria"
-            },
-            {
-              id: 2,
-              number: "+238 2324564",
-              description: "Telefone da direção"
-            }
-          ],
-          emails: [
-            {
-              id: 1,
-              email: "eicmgdc@gmail.com",
-              description: "Email da secretaria"
-            },
-            {
-              id: 2,
-              email: "eicm_gdcdir@gmail.com",
-              description: "Email da direção"
-            }
-          ],
-          address: {
-            country: "Cabo Verde",
-            state: "São Vicente",
-            city: "Mindelo",
-            zone: "Laginha",
-            street: "faed",
-            post_code: "7100",
-            location: {
-              lat: 27.876354,
-              lng: 37.876354
-            }
-          }
-        }
-      ]
+      // show_contact_info: false,
+      show_contact_info: {}
     };
   },
+
+  computed: {
+    schools: function() {
+      return this.$store.getters.schools;
+    }
+
+    // phone
+  },
+
+  created: function() {
+    this.getAll(this.schools, "getSchools");
+    window.getApp.$on("APP_UPDATE_ALL_SCHOOLS_DATA", () => {
+      this.refresh("getSchools");
+    });
+  },
+
   methods: {
+    more_details(id) {
+      if (this.show_contact_info[id])
+        this.$set(this.show_contact_info, id, false);
+      else this.$set(this.show_contact_info, id, true);
+    },
     testes() {
       // eslint-disable-next-line no-console
       console.log("teste");

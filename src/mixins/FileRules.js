@@ -4,7 +4,7 @@ export const imageFilesRules = {
             coverRules: [
                 value =>
                     !value ||
-                    value.size < 3000000 ||
+                    value.size < 2000000 ||
                     "Uma imagem de capa não pode ter um tamanho superior a 3MB"
             ],
 

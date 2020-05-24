@@ -108,7 +108,7 @@
                         <v-img
                           :src="`${apiUrl}/images/articles/covers/${article.media.name}`"
                           height="194"
-                        ></v-img>
+                        ></v-img> 
 
                         <v-card-text>{{ article.summary|truncate(100)}}</v-card-text>
 

@@ -16,7 +16,7 @@
       <v-btn small text @click="cancelAddArticle">Sair</v-btn>
     </v-card-actions>
   </v-card>
-</template>
+</template> 
 
 
 
@@ -55,12 +55,11 @@ export default {
 
   components: {
     ArticleForm
-  },
+  }, 
 
   methods: {
     cancelAddArticle() {
       this.$router.go(-1);
-      // this.$router.push({ name: "list-partners" });
     },
 
     onAddArticle(add_new) {

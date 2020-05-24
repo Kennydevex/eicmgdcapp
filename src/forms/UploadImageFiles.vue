@@ -23,6 +23,7 @@ export default {
   methods: {
     onFileSelected(e) {
       let fileReader = new FileReader();
+
       fileReader.readAsDataURL(e);
       fileReader.onload = event => {
         this.$emit("handleFileUpload", event.target.result);

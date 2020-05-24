@@ -4,8 +4,7 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-// import { articles } from '@backmodules/Articles';
-
+import { cancelActions } from "@/mixins/Redirects";
 
 export const getDatas = {
     methods: {
@@ -23,11 +22,11 @@ export const getDatas = {
 };
 
 export const sendFormData = {
-    mixins: [clearForm, flashAlert],
+    mixins: [clearForm, flashAlert, cancelActions],
 
     data() {
         return {
-            formErrors: [],
+            formErrors: {},
             hasError: false,
             dictionary: validateDictionary
         };
@@ -36,7 +35,7 @@ export const sendFormData = {
         this.$validator.localize("pt", this.dictionary);
     },
     methods: {
-        add(add_new, url, form_data, data_update, modal) {
+        add(add_new, url, form_data, data_update, modal, simple_form_page = false) {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
                     this.$Progress.start();
@@ -49,7 +48,11 @@ export const sendFormData = {
                             window.getApp.$emit(data_update);
                             this.clear();
                             if (!add_new) {
-                                window.getApp.$emit(modal);
+                                if (!simple_form_page) {
+                                    window.getApp.$emit(modal);
+                                } else {
+                                    this.back();
+                                }
                             }
                             this.$Progress.finish();
 
@@ -65,7 +68,7 @@ export const sendFormData = {
             });
         },
 
-        update(url, form_data, modal) {
+        update(url, form_data, modal, simple_form_page = false) {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
                     this.$Progress.start();
@@ -75,7 +78,12 @@ export const sendFormData = {
                         .put(url + "/", form_data)
                         .then(response => {
                             this.feedback("success", response.data.msg, 3000, true, "top");
-                            window.getApp.$emit(modal);
+                            this.clear();
+                            if (!simple_form_page) {
+                                window.getApp.$emit(modal);
+                            } else {
+                                this.back();
+                            }
                             this.$Progress.finish();
                         })
                         .catch(err => {

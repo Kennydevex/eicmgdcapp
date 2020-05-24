@@ -8,7 +8,7 @@ const Menu = [
         icon: 'mdi-view-dashboard-variant',
         name: 'admin_page',
     },
-    
+
     {
         header: 'EICM-GDC'
     }, {
@@ -21,6 +21,14 @@ const Menu = [
                 name: 'list-schools',
                 title: 'Escola',
                 component: 'list_schools',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+
+            {
+                name: 'schools-geral-settings',
+                title: 'Parametros Gerais',
+                component: 'schools_geral_settings',
                 icon: 'mdi-square-small',
                 permission: 'Gerir'
             },
@@ -52,9 +60,35 @@ const Menu = [
                 icon: 'mdi-square-small',
                 permission: 'Gerir',
             },
+
+            // {
+            //     name: 'list-courses',
+            //     title: 'Cursos',
+            //     component: 'list_courses',
+            //     icon: 'mdi-square-small',
+            //     permission: 'Gerir'
+            // },
+
         ]
     },
-    
+
+    {
+        title: 'Formações',
+        group: 'formations',
+        role: 'Administrador',
+        icon: 'mdi-school',
+        items: [
+            {
+                name: 'list-courses',
+                title: 'Cursos',
+                component: 'list_courses',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+
+        ]
+    },
+
     {
         header: 'Sistema'
     }, {
@@ -132,7 +166,7 @@ const Menu = [
     {
         header: 'Aplicativo'
     },
-    
+
     {
         title: 'Configurações',
         group: 'settings',

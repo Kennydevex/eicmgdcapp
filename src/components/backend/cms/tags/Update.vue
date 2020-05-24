@@ -15,7 +15,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" small text @click="handleUpdateTag(true)">Guardar alterações</v-btn>
-        <v-btn small text @click="handleUpdateTagModal">Sair</v-btn>
+        <v-btn small text @click="closeUpdateTagModel">Sair</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -57,6 +57,14 @@ export default {
 
     handleUpdateTagModal() {
       window.getApp.$emit("APP_UPDATE_ALL_TAGS_DATA");
+      this.updateTagModal = !this.updateTagModal;
+    },
+
+    closeUpdateTagModel() {
+      this.formData = {
+        name: "",
+        roles: []
+      };
       this.updateTagModal = !this.updateTagModal;
     },
 

@@ -14,7 +14,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" small text @click="handleUpdateUser(true)">Guardar alterações</v-btn>
-        <v-btn small text @click="handleUpdateUserModal">Sair</v-btn>
+        <v-btn small text @click="closeUpdateUserModel">Sair</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -93,6 +93,26 @@ export default {
 
     handleUpdateUserModal() {
       window.getApp.$emit("APP_UPDATE_ALL_USERS_DATA");
+      this.updateUserModal = !this.updateUserModal;
+    },
+
+    closeUpdateUserModel() {
+      this.formData = {
+        folk: {
+          name: "",
+          lastname: "",
+          gender: "",
+          birthdate: new Date().toISOString().substr(0, 10)
+        },
+        id: "",
+        username: "",
+        email: "",
+        status: "",
+        password: "",
+        password_confirmation: "",
+        roles: [],
+        permissions: []
+      };
       this.updateUserModal = !this.updateUserModal;
     },
 

@@ -31,7 +31,6 @@
 
           <v-file-input
             outlined
-            rounded
             placeholder="Imagem de fundo"
             prepend-icon="mdi-camera"
             show-size

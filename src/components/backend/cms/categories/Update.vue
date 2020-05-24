@@ -15,7 +15,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" small text @click="handleUpdateCategory(true)">Guardar alterações</v-btn>
-        <v-btn small text @click="handleUpdateCategoryModal">Sair</v-btn>
+        <v-btn small text @click="closeUpdateCategoryModel">Sair</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -62,6 +62,18 @@ export default {
       window.getApp.$emit("APP_UPDATE_ALL_CATEGORIES_DATA");
       this.updateCategoryModal = !this.updateCategoryModal;
     },
+
+    closeUpdateCategoryModel() {
+      this.formData = {
+        name: "",
+        display: "",
+        color: "",
+        description: "",
+        roles: []
+      };
+      this.updateCategoryModal = !this.updateCategoryModal;
+    },
+
 
     handleUpdateCategory() {
       window.getApp.$emit("APP_UPDATE_CATEGORY");
