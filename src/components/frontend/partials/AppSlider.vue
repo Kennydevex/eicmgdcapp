@@ -1,65 +1,174 @@
 <template>
   <v-card tile flat mt-0 pt-0>
-    <swiper ref="mySwiper" :options="swiperOption">
+    <swiper ref="sliderSwiper" :options="swiperOption">
       <template v-for="(slider, s) in sliders">
         <swiper-slide :key="'slider_'+s">
           <v-img
             class="white--text slide--igm"
-            :src="`${apiUrl}/images/app/sliders/${slider.image}`"
-            aspect-ratio="2.75"
-            min-height="220"
+            :src="`${apiUrl}/images/app/sliders/${slider.background}`"
+            height="500"
           >
-            <!-- ====================================== -->
-            <section class="ani" swiper-animate-effect="slideInLeft" swiper-animate-duration="3s">
-              <!-- <div id="slide-bg-diagonal"></div> -->
-              <v-container grid-list-xs fluid class="ma-0 pa-0 slide-container">
-                <v-row class="ma-0 pa-0">
-                  <v-col class="ma-0 pa-0">
-                    <div class="slide-content-box">
-                      <div class="slide-content-box-outer">
-                        <div class="slide-content-box-inner">
-                          <div class="slide-title">
-                            <h3
-                              class="ani text-uppercase"
-                              swiper-animate-effect="flipInX"
-                              swiper-animate-delay="3s"
-                              swiper-animate-duration="2s"
-                            >
-                              <b>{{slider.header}}</b>
-                            </h3>
-                            <div class="slide-title-underline"></div>
-                          </div>
-                          <div
-                            class="slide-descrition ani"
-                            swiper-animate-effect="slideInLeft"
-                            swiper-animate-delay="1s"
-                            swiper-animate-duration="3s"
-                          >
-                            <p>{{slider.body|truncate(300)}}</p>
-                          </div>
+            <div v-if="slider.type==3" class="link-slider-container">
+              <div
+                class="link-slider-content ani"
+                swiper-animate-effect="fadeIn"
+                swiper-animate-delay="2s"
+                swiper-animate-duration="1s"
+              >
+                <div class="link-slider-title">
+                  <h3
+                    class="ani font-weight-light"
+                    swiper-animate-effect="flipInX"
+                    swiper-animate-delay="2s"
+                    swiper-animate-duration="1s"
+                  >
+                    <b>{{slider.title}}</b>
+                  </h3>
+                  <div class="link-slide-title-underline" :style="{ backgroundColor: slider.color}"></div>
+                </div>
 
-                          <div
-                            class="slide-read-more ani"
-                            swiper-animate-effect="fadeInLeft"
-                            swiper-animate-delay="2s"
-                            swiper-animate-duration="3s"
-                          >
-                            <!-- <a href class="text-center btn">Nosso Trabalho</a> -->
-                            <v-btn
-                              class="ma-0 px-5"
-                              outlined
-                              color="indigo"
-                            >{{slider.button_text?slider.button_text:'Ler Mais'}}</v-btn>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </section>
+                <div class="link-slider-btn">
+                  <v-btn
+                    :href="slider.link"
+                    target="_blank"
+                    class="elevation-6"
+                    :color="slider.color"
+                    dark
+                    tile
+                  >{{slider.btn_text}}</v-btn>
+                </div>
+              </div>
+            </div>
 
-            <!-- ====================================== -->
+            <div
+              v-if="slider.type==1 || slider.type==2"
+              class="ani slider-container"
+              :class="slider.type==1?'course-slider-container':'post-slider-container'"
+              :swiper-animate-effect="slider.type==1?'slideInLeft':'fadeIn'"
+              swiper-animate-duration="2s"
+              :swiper-animate-delay="slider.type==2?'1s':''"
+            >
+              <div
+                class="slider-content ani"
+                :class="slider.type==1?'course-slider-content':'post-slider-content'"
+                :style="slider.type==2?{ borderBottomColor:slider.color, borderLeftColor:slider.color}:{}"
+                :swiper-animate-effect="slider.type==1?'slideInLeft':'fadeInUp'"
+                swiper-animate-delay="1s"
+                swiper-animate-duration="2s"
+              >
+                <div
+                  class="slider-title"
+                  :class="slider.type==1?'course-slider-title':'post-slider-title'"
+                >
+                  <h3
+                    class="ani text-uppercase font-weight-light"
+                    swiper-animate-effect="flipInX"
+                    swiper-animate-delay="3s"
+                    swiper-animate-duration="2s"
+                    :style="{color: slider.color}"
+                  >
+                    <b>{{slider.title}}</b>
+                  </h3>
+                  <div class="slide-title-underline" :style="{ backgroundColor: slider.color}"></div>
+                </div>
+
+                <div
+                  class="ani slider-body"
+                  :class="slider.type==1?'course-slider-body':'post-slider-body'"
+                  swiper-animate-effect="zoomIn"
+                  swiper-animate-delay="2s"
+                  swiper-animate-duration="1s"
+                >
+                  <p>{{slider.summary|truncate(150)}}</p>
+                </div>
+
+                <v-divider
+                  class="pa-1 ani"
+                  :swiper-animate-effect="slider.type==1?'rotateInDownLeft':'rotateInDownRight'"
+                  swiper-animate-delay="3s"
+                  swiper-animate-duration="2s"
+                ></v-divider>
+
+                <div
+                  class="slider-footer ani"
+                  :class="slider.type==1?'course-slider-footer':'post-slider-footer'"
+                  :swiper-animate-effect="slider.type==1?'fadeInRight':'fadeInLeft'"
+                  swiper-animate-delay="2s"
+                  swiper-animate-duration="3s"
+                >
+                  <v-btn
+                    :text="slider.btn_style"
+                    small
+                    dark
+                    outlined
+                    tile
+                    :color="slider.color"
+                    class="text-none"
+                    :to="{name: slider.link}"
+                  >{{slider.btn_text}}</v-btn>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div
+              class="ani slider-container"
+              :swiper-animate-effect="slider.type==1?'slideInLeft':'slideInLeft'"
+              swiper-animate-duration="3s"
+            >
+              <div
+                class="slider-content ani"
+                swiper-animate-effect="slideInLeft"
+                swiper-animate-delay="1s"
+                swiper-animate-duration="3s"
+              >
+                <div class="slider-title">
+                  <h3
+                    class="ani text-uppercase font-weight-light"
+                    swiper-animate-effect="flipInX"
+                    swiper-animate-delay="3s"
+                    swiper-animate-duration="2s"
+                    :style="{color: slider.color}"
+                  >
+                    <b>{{slider.title}}</b>
+                  </h3>
+                  <div class="slide-title-underline" :style="{ backgroundColor: slider.color}"></div>
+                </div>
+
+                <div
+                  class="ani slider-body"
+                  swiper-animate-effect="zoomIn"
+                  swiper-animate-delay="2s"
+                  swiper-animate-duration="1s"
+                >
+                  <p>{{slider.summary|truncate(150)}}</p>
+                </div>
+
+                <v-divider
+                  class="pa-1 ani"
+                  swiper-animate-effect="rotateInDownRight"
+                  swiper-animate-delay="3s"
+                  swiper-animate-duration="2s"
+                ></v-divider>
+
+                <div
+                  class="slider-footer ani"
+                  swiper-animate-effect="fadeInLeft"
+                  swiper-animate-delay="2s"
+                  swiper-animate-duration="3s"
+                >
+                  <v-btn
+                    :text="slider.btn_style"
+                    small
+                    dark
+                    outlined
+                    tile
+                    :color="slider.color"
+                    class="text-none"
+                    :to="{name: slider.link}"
+                  >{{slider.btn_text}}</v-btn>
+                </div>
+              </div>
+            </div>-->
           </v-img>
         </swiper-slide>
       </template>
@@ -76,56 +185,15 @@ import { truncateFilter } from "@/mixins/Filters";
 
 export default {
   mixins: [truncateFilter],
+  props: ["sliders"],
   data() {
     return {
-      sliders: [
-        {
-          id: 1,
-          header: "Formação Profissional em Cabo Verde",
-          body:
-            "Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-          button_text: "",
-          image: "slide1.gif",
-          link: "slug do artigo",
-          type: 1,
-          status: true,
-          position: "topLeft",
-          color: "rgba(221, 54, 118, 0.5)"
-        },
-        {
-          id: 1,
-          header: "O desafio da educação em Cabo Verde",
-          body:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
-          button_text: "Vert mais",
-          image: "slide2.gif",
-          link: "slug do artigo",
-          type: 1,
-          status: true,
-          position: "topRight",
-          color: "rgba(151, 103, 57, 0.5)"
-        },
-        {
-          id: 1,
-          header: "O futuro da nossa juventude",
-          body:
-            "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-          button_text: "Vert mais",
-          image: "slide3.gif",
-          link: "slug do artigo",
-          type: 1,
-          status: true,
-          position: "bottomRight",
-          color: "rgba(34, 140, 221, 0.5)"
-        }
-      ],
-
       swiperOption: {
-        spaceBetween: 60,
+        // spaceBetween: 10,
         centeredSlides: true,
         autoplay: {
-          delay: 5500,
-          disableOnInteraction: false
+          delay: 6500,
+          disableOnInteraction: true
         },
         navigation: {
           nextEl: ".swiper-button-next",
@@ -147,7 +215,7 @@ export default {
 
   computed: {
     swiper() {
-      return this.$refs.mySwiper.swiper;
+      return this.$refs.sliderSwiper.swiper;
     }
   },
 
@@ -165,65 +233,140 @@ export default {
 </script>
 
 <style  scoped  lang="scss">
-.slide-container {
-  height: 50%;
-  width: 50%;
-  background: rgba(255, 255, 255, 1);
+.link-slider-container {
+  display: flex;
+  width: 100%;
+  height: 500px;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 100%;
+  text-align: center;
+  background-color: #5c5c5c44;
+  box-sizing: border-box;
+  transition: background-color 1s;
+
+  .link-slider-title {
+    padding: 20px;
+    .link-slide-title-underline {
+      width: 40%;
+      height: 2px;
+      text-align: center;
+      margin: auto;
+      margin-top: 5px;
+    }
+  }
+
+  .link-slider-content {
+    padding: 30px;
+    width: 25%;
+    border: 2px rgba(255, 255, 255, 0.5) solid;
+    border-radius: 35px 0px;
+    transition: border-color 1s, border-radius 2s;
+  }
+
+  .link-slider-content:hover {
+    border-color: rgb(255, 255, 255);
+    border-radius: 0px;
+  }
+}
+
+.link-slider-container:hover {
+  background-color: #ffffff00;
+}
+
+.slider-container {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  .slider-content {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+  }
+
+  .slider-title {
+    text-align: left;
+    color: rgb(50, 50, 50);
+    padding-bottom: 20px;
+    .slide-title-underline {
+      width: 30%;
+      height: 2px;
+      text-align: left;
+      margin-top: 10px;
+    }
+  }
+
+  .slider-body {
+    margin-bottom: 10px;
+    text-align: justify;
+    color: rgb(75, 75, 75);
+  }
+}
+
+.post-slider-container {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 325px;
+  width: 40%;
+  background-color: #6464648c;
+  padding-right: 5px;
+
+  .post-slider-content {
+    position: relative;
+    left: -30px;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+    transition: left 1s;
+  }
+
+  .post-slider-content:hover {
+    left: -15px;
+  }
+
+  .post-slider-footer {
+    text-align: left;
+  }
+}
+
+.course-slider-container {
+  height: 500px;
+  width: 25%;
+  padding: 0 15px 0 35px;
+  transition: background-color 1s;
+
+  background-color: #c3caff8c;
   background: linear-gradient(
     to right,
     black 0%,
-    rgba(	0,0,0, 0.738) 19%,
-    rgba(	0,0,0, 0.541) 34%,
-    rgba(	0,0,0, 0.382) 47%,
-    rgba(	0,0,0, 0.278) 56.5%,
-    rgba(	0,0,0, 0.194) 65%,
-    rgba(	0,0,0, 0.126) 73%,
-    rgba(	0,0,0, 0.075) 80.2%,
-    rgba(	0,0,0, 0.042) 86.1%,
-    rgba(	0,0,0, 0.021) 91%,
-    rgba(	0,0,0, 0.008) 95.2%,
-    rgba(	0,0,0, 0.002) 98.2%,
+    rgba(0, 0, 0, 0.738) 19%,
+    rgba(0, 0, 0, 0.541) 34%,
+    rgba(0, 0, 0, 0.382) 47%,
+    rgba(0, 0, 0, 0.278) 56.5%,
+    rgba(0, 0, 0, 0.194) 65%,
+    rgba(0, 0, 0, 0.126) 73%,
+    rgba(0, 0, 0, 0.075) 80.2%,
+    rgba(0, 0, 0, 0.042) 86.1%,
+    rgba(0, 0, 0, 0.021) 91%,
+    rgba(0, 0, 0, 0.008) 95.2%,
+    rgba(0, 0, 0, 0.002) 98.2%,
     transparent 100%
   );
-}
-.slide-content-box {
-  float: left;
-  height: 700px;
+
+  .course-slider-content {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+  }
+
+  .course-slider-footer {
+    text-align: right;
+  }
 }
 
-.slide-content-box-outer {
-  width: 50%;
-  height: 100%;
-  display: table;
-  padding: 45px;
-}
-
-.slide-content-box-inner {
-  display: table-cell;
-  vertical-align: middle;
-  padding: 20px;
-}
-
-.slide-title h3 {
-  text-align: left;
-  color: rgb(235, 235, 235);
-}
-
-.slide-title-underline {
-  width: 70px;
-  height: 2px;
-  background-color: rgb(80, 89, 212);
-  text-align: left;
-  margin-top: 10px;
-}
-
-.slide-descrition p {
-  margin-top: 20px;
-  text-align: justify;
-  color: rgb(209, 209, 209);
-}
-
-.slide-read-more {
-  margin-top: 20px;
+.course-slider-container:hover {
+  background-color: #5c5c5c44;
 }
 </style>

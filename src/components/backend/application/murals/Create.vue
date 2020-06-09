@@ -1,11 +1,11 @@
 <template>
-  <v-dialog v-model="addMuralModal" max-width="640px" persistent>
+  <v-dialog v-model="addMuralModal" scrollable max-width="640px" persistent>
     <v-card>
       <v-card-title primary-title>
-        <small class="font-weight-light text-capitalize">
-          <v-icon>mdi-tag-plus</v-icon>
+        <span class="font-weight-light text-capitalize">
+          <v-icon>mdi-heart-plus</v-icon>
           <small>&emsp;Criar Marco Histórico</small>
-        </small>
+        </span>
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pt-3">

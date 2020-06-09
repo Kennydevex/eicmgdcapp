@@ -1,8 +1,7 @@
 <template>
-  <v-container grid-list-xs fluid>
+  <v-container grid-list-xs>
     <v-row>
       <v-col>
-        <div>Index Sliders2</div>
         <router-view></router-view>
       </v-col>
     </v-row>

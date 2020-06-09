@@ -436,7 +436,6 @@ export default {
 
   data() {
     return {
-      testi: "Erro acontecendo",
       tempCover: null,
       tempLogo: null,
       step: 1,
@@ -572,7 +571,8 @@ export default {
         this.$props.formData,
         "APP_UPDATE_ALL_SCHOOLS_DATA",
         "",
-        true
+        true,
+        "list_schools"
       );
     },
 
@@ -581,7 +581,8 @@ export default {
         "schools/" + this.$props.formData.id,
         this.$props.formData,
         "APP_UPDATE_ALL_SCHOOLS_DATA",
-        true
+        true,
+        "list_schools"
       );
     }
   }

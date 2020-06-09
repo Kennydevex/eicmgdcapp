@@ -5,7 +5,9 @@
         <v-col cols="12" md="4" class="mb-0 py-0">
           <v-autocomplete
             v-model="formData.school_id"
+            auto-select-first
             outlined
+            readonly
             no-data-text="Nenhuma instituição com este nome"
             hide-selected
             label="Instituição*"
@@ -142,6 +144,21 @@ export default {
 
   data() {
     return {
+
+      //  formData: {
+      //   name: "",
+      //   description: "",
+      //   release: "",
+      //   requirement: "",
+      //   duration: "",
+      //   status: "",
+      //   featured: "",
+      //   type: "",
+      //   color:","
+      //   departament_id: "",
+      //   school_id: "",
+      // },
+
       begin_menu: false,
       end_menu: false,
       dictionary: validateDictionary

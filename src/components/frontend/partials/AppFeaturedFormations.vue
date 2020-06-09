@@ -13,7 +13,7 @@
         <v-col :key="i" cols="12" md="4">
           <v-hover v-slot:default="{ hover }">
             <v-card
-              @click="teste"
+              @click="verFormacao"
               class="pa-2"
               :elevation="hover ? 12 : 2"
               :class="{ 'on-hover': hover }"
@@ -34,8 +34,8 @@
                       </span>
                         
                     </div>
-                    <div class="mt-2" v-if="hover">
-                      <v-btn @click="teste2" outlined small color="primary" dark>Ver...</v-btn>
+                    <div v-if="hover">
+                      <v-btn @click="verFormacao" outlined small color="primary" dark>Ver...</v-btn>
                       <!-- <v-btn icon dark><v-icon>mdi-share-variant</v-icon></v-btn> -->
                     </div>
                   </v-row>
@@ -85,14 +85,9 @@ export default {
   }),
 
   methods: {
-    teste() {
+     verFormacao() {
       // eslint-disable-next-line no-console
-      console.log("testando ");
-    },
-
-     teste2() {
-      // eslint-disable-next-line no-console
-      console.log("testando22 ");
+      console.log("Viasualizar informações da formação ");
     }
   }
 };

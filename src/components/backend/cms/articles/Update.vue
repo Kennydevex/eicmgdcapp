@@ -5,7 +5,7 @@
         <v-icon>mdi-pencil</v-icon> 
         <small>&emsp;Editar Publicação</small>
       </small>
-    </v-card-title>
+    </v-card-title> 
     <v-card-text>
       <article-form :formData="article" :updating="true"></article-form>
     </v-card-text>

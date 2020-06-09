@@ -14,7 +14,7 @@
                     height="120"
                   />
                   <h1 class="flex my-4 primary--text font-weight-light">EICM-GDC</h1>
-                  <small>Autenticar no sistema</small>
+                  <small>Autenticar no sistema {{too_many_req}}</small>
                 </div>
 
                 <v-flex xs12>
@@ -124,6 +124,7 @@ export default {
   data() {
     return {
       sending: false,
+      too_many_req: "",
       formData: {
         email: "",
         password: "",
@@ -165,6 +166,7 @@ export default {
             .catch(error => {
               this.$store.commit("loginFailed", { error });
               this.sending = false;
+              this.too_many_req = error;
             });
         }
       });

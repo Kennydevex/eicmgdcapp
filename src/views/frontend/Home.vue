@@ -1,11 +1,11 @@
 <template>
   <div>
     <section>
-      <app-slider></app-slider>
+      <app-slider :sliders="actived_sliders"></app-slider>
     </section>
 
-    <section v-if="missions.length">
-      <app-missions :missions="missions"></app-missions>
+    <section v-if="murals.length">
+      <app-murals :murals="murals"></app-murals>
     </section>
 
     <!-- <section>
@@ -42,11 +42,9 @@
 import { getDatas } from "@/mixins/SendForm";
 import AppSlider from "@/components/frontend/partials/AppSlider";
 import AppBlog from "@/components/frontend/partials/AppBlog";
-import AppMissions from "@/components/frontend/partials/AppMissions";
-// import AppParralax from "@/components/frontend/partials/AppParralax";
+import AppMurals from "@/components/frontend/partials/AppMurals";
 import AppTeam from "@/components/frontend/partials/AppTeam";
 import AppFeaturedFormations from "@/components/frontend/partials/AppFeaturedFormations";
-// import AppFeaturedArticles from "@/components/frontend/partials/AppFeaturedArticles";
 import AppContacts from "@/components/frontend/partials/AppContacts";
 
 export default {
@@ -54,29 +52,6 @@ export default {
 
   data() {
     return {
-      missions: [
-        {
-          id: 1,
-          title: "Sonho é Possível",
-          description:
-            "Sonhei e fui à luta com fé e determinação, não sei se já consegui, mas, sei que quero ir tentando...",
-          icon: "mdi-diamond-stone"
-        },
-        {
-          id: 2,
-          title: "A Luta Continua",
-          description:
-            "Alguem investiu em mim com a certiza que eu conseguiria. Mesmo não tendo armas certas, venci as batalhas...",
-          icon: "mdi-run"
-        },
-        {
-          id: 3,
-          title: "Sonho é Possível",
-          description:
-            "Já sei exatamente o que sei, não preciso provar nada. Tenho Amor e Paixão como as minhas ferrementas...",
-            icon: "mdi-heart"
-        }
-      ],
       teams: [
         {
           id: 1,
@@ -122,7 +97,7 @@ export default {
   components: {
     AppSlider,
     AppBlog,
-    AppMissions,
+    AppMurals,
     AppTeam,
     AppFeaturedFormations,
     AppContacts
@@ -130,6 +105,8 @@ export default {
 
   created: function() {
     this.getAll(this.published_articles, "getPublishedArticles");
+    this.getAll(this.murals, "getMurals");
+    this.getAll(this.actived_sliders, "getActivedSliders");
   },
 
   computed: {
@@ -137,8 +114,12 @@ export default {
       return this.$store.getters.published_articles;
     },
 
-    teste: function() {
-      return false;
+    actived_sliders: function() {
+      return this.$store.getters.actived_sliders;
+    },
+
+    murals: function() {
+      return this.$store.getters.murals;
     },
 
     // Ainda não teremos o resultado esperado porque o métudo filter em Sore retorna apenas um resultado filtrado, enquanto que queremos ter todos os artigos destacados. uma sugestão para isso é usar o métudo "Map" ou pegar esses valores através de loop

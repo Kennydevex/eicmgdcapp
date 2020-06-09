@@ -20,6 +20,17 @@ import marks from './modules/application/Marks';
 import guidelines from './modules/application/Guidelines';
 import murals from './modules/application/Murals';
 
+//Formations and resources
+import courses from './modules/formations/Courses';
+import departments from './modules/formations/Departments';
+import disciplines from './modules/formations/Disciplines';
+import outcomes from './modules/formations/Outcomes';
+
+import sliders from './modules/layout/Sliders';
+
+import teachers from './modules/resources/Teachers';
+import employees from './modules/resources/Employees';
+
 //Auth
 import auth from './modules/auth/auth';
 
@@ -40,6 +51,13 @@ export default new Vuex.Store({
         marks,
         guidelines,
         murals,
+        courses,
+        departments,
+        disciplines,
+        outcomes,
+        teachers,
+        employees,
+        sliders,
         auth
     },
 });

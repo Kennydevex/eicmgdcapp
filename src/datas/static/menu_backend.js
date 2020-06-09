@@ -1,7 +1,7 @@
 // jshint esversion:6
 const Menu = [
     {
-        header: 'Genéricos'
+        header: 'Base'
     }, {
         title: 'Dashboard',
         group: 'general',
@@ -86,6 +86,29 @@ const Menu = [
                 permission: 'Gerir'
             },
 
+            {
+                name: 'list-outcomes',
+                title: 'Saídas/Cursos',
+                component: 'list_outcomes',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+
+            {
+                name: 'list-disciplines',
+                title: 'Disciplinas',
+                component: 'list_disciplines',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+            {
+                name: 'list-departments',
+                title: 'Departamentos',
+                component: 'list_departments',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+
         ]
     },
 
@@ -95,7 +118,7 @@ const Menu = [
         title: 'Sistema',
         group: 'system',
         role: 'Administrador',
-        icon: 'mdi-tune',
+        icon: 'mdi-account-settings',
         items: [
             {
                 name: 'list-users',
@@ -118,7 +141,7 @@ const Menu = [
         title: 'Publicações',
         group: 'cms',
         role: 'Gestor de Artigo',
-        icon: 'mdi-post',
+        icon: 'mdi-post-outline',
         items: [
             {
                 name: 'list-articles',
@@ -147,7 +170,7 @@ const Menu = [
         title: 'Galerias',
         group: 'cms',
         role: 'Gestor de Artigo',
-        icon: 'mdi-folder-multiple-image',
+        icon: 'mdi-folder-image',
         items: [
             {
                 name: 'list-medias',
@@ -170,14 +193,14 @@ const Menu = [
     {
         title: 'Configurações',
         group: 'settings',
-        icon: 'mdi-help-box',
+        icon: 'mdi-cogs',
         name: 'teste',
     },
     {
         title: 'Layout',
         group: 'settings',
         role: 'Administrador',
-        icon: 'mdi-tune',
+        icon: 'mdi-widgets-outline',
         items: [
             {
                 name: 'list-sliders',

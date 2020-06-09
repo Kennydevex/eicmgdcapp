@@ -15,7 +15,7 @@ export const multFormData = {
                 return true;
             }
             return false;
-        },
+        }, 
 
 
 

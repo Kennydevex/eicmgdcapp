@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12" md="4" class="mb-0 py-0">
           <v-autocomplete
+            dense
             v-model="formData.school_id"
             outlined
             no-data-text="Nenhuma instituição com este nome"
@@ -22,6 +23,7 @@
 
         <v-col cols="12" md="8" class="mb-0 py-0">
           <v-text-field
+            dense
             label="Titulo*"
             name="title"
             v-model="formData.title"
@@ -33,6 +35,7 @@
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            dense
             label="Descrição*"
             name="description"
             hint="Apresente uma descrição"
@@ -51,8 +54,10 @@
           <v-subheader>Represente este lema com um Ícone</v-subheader>
         </v-col>
 
-        <v-col cols="12" md="4" class="mb-0 py-0">
+        <v-col cols="12" md="6" class="mb-0 py-0">
           <v-autocomplete
+            dense
+            outlined
             v-model="formData.icon"
             no-data-text="Nenhuma instituição com este nome"
             hide-selected
@@ -91,7 +96,30 @@ export default {
 
       icons: [
         { key: "mdi-home", name: "Home" },
-        { key: "mdi-heart", name: "Coração" }
+        { key: "mdi-heart", name: "Coração" },
+        { key: "mdi-school", name: "Formação" },
+        { key: "mdi-home-city-outline", name: "Metrópole" },
+        { key: "mdi-flower", name: "Crescimento" },
+        { key: "mdi-hammer-wrench", name: "Ferramentas" },
+        { key: "mdi-hand-heart", name: "Amor" },
+        { key: "mdi-handshake", name: "Negócio" },
+        { key: "mdi-domain", name: "Instituição" },
+        { key: "mdi-charity", name: "Caridade" },
+        { key: "mdi-engine", name: "Engenharia" },
+        { key: "mdi-compass", name: "Explorar" },
+        { key: "mdi-pencil-ruler", name: "Design" },
+        { key: "mdi-brain", name: "Cerebro" },
+        { key: "mdi-math-compass", name: "Projetar" },
+        { key: "mdi-head-cog-outline", name: "Pisicologia" },
+        { key: "mdi-desktop-classic", name: "Computação" },
+        { key: "mdi-home-heart", name: "Família" },
+        { key: "mdi-alphabetical", name: "Afabetização" },
+        { key: "mdi-currency-usd", name: "Dinheiro" },
+        { key: "mdi-certificate-outline", name: "Diploma" },
+        { key: "mdi-diamond", name: "Furtuna" },
+        { key: "mdi-key", name: "Chave" },
+        { key: "mdi-star-outline", name: "Estrela" },
+        { key: "mdi-earth", name: "Globalização" }
       ]
     };
   },
@@ -102,7 +130,6 @@ export default {
 
   created() {
     this.getAll(this.schools, "getSchools");
-
     window.getApp.$on("APP_ADD_MURAL", add_new => {
       this.add(
         add_new,

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addPermissionModal" max-width="640px" persistent>
+  <v-dialog v-model="addPermissionModal" scrollable max-width="640px" persistent>
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">

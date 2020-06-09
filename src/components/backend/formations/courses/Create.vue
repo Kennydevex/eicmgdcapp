@@ -4,11 +4,11 @@
       <v-col>
         <v-card>
           <v-card-text class="ma-0 pa-0">
-            <v-subheader>Registo da instituição</v-subheader>
-            <course-form :formData="formData" :updating="false"></course-form>
+            <v-subheader>Registo de novo curso</v-subheader>
+            <course-form :formData="formData" :update_form="false"></course-form>
           </v-card-text>
         </v-card>
-      </v-col>
+      </v-col> 
     </v-row>
   </v-container>
 </template>
@@ -21,7 +21,31 @@ export default {
     return {
       formData: {
         name: "",
-        opning: ""
+        description: "",
+        release: "",
+        requirement: "",
+        duration_type: "1",
+        duration: "1",
+        status: false,
+        featured: false,
+        type: "",
+        color: "#FFFFFFFF",
+        cover: null,
+        department_id: "",
+        school_id: "",
+        outcomes: [],
+        teachers: [
+          {
+            coordination: {
+              course_id: "",
+              teacher_id: "",
+              start_date: "",
+              end_date: ""
+            }
+          }
+        ],
+
+        disciplines: []
       }
     };
   },

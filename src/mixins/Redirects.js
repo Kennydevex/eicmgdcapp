@@ -16,5 +16,9 @@ export const cancelActions = {
         back() {
             this.$router.go(-1);
         },
+
+        back2(name) {
+            this.$router.push({ name: name });
+        },
     }
 }

@@ -177,7 +177,7 @@ export default {
 
       items: [
         {
-          icon: "mdi-account-card-details",
+          icon: "mdi-account-details",
           href: "#",
           title: "Meu Perfil",
           //eslint-disable-next-line

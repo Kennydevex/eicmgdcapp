@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addHistoryModal" max-width="940px" persistent>
+  <v-dialog v-model="addHistoryModal" scrollable max-width="940px" persistent>
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">

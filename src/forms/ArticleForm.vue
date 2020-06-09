@@ -196,7 +196,7 @@
               </v-menu>
             </v-col>
           </v-row>
-        </v-col>
+        </v-col> 
       </v-row>
     </v-container>
   </v-form>
@@ -257,7 +257,9 @@ export default {
         "articles",
         this.$props.formData,
         "APP_UPDATE_ALL_ARTICLES_DATA",
-        "APP_CANCEL_ADD_ARTICLE"
+        "APP_CANCEL_ADD_ARTICLE",
+        false,
+        'list_articles'
       );
     });
 
@@ -265,7 +267,9 @@ export default {
       this.update(
         "articles/" + this.$props.formData.slug,
         this.$props.formData,
-        "APP_UPDATE_ALL_ARTICLES_DATA"
+        "APP_UPDATE_ALL_ARTICLES_DATA",
+         false,
+        'list_articles'
       );
     });
   },

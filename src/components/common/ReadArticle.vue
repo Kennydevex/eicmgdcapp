@@ -77,7 +77,7 @@
         </v-card-text>
       </v-card>
     </div>
-  </div>
+  </div> 
 
   <!-- <div>{{article}}</div> -->
 </template>

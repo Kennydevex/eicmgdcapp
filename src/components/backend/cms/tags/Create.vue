@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addTagModal" max-width="940px" persistent>
+  <v-dialog v-model="addTagModal" scrollable max-width="940px" persistent>
     <v-card>
       <v-card-title primary-title>
          <small class="font-weight-light text-capitalize">

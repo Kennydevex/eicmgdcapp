@@ -12,7 +12,7 @@ export const flashAlert = {
             });
         },
 
-        registerCreated(type, title, text, footer){
+        registerCreated(type, title, text, footer) {
             this.$swal({
                 type: type,
                 title: title,
@@ -25,7 +25,7 @@ export const flashAlert = {
 
 export const actionAlert = {
     methods: {
-        deleteAlert(type, msg, text = "Ação iurreversível, queres continuar?") {
+        deleteAlert(type, msg, text = "Ação iurreversível, queres continuar?", confirmText = "Eliminar", cancelText = "Cancelar") {
             return this.$swal({
                 title: msg,
                 text: text,
@@ -33,8 +33,8 @@ export const actionAlert = {
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Sim, Apagar!",
-                cancelButtonText: "Não, Cancelar!"
+                confirmButtonText: "Sim, " + confirmText,
+                cancelButtonText: "Não, " + cancelText
             });
         },
     },

@@ -35,7 +35,7 @@ export const sendFormData = {
         this.$validator.localize("pt", this.dictionary);
     },
     methods: {
-        add(add_new, url, form_data, data_update, modal, simple_form_page = false) {
+        add(add_new, url, form_data, data_update, modal, simple_form_page = false, rdr_page = '') {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
                     this.$Progress.start();
@@ -51,7 +51,10 @@ export const sendFormData = {
                                 if (!simple_form_page) {
                                     window.getApp.$emit(modal);
                                 } else {
-                                    this.back();
+                                    if (rdr_page != '')
+                                        this.$router.push({ name: rdr_page });
+                                    else
+                                        this.back();
                                 }
                             }
                             this.$Progress.finish();
@@ -68,7 +71,7 @@ export const sendFormData = {
             });
         },
 
-        update(url, form_data, modal, simple_form_page = false) {
+        update(url, form_data, modal, simple_form_page = false, rdr_page = '') {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
                     this.$Progress.start();
@@ -77,14 +80,17 @@ export const sendFormData = {
                     axios
                         .put(url + "/", form_data)
                         .then(response => {
-                            this.feedback("success", response.data.msg, 3000, true, "top");
-                            this.clear();
                             if (!simple_form_page) {
                                 window.getApp.$emit(modal);
                             } else {
-                                this.back();
+                                if (rdr_page != '')
+                                    this.$router.push({ name: rdr_page });
+                                else
+                                    this.back();
                             }
                             this.$Progress.finish();
+                            this.feedback("success", response.data.msg, 3000, true, "top");
+                            this.clear();
                         })
                         .catch(err => {
                             if (err.response) {
@@ -176,13 +182,13 @@ export const handleActivation = {
 
     data() {
         return {
-            loadUserAtivaction: {},
+            loadAtivaction: {},
         };
     },
 
     methods: {
-        toggleStatus: function (url, id, status, entity) {
-            this.$set(this.loadUserAtivaction, id, false);
+        toggleStatus: function (url, id, status, entity, update_all_data) {
+            this.$set(this.loadAtivaction, id, false);
             this.$swal({
                 title: status ? "Desativar " + entity + "?" : "Ativar " + entity + "?",
                 text: "Tens certeza que queres efetuar esta ação?",
@@ -194,11 +200,11 @@ export const handleActivation = {
                 cancelButtonText: "Cancelar!"
             }).then(result => {
                 if (result.value) {
-                    this.$set(this.loadUserAtivaction, id, true);
+                    this.$set(this.loadAtivaction, id, true);
                     axios
                         .get(url + "/" + id)
                         .then(response => {
-                            this.refresh("getUsers");
+                            this.refresh(update_all_data);
                             this.feedback(
                                 "success",
                                 response.data.msg,
@@ -206,7 +212,7 @@ export const handleActivation = {
                                 true,
                                 "top"
                             );
-                            this.$set(this.loadUserAtivaction, id, false);
+                            this.$set(this.loadAtivaction, id, false);
                         })
                         // eslint-disable-next-line no-unused-vars
                         .catch(_err => {

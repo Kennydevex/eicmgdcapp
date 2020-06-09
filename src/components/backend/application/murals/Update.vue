@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
-          <v-icon>mdi-folder-edit-outline</v-icon>
+          <v-icon>mdi-heart</v-icon>
           <small>&emsp;Editar Marco Histórico</small>
         </small>
       </v-card-title>

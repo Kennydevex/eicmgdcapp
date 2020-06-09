@@ -74,6 +74,9 @@ import AddCourse from '@/components/backend/formations/courses/Create.vue';
 import CourseInfo from '@/components/backend/formations/courses/View.vue';
 import UpdateCourse from '@/components/backend/formations/courses/Update.vue';
 
+import Outcomes from '@/components/backend/formations/outcomes/Index.vue';
+import Disciplines from '@/components/backend/formations/disciplines/Index.vue';
+import Departments from '@/components/backend/formations/departments/Index.vue';
 
 // Layout
 import Sliders from '@/components/backend/layout/sliders/Index.vue';
@@ -367,6 +370,26 @@ export default [
                     },
                 ]
             },
+
+            {
+                path: 'outcomes',
+                name: 'list_outcomes',
+                component: Outcomes
+            },
+
+            {
+                path: 'disciplines',
+                name: 'list_disciplines',
+                component: Disciplines
+            },
+
+            {
+                path: 'departments',
+                name: 'list_departments',
+                component: Departments
+            },
+
+
 
             // Layouts
             {

@@ -113,20 +113,14 @@ export default {
       murals_id: [],
       headers: [
         {
-          text: "Mural",
-          value: "title"
-        },
-
-        {
-          text: "Descrição",
-          value: "description",
-          align: "left"
-        },
-
-         {
           text: "Ícone",
           value: "icon",
           align: "center"
+        },
+        
+        {
+          text: "Mural",
+          value: "title"
         },
 
         {

@@ -39,13 +39,13 @@
               <template v-slot:item.status="{ item }">
                 <v-btn
                   :disabled="!canActive()"
-                  :loading="loadUserAtivaction[item.id]"
+                  :loading="loadAtivaction[item.id]"
                   x-small
                   rounded
                   outlined
                   class="text-capitalize"
                   :color="item.status==true?'primary':'warning'"
-                  @click="toggleStatus('toggleUserStatus',item.id, item.status, 'Utilizador')"
+                  @click="toggleStatus('toggleUserStatus',item.id, item.status, 'Utilizador', 'getUsers')"
                 >
                   <small>{{item.status==true?'ativo':'desativo'}}</small>
                   <span slot="loader" class="custom-loader-class">
@@ -153,7 +153,6 @@ export default {
     return {
       activedUsers: [],
       fab: false,
-      loadUserAtivaction: {},
 
       search: "",
       selected: [],
