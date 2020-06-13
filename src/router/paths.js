@@ -67,6 +67,10 @@ import Murals from '@/components/backend/application/murals/Index.vue';
 
 import Guidelines from '@/components/backend/application/guidelines/Index.vue';
 
+import Employees from '@/components/backend/resources/employees/Index.vue';
+import Teachers from '@/components/backend/resources/teachers/Index.vue';
+import Charges from '@/components/backend/resources/charges/Index.vue';
+
 // Courses/Formations
 import Courses from '@/components/backend/formations/courses/Index.vue';
 import ListCourses from '@/components/backend/formations/courses/List.vue';
@@ -346,6 +350,24 @@ export default [
                 name: 'list_guidelines',
                 component: Guidelines
             },
+
+            {
+                path: 'employees',
+                name: 'list_employees',
+                component: Employees
+            },
+
+            {
+                path: 'teachers',
+                name: 'list_teachers',
+                component: Teachers
+            },
+            {
+                path: 'charges',
+                name: 'list_charges',
+                component: Charges
+            },
+
 
             {
                 path: 'courses',

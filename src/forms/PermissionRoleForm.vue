@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12" class="mt-2 mb-0 py-0">
           <v-text-field
+            dense
             label="Nome*"
             name="name"
             v-model="formData.name"
@@ -19,7 +20,8 @@
         </v-col>
 
         <v-col cols="12" class="my-0 py-0">
-          <v-select
+          <v-autocomplete
+            dense
             :disabled="roles.length==0"
             v-if="type=='permission'"
             v-model="formData.roles"
@@ -31,10 +33,11 @@
             item-value="id"
             label="Funções"
             :error-messages="roles.length==0?'Campo desativado porque não tem nenhuma função registada para vincular':''"
-          ></v-select>
+          ></v-autocomplete>
           <!-- <v-btn @click="addRoleModal()" text x-small class="text-none" color="warning">Criar Uma função</v-btn> -->
 
-          <v-select
+          <v-autocomplete
+            dense
             :disabled="permissions.length==0"
             v-if="type=='role'"
             v-model="formData.permissions"
@@ -45,7 +48,7 @@
             item-text="name"
             item-value="id"
             label="Permissões"
-          ></v-select>
+          ></v-autocomplete>
         </v-col>
       </v-row>
     </v-container>

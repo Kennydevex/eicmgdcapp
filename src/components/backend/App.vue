@@ -8,8 +8,8 @@
       v-model="back_menu_drawer"
       :mini-variant.sync="backend_mini_drawer"
       stateless
-    > -->
-     <v-navigation-drawer
+    >-->
+    <v-navigation-drawer
       :dark="dark"
       app
       hide-overlay
@@ -148,7 +148,7 @@
     <v-content>
       <v-container fluid>
         <router-view></router-view>
-         <vue-progress-bar></vue-progress-bar>
+        <vue-progress-bar></vue-progress-bar>
       </v-container>
     </v-content>
     <!-- =============================================== -->
@@ -190,7 +190,7 @@ export default {
           title: "Início",
           //eslint-disable-next-line
           click: e => {
-            this.teste("home_page");
+            this.redirectPage("home_page");
           }
         },
         {
@@ -207,19 +207,15 @@ export default {
   },
 
   created() {
-    this.teste3();
-  },
-
-  components: {
-    // PerfectScrollbar
+    this.adminTeste();
   },
 
   methods: {
-    teste3() {
+    adminTeste() {
       // eslint-disable-next-line no-console
       console.log(this._is("Admihghhgfn"));
     },
-    teste(name) {
+    redirectPage(name) {
       this.$router.push({ name: name });
     },
 

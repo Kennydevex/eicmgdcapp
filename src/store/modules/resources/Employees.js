@@ -6,8 +6,8 @@ export default ({
 
     getters: {
         employees(state) { return state.employees; },
-        employee: (state) => (slug) => {
-            return state.employees.find(employee => employee.slug === slug);
+        employee: (state) => (id) => {
+            return state.employees.find(employee => employee.id === id);
         },
     },
 

@@ -7,6 +7,7 @@
         </v-col>
         <v-col cols="12" md="6" class="my-0 py-0">
           <v-text-field
+            dense
             label="Nome*"
             name="name"
             v-model="formData.folk.name"
@@ -19,6 +20,7 @@
 
         <v-col cols="12" md="6" class="my-0 py-0">
           <v-text-field
+            dense
             label="Apelido*"
             name="lastname"
             v-model="formData.folk.lastname"
@@ -30,14 +32,15 @@
         </v-col>
 
         <v-col cols="12" md="6" class="my-0 py-0">
-          <v-select
+          <v-autocomplete
+            dense
             outlined
             :items="genders"
             v-model="formData.folk.gender"
             item-text="name"
             item-value="key"
             label="Sexo"
-          ></v-select>
+          ></v-autocomplete>
         </v-col>
 
         <v-col cols="12" class="my-0 py-0">
@@ -45,6 +48,7 @@
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <v-text-field
+            dense
             label="Email*"
             name="email"
             v-model="formData.email"
@@ -57,6 +61,7 @@
 
         <v-col cols="12" class="my-0 py-0">
           <v-text-field
+            dense
             label="Utilizador*"
             name="username"
             v-model="formData.username"
@@ -73,6 +78,7 @@
 
         <v-col cols="12" md="6" class="py-0 my-0" v-if="!disable_field">
           <v-text-field
+            dense
             v-model="formData.password"
             name="password"
             label="Palavra Passe"
@@ -88,6 +94,7 @@
 
         <v-col cols="12" md="6" class="py-0 my-0" v-if="!disable_field">
           <v-text-field
+            dense
             v-model="formData.password_confirmation"
             name="password"
             label="Confirmar Palavra Passe"
@@ -105,7 +112,8 @@
         </v-col>
 
         <v-col cols="12" md="6" class="my-0 py-0">
-          <v-select
+          <v-autocomplete
+            dense
             outlined
             chips
             multiple
@@ -114,10 +122,11 @@
             item-text="name"
             item-value="id"
             label="Função"
-          ></v-select>
+          ></v-autocomplete>
         </v-col>
         <v-col cols="12" md="6" class="my-0 py-0">
-          <v-select
+          <v-autocomplete
+            dense
             outlined
             chips
             multiple
@@ -126,12 +135,13 @@
             item-text="name"
             item-value="id"
             label="Permissão"
-          ></v-select>
+          ></v-autocomplete>
         </v-col>
 
         <v-col cols="12" md="6" class="my-0 py-0">
           <v-subheader>Ativação</v-subheader>
           <v-switch
+            dense
             v-model="formData.status"
             :label="formData.status ? 'Ativo':'Inativo'"
             color="indigo"
@@ -177,7 +187,7 @@ export default {
     },
     permissions: function() {
       return this.$store.getters.permissions;
-    },
+    }
   },
 
   created() {

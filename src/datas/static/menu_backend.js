@@ -60,14 +60,30 @@ const Menu = [
                 icon: 'mdi-square-small',
                 permission: 'Gerir',
             },
+        ]
+    },
 
-            // {
-            //     name: 'list-courses',
-            //     title: 'Cursos',
-            //     component: 'list_courses',
-            //     icon: 'mdi-square-small',
-            //     permission: 'Gerir'
-            // },
+    {
+        title: 'RH',
+        group: 'resources',
+        role: 'Administrador',
+        icon: 'mdi-account-tie',
+        items: [
+            {
+                name: 'list-employees',
+                title: 'Colaboradores',
+                component: 'list_employees',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+
+            {
+                name: 'list-teachers',
+                title: 'Professores',
+                component: 'list_teachers',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
 
         ]
     },

@@ -1,116 +1,121 @@
 <template>
-  <v-card tile flat mt-0 pt-0>
-    <swiper ref="sliderSwiper" :options="swiperOption">
-      <template v-for="(slider, s) in sliders">
-        <swiper-slide :key="'slider_'+s">
-          <v-img
-            class="white--text slide--igm"
-            :src="`${apiUrl}/images/app/sliders/${slider.background}`"
-            height="500"
-          >
-            <div v-if="slider.type==3" class="link-slider-container">
-              <div
-                class="link-slider-content ani"
-                swiper-animate-effect="fadeIn"
-                swiper-animate-delay="2s"
-                swiper-animate-duration="1s"
-              >
-                <div class="link-slider-title">
-                  <h3
-                    class="ani font-weight-light"
-                    swiper-animate-effect="flipInX"
-                    swiper-animate-delay="2s"
-                    swiper-animate-duration="1s"
-                  >
-                    <b>{{slider.title}}</b>
-                  </h3>
-                  <div class="link-slide-title-underline" :style="{ backgroundColor: slider.color}"></div>
-                </div>
-
-                <div class="link-slider-btn">
-                  <v-btn
-                    :href="slider.link"
-                    target="_blank"
-                    class="elevation-6"
-                    :color="slider.color"
-                    dark
-                    tile
-                  >{{slider.btn_text}}</v-btn>
-                </div>
-              </div>
-            </div>
-
-            <div
-              v-if="slider.type==1 || slider.type==2"
-              class="ani slider-container"
-              :class="slider.type==1?'course-slider-container':'post-slider-container'"
-              :swiper-animate-effect="slider.type==1?'slideInLeft':'fadeIn'"
-              swiper-animate-duration="2s"
-              :swiper-animate-delay="slider.type==2?'1s':''"
+  <div>
+    <v-skeleton-loader class="mx-auto" width="100%" type="card" v-if="sliders.length==0"></v-skeleton-loader>
+    <v-card tile flat mt-0 pt-0 v-else>
+      <swiper ref="sliderSwiper" :options="swiperOption">
+        <template v-for="(slider, s) in sliders">
+          <swiper-slide :key="'slider_'+s">
+            <v-img
+              class="white--text slide--igm"
+              :src="`${apiUrl}/images/app/sliders/${slider.background}`"
+              height="500"
             >
-              <div
-                class="slider-content ani"
-                :class="slider.type==1?'course-slider-content':'post-slider-content'"
-                :style="slider.type==2?{ borderBottomColor:slider.color, borderLeftColor:slider.color}:{}"
-                :swiper-animate-effect="slider.type==1?'slideInLeft':'fadeInUp'"
-                swiper-animate-delay="1s"
-                swiper-animate-duration="2s"
-              >
+              <div v-if="slider.type==3" class="link-slider-container">
                 <div
-                  class="slider-title"
-                  :class="slider.type==1?'course-slider-title':'post-slider-title'"
-                >
-                  <h3
-                    class="ani text-uppercase font-weight-light"
-                    swiper-animate-effect="flipInX"
-                    swiper-animate-delay="3s"
-                    swiper-animate-duration="2s"
-                    :style="{color: slider.color}"
-                  >
-                    <b>{{slider.title}}</b>
-                  </h3>
-                  <div class="slide-title-underline" :style="{ backgroundColor: slider.color}"></div>
-                </div>
-
-                <div
-                  class="ani slider-body"
-                  :class="slider.type==1?'course-slider-body':'post-slider-body'"
-                  swiper-animate-effect="zoomIn"
+                  class="link-slider-content ani"
+                  swiper-animate-effect="fadeIn"
                   swiper-animate-delay="2s"
                   swiper-animate-duration="1s"
                 >
-                  <p>{{slider.summary|truncate(150)}}</p>
-                </div>
+                  <div class="link-slider-title">
+                    <h3
+                      class="ani font-weight-light"
+                      swiper-animate-effect="flipInX"
+                      swiper-animate-delay="2s"
+                      swiper-animate-duration="1s"
+                    >
+                      <b>{{slider.title}}</b>
+                    </h3>
+                    <div
+                      class="link-slide-title-underline"
+                      :style="{ backgroundColor: slider.color}"
+                    ></div>
+                  </div>
 
-                <v-divider
-                  class="pa-1 ani"
-                  :swiper-animate-effect="slider.type==1?'rotateInDownLeft':'rotateInDownRight'"
-                  swiper-animate-delay="3s"
-                  swiper-animate-duration="2s"
-                ></v-divider>
-
-                <div
-                  class="slider-footer ani"
-                  :class="slider.type==1?'course-slider-footer':'post-slider-footer'"
-                  :swiper-animate-effect="slider.type==1?'fadeInRight':'fadeInLeft'"
-                  swiper-animate-delay="2s"
-                  swiper-animate-duration="3s"
-                >
-                  <v-btn
-                    :text="slider.btn_style"
-                    small
-                    dark
-                    outlined
-                    tile
-                    :color="slider.color"
-                    class="text-none"
-                    :to="{name: slider.link}"
-                  >{{slider.btn_text}}</v-btn>
+                  <div class="link-slider-btn">
+                    <v-btn
+                      :href="slider.link"
+                      target="_blank"
+                      class="elevation-6"
+                      :color="slider.color"
+                      dark
+                      tile
+                    >{{slider.btn_text}}</v-btn>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- <div
+              <div
+                v-if="slider.type==1 || slider.type==2"
+                class="ani slider-container"
+                :class="slider.type==1?'course-slider-container':'post-slider-container'"
+                :swiper-animate-effect="slider.type==1?'slideInLeft':'fadeIn'"
+                swiper-animate-duration="2s"
+                :swiper-animate-delay="slider.type==2?'1s':''"
+              >
+                <div
+                  class="slider-content ani"
+                  :class="slider.type==1?'course-slider-content':'post-slider-content'"
+                  :style="slider.type==2?{ borderBottomColor:slider.color, borderLeftColor:slider.color}:{}"
+                  :swiper-animate-effect="slider.type==1?'slideInLeft':'fadeInUp'"
+                  swiper-animate-delay="1s"
+                  swiper-animate-duration="2s"
+                >
+                  <div
+                    class="slider-title"
+                    :class="slider.type==1?'course-slider-title':'post-slider-title'"
+                  >
+                    <h3
+                      class="ani text-uppercase font-weight-light"
+                      swiper-animate-effect="flipInX"
+                      swiper-animate-delay="3s"
+                      swiper-animate-duration="2s"
+                      :style="{color: slider.color}"
+                    >
+                      <b>{{slider.title}}</b>
+                    </h3>
+                    <div class="slide-title-underline" :style="{ backgroundColor: slider.color}"></div>
+                  </div>
+
+                  <div
+                    class="ani slider-body"
+                    :class="slider.type==1?'course-slider-body':'post-slider-body'"
+                    swiper-animate-effect="zoomIn"
+                    swiper-animate-delay="2s"
+                    swiper-animate-duration="1s"
+                  >
+                    <p>{{slider.summary|truncate(150)}}</p>
+                  </div>
+
+                  <v-divider
+                    class="pa-1 ani"
+                    :swiper-animate-effect="slider.type==1?'rotateInDownLeft':'rotateInDownRight'"
+                    swiper-animate-delay="3s"
+                    swiper-animate-duration="2s"
+                  ></v-divider>
+
+                  <div
+                    class="slider-footer ani"
+                    :class="slider.type==1?'course-slider-footer':'post-slider-footer'"
+                    :swiper-animate-effect="slider.type==1?'fadeInRight':'fadeInLeft'"
+                    swiper-animate-delay="2s"
+                    swiper-animate-duration="3s"
+                  >
+                    <v-btn
+                      :text="slider.btn_style"
+                      small
+                      dark
+                      outlined
+                      tile
+                      :color="slider.color"
+                      class="text-none"
+                      :to="{name: slider.link}"
+                    >{{slider.btn_text}}</v-btn>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div
               class="ani slider-container"
               :swiper-animate-effect="slider.type==1?'slideInLeft':'slideInLeft'"
               swiper-animate-duration="3s"
@@ -168,15 +173,16 @@
                   >{{slider.btn_text}}</v-btn>
                 </div>
               </div>
-            </div>-->
-          </v-img>
-        </swiper-slide>
-      </template>
+              </div>-->
+            </v-img>
+          </swiper-slide>
+        </template>
 
-      <div class="swiper-button-prev hidden-xs-only" slot="button-prev"></div>
-      <div class="swiper-button-next hidden-xs-only" slot="button-next"></div>
-    </swiper>
-  </v-card>
+        <div class="swiper-button-prev hidden-xs-only" slot="button-prev"></div>
+        <div class="swiper-button-next hidden-xs-only" slot="button-next"></div>
+      </swiper>
+    </v-card>
+  </div>
 </template>
 
 <script>

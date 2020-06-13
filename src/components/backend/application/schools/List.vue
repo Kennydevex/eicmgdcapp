@@ -60,7 +60,7 @@
 
                     <v-divider></v-divider>
 
-                    <v-list-item @click="testes">
+                    <v-list-item @click="showMaps">
                       <v-list-item-action>
                         <v-icon color="primary">mdi-map-marker</v-icon>
                       </v-list-item-action>
@@ -161,9 +161,8 @@ export default {
         this.$set(this.show_contact_info, id, false);
       else this.$set(this.show_contact_info, id, true);
     },
-    testes() {
-      // eslint-disable-next-line no-console
-      console.log("teste");
+    showMaps() {
+      // Afunção responsavel por mostrar a mapa da escola
     }
   }
 };

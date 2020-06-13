@@ -742,12 +742,19 @@ export default {
   computed: {
     courseCoverPath() {
       // return !this.update_form?this.formData.cover?this.formData.cover:this.apiUrl+'/images/app/courses/covers/default.svg':this.formData.cover.length>50?this.formData.cover:this.apiUrl+'/images/app/courses/covers/'+this.formData.cover
-      return !this.update_form
-        ? this.formData.cover
-          ? this.formData.cover
-          : this.apiUrl + "/images/app/courses/covers/default.svg"
-        : this.formData.cover
-        ? this.formData.cover.length > 50
+
+      // return !this.update_form
+      //   ? this.formData.cover
+      //     ? this.formData.cover
+      //     : this.apiUrl + "/images/app/courses/covers/default.svg"
+      //   : this.formData.cover
+      //   ? this.formData.cover.length > 50
+      //     ? this.formData.cover
+      //     : this.apiUrl + "/images/app/courses/covers/" + this.formData.cover
+      //   : this.apiUrl + "/images/app/courses/covers/default.svg";
+
+      return this.formData.cover
+        ? this.formData.cover.length > 100
           ? this.formData.cover
           : this.apiUrl + "/images/app/courses/covers/" + this.formData.cover
         : this.apiUrl + "/images/app/courses/covers/default.svg";

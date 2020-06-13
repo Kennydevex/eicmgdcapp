@@ -13,8 +13,9 @@
       <v-stepper-content step="1">
         <v-form ref="form" @submit.prevent="nextStep('form-step-1')" data-vv-scope="form-step-1">
           <v-row>
-            <v-col cols="12" md="10">
+            <v-col cols="12" md="10" class="mb-0 mt-2 py-0">
               <v-text-field
+                dense
                 outlined
                 name="name"
                 label="Nome da Escola"
@@ -25,8 +26,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="2">
+            <v-col cols="12" md="2" class="mb-0 mt-2 py-0">
               <v-text-field
+                dense
                 outlined
                 name="abbr"
                 label="Abreviatura"
@@ -38,8 +40,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12">
+            <v-col cols="12" class="my-0 py-0">
               <v-textarea
+                dense
                 outlined
                 rows="1"
                 name="slogan"
@@ -53,8 +56,9 @@
               ></v-textarea>
             </v-col>
 
-            <v-col cols="12">
+            <v-col cols="12" class="my-0 py-0">
               <v-textarea
+                dense
                 outlined
                 rows="4"
                 name="description"
@@ -68,7 +72,7 @@
               ></v-textarea>
             </v-col>
 
-            <v-col cols="12" md="6">
+            <v-col cols="12" md="6" class="my-0 py-0">
               <input
                 style="display:none"
                 name="opning_field_target"
@@ -86,6 +90,7 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
+                    dense
                     outlined
                     name="opning"
                     :value="formated(formData.opning)"
@@ -132,7 +137,7 @@
           <v-row>
             <v-col cols="12">Registo de Contactos</v-col>
 
-            <v-col cols="12">
+            <v-col cols="12" class="my-0 py-0">
               <!-- <v-data-table
                 :headers="headers"
                 :items="formData.contacts"
@@ -148,8 +153,9 @@
 
               <template v-for="(contact,k) in formData.contacts">
                 <v-row :key="k+'contact'">
-                  <v-col cols="12" md="2">
+                  <v-col cols="12" md="2" class="my-0 py-0">
                     <v-autocomplete
+                      dense
                       v-model="contact.type"
                       label="Tipo de Contacto"
                       :items="[{id:'1',name:'Tel(Móvel)'},{id:'2',name:'Email'}]"
@@ -160,8 +166,9 @@
                     ></v-autocomplete>
                   </v-col>
 
-                  <v-col cols="12" :md="contact.type==1?'3':'4'">
+                  <v-col cols="12" :md="contact.type==1?'3':'4'" class="my-0 py-0">
                     <v-text-field
+                      dense
                       :name="'contact'+k"
                       :label="contact.type==1?'Telefone/Móvel '+(k+1):'Correio Eletrónico '+(k+1)"
                       v-model="contact.contact"
@@ -173,8 +180,9 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" :md="contact.type==1?'7':'6'">
+                  <v-col cols="12" :md="contact.type==1?'7':'6'" class="my-0 py-0">
                     <v-text-field
+                      dense
                       :disabled="!contact.contact"
                       :name="'description'+k"
                       :label="contact.type==1?'Descrição do número '+(k+1):'Descrição do email '+(k+1)"
@@ -183,10 +191,36 @@
                       :data-vv-name="'form-step-2.description'+k"
                       :error-messages="backendErrorMsg('contacts.'+k+'.description') ||errors.collect('form-step-2.description'+k)"
                       :hint="contact.type==1?'Apresente uma pequena descrição do número '+contact.contact:'Apresente uma pequena descrição do  email '+contact.contact"
-                    ></v-text-field>
+                    >
+                      <template v-slot:append-outer>
+                        <v-btn
+                          outlined
+                          icon
+                          small
+                          color="warning"
+                          @click="removeContact(k)"
+                          v-show="k || ( !k && formData.contacts.length > 1)"
+                        >
+                          <v-icon small>mdi-minus</v-icon>
+                        </v-btn>
+
+                        <v-btn
+                          :disabled="canAddContact(k)"
+                          outlined
+                          icon
+                          small
+                          :color="repeatedContact?'error':'primary'"
+                          @click="repeatedContact?'':moreContact(k)"
+                          v-show="k == formData.contacts.length-1"
+                        >
+                          <v-icon v-if="repeatedContact" small>mdi-alert</v-icon>
+                          <v-icon v-else small>mdi-plus</v-icon>
+                        </v-btn>
+                      </template>
+                    </v-text-field>
                   </v-col>
 
-                  <v-col cols="12" align="start">
+                  <!-- <v-col cols="12" align="start">
                     <v-btn
                       outlined
                       class="text-none font-weight-regular mr-1 mb-1"
@@ -210,7 +244,7 @@
                       <v-icon v-if="repeatedContact" small>mdi-alert</v-icon>
                       <v-icon v-else small>mdi-plus</v-icon>Inserir mais contactos
                     </v-btn>
-                  </v-col>
+                  </v-col> -->
                 </v-row>
               </template>
               <v-row>
@@ -246,8 +280,9 @@
       <v-stepper-content step="3">
         <v-form ref="form" @submit.prevent="nextStep('form-step-3')" data-vv-scope="form-step-3">
           <v-row>
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
+                dense
                 outlined
                 disabled
                 name="country"
@@ -259,8 +294,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
+                dense
                 outlined
                 name="state"
                 label="Ilha/Estado"
@@ -271,8 +307,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
+                dense
                 outlined
                 name="city"
                 label="Cidade"
@@ -283,8 +320,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
+                dense
                 outlined
                 name="zone"
                 label="Zona"
@@ -295,8 +333,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
+                dense
                 outlined
                 name="street"
                 label="Rua"
@@ -307,8 +346,9 @@
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
+                dense
                 outlined
                 name="post_code"
                 label="Código Postal"
@@ -342,10 +382,11 @@
       <v-stepper-content step="4">
         <v-form ref="form" @submit.prevent="nextStep('form-step-4')" data-vv-scope="form-step-4">
           <v-row>
-            <v-col cols="12">
+            <v-col cols="12" class="my-0 py-0">
               <v-row>
                 <v-col cols="12" md="6">
                   <v-file-input
+                    dense
                     outlined
                     name="cover"
                     label="Imagem de rosto"
@@ -361,8 +402,9 @@
                     @change.self="onCoverUpload"
                   ></v-file-input>
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="my-0 py-0">
                   <v-file-input
+                    dense
                     outlined
                     name="logo"
                     label="Logo da Instituição"

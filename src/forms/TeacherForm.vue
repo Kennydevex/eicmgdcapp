@@ -67,7 +67,7 @@
             :nudge-right="40"
             transition="scale-transition"
             offset-y
-            min-width="290px" 
+            min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
@@ -144,6 +144,20 @@ export default {
 
   data() {
     return {
+      //  formData: {
+      //   name: "",
+      //   description: "",
+      //   release: "",
+      //   requirement: "",
+      //   duration: "",
+      //   status: "",
+      //   featured: "",
+      //   type: "",
+      //   color:","
+      //   departament_id: "",
+      //   school_id: "",
+      // },
+
       begin_menu: false,
       end_menu: false,
       dictionary: validateDictionary
@@ -174,7 +188,7 @@ export default {
         "APP_UPDATE_MARK_MODAL"
       );
     });
-  }, 
+  },
 
   computed: {
     schools: function() {

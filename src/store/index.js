@@ -30,6 +30,7 @@ import sliders from './modules/layout/Sliders';
 
 import teachers from './modules/resources/Teachers';
 import employees from './modules/resources/Employees';
+import charges from './modules/resources/Charges';
 
 //Auth
 import auth from './modules/auth/auth';
@@ -57,6 +58,7 @@ export default new Vuex.Store({
         outcomes,
         teachers,
         employees,
+        charges,
         sliders,
         auth
     },
