@@ -69,6 +69,15 @@ const Menu = [
         role: 'Administrador',
         icon: 'mdi-account-tie',
         items: [
+
+            {
+                name: 'list-charges',
+                title: 'Funções/Cargos',
+                component: 'list_charges',
+                icon: 'mdi-square-small',
+                permission: 'Gerir'
+            },
+
             {
                 name: 'list-employees',
                 title: 'Colaboradores',
@@ -84,6 +93,8 @@ const Menu = [
                 icon: 'mdi-square-small',
                 permission: 'Gerir'
             },
+
+
 
         ]
     },
@@ -206,12 +217,12 @@ const Menu = [
         header: 'Aplicativo'
     },
 
-    {
-        title: 'Configurações',
-        group: 'settings',
-        icon: 'mdi-cogs',
-        name: 'teste',
-    },
+    // {
+    //     title: 'Configurações',
+    //     group: 'settings',
+    //     icon: 'mdi-cogs',
+    //     name: 'teste',
+    // },
     {
         title: 'Layout',
         group: 'settings',
@@ -228,12 +239,12 @@ const Menu = [
         ]
     },
 
-    {
-        title: 'Ajuda',
-        group: 'extra',
-        icon: 'mdi-help-box',
-        name: 'teste',
-    },
+    // {
+    //     title: 'Ajuda',
+    //     group: 'extra',
+    //     icon: 'mdi-help-box',
+    //     name: 'teste',
+    // },
 ];
 // reorder menu
 Menu.forEach((item) => {

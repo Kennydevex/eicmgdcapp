@@ -4,7 +4,8 @@
       <v-row>
         <v-col cols="12" class="mb-0 py-0">
           <v-text-field
-            label="Nome do Departamento"
+            dense
+            label="Nome do Departamento*"
             name="name"
             v-model="formData.name"
             outlined
@@ -15,6 +16,7 @@
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            dense
             label="Descrição*"
             name="description"
             hint="Descrição do Departamento"

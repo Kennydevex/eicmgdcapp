@@ -44,7 +44,7 @@ export const sendFormData = {
                     axios
                         .post(url, form_data)
                         .then(response => {
-                            this.feedback("success", response.data.msg, 3000, true, "top");
+                            this.feedback("success", response.data.msg, 3000, true, "top-end");
                             window.getApp.$emit(data_update);
                             this.clear();
                             if (!add_new) {
@@ -154,11 +154,11 @@ export const deleteData = {
                     this.selected = [];
                     this.ids = [];
                     this.feedback(
-                        "error",
+                        "warning",
                         "Operação cancelada!",
                         3000,
                         true,
-                        "bottom-end"
+                        "top-end"
                     );
                 }
             });
@@ -168,7 +168,7 @@ export const deleteData = {
             axios
                 .delete(url + "/" + id)
                 .then(response => {
-                    this.feedback("success", response.data.msg, 3000, true, "top");
+                    this.feedback("success", response.data.msg, 3000, true, "top-end");
                     window.getApp.$emit(update_datas);
 
                 })
@@ -194,8 +194,8 @@ export const handleActivation = {
                 text: "Tens certeza que queres efetuar esta ação?",
                 type: "question",
                 showCancelButton: true,
-                confirmButtonColor: status ? "#ef9309" : "#3085d6",
-                cancelButtonColor: "#d33",
+                // confirmButtonColor: status ? "#ef9309" : "#3085d6",
+                // cancelButtonColor: "#d33",
                 confirmButtonText: status ? "Sim, Desativar" : "Sim, Ativar",
                 cancelButtonText: "Cancelar!"
             }).then(result => {
@@ -235,6 +235,18 @@ export const handleActivation = {
                 }
             });
         }
+    }
+};
+
+
+export const getBackEndError = {
+    methods: {
+        errorMsg(obj_prop) {
+            if (obj_prop in this.formErrors) {
+                return this.formErrors[obj_prop][0];
+            }
+            return;
+        },
     }
 };
 

@@ -45,23 +45,25 @@
               <template v-slot:item.action="{ item }">
                 <v-btn
                   v-if="canEdit()"
-                  color="primary"
-                  x-small
-                  outlined
-                  rounded
+                  color="warning"
+                  small
+                  icon
                   class="text-none mr-1"
                   @click="updateChargeModal(item.id)"
-                >editar</v-btn>
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
-                  x-small
-                  outlined
-                  rounded
+                  color="error"
+                  small
+                  icon
                   class="text-none"
                   @click="onDelete('charges',item.id,'APP_UPDATE_ALL_CHARGES_DATA')"
-                >eliminar</v-btn>
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
                 <!-- <v-icon small class="mr-2" @click="updateChargeModal(item.id)">mdi-pencil</v-icon> -->
                 <!-- <v-icon small @click="onDeleteCharge(item.id)">mdi-delete</v-icon> -->
               </template>

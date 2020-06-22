@@ -8,5 +8,6 @@ export default {
   created() {
     window.getApp = this;
   }
+
 };
 </script>

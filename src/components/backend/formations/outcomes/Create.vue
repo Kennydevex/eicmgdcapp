@@ -13,7 +13,7 @@
       </v-card-text>
       <!-- <v-divider></v-divider> -->
       <v-card-actions>
-        <v-btn :to="{name: 'list_outcomes'}" class="text-none" color="primary" x-small text>Gerir as saídas dos cursos</v-btn>
+        <v-btn v-if="add_extra_outcome" :to="{name: 'list_outcomes'}" class="text-none" color="primary" x-small text>Gerir as saídas dos cursos</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="primary" small text @click.stop="handleAddOutcome(true)">Guardar</v-btn>
         <v-btn color="primary" small text @click.stop="handleAddOutcome(false)">Guardar e Sair</v-btn>

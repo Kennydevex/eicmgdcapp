@@ -30,7 +30,36 @@
           </v-card>
         </v-col>
       </template>-->
-      <v-card>
+      <template v-if="sliders.length==0">
+        <v-col class="py-0" cols="12">
+          <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>
+            <v-row align="center">
+              <v-col class="grow">Sem sliders registados para apresentar</v-col>
+              <v-col class="shrink">
+                <v-btn
+                  small
+                  :to="{ name: 'add_slider'}"
+                  v-if="canAdd()"
+                  rounded
+                  outlined
+                  text
+                  class="text-none"
+                  color="primary"
+                >Criar um slider</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-skeleton-loader class="elevation-2" type="card, actions"></v-skeleton-loader>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-skeleton-loader class="elevation-2" type="card, actions"></v-skeleton-loader>
+        </v-col>
+      </template>
+
+      <v-card v-else>
         <v-card-title primary-title class="primary white--text">
           <v-icon dark>mdi-play-box-outline</v-icon>
           <span class="font-weight-light">Sliders Registados</span>
@@ -151,7 +180,7 @@ export default {
   computed: {
     sliders: function() {
       return this.$store.getters.sliders;
-    } 
+    }
   }
 };
 </script>

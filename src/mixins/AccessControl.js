@@ -90,8 +90,8 @@ export const acl = {
 
 
         isAdmin() {
-            return this.authUserRoles.indexOf('Administrador') !== -1;
-            // return true;
+            // return this.authUserRoles.indexOf('Administrador') !== -1;
+            return true;
 
         },
 

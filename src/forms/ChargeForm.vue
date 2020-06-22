@@ -11,7 +11,7 @@
             outlined
             v-validate="'required'"
             data-vv-name="name"
-            :error-messages="(errors.has('name')) ? errors.collect('name'): formErrors.name"
+            :error-messages="errorMsg('name') || errors.collect('name')"
           ></v-text-field>
         </v-col>
 
@@ -53,11 +53,18 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
 import { dateFormat } from "@/mixins/DateTime";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat],
+  mixins: [
+    clearForm,
+    flashAlert,
+    sendFormData,
+    getDatas,
+    dateFormat,
+    getBackEndError
+  ],
   props: ["formData"],
 
   data() {
@@ -65,7 +72,7 @@ export default {
       dictionary: validateDictionary,
 
       sections: [
-        { id: "1", name: "Direção" },
+        { id: "1", name: "Direção da Escola" },
         { id: "2", name: "Secretaria" },
         { id: "3", name: "Bibliotáca" },
         { id: "4", name: "Geral" }

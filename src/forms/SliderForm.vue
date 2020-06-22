@@ -37,7 +37,7 @@
                   no-filter
                   :disabled="formData.type==3"
                   :label="formData.type==1?'Seleciones os cursos em destaques':formData.type==2?'Selecione os artigos destacados':''"
-                  :items="formData.type==1?courses:formData.type==2?articles:[]"
+                  :items="formData.type==1?courses:formData.type==2?published_articles:[]"
                   :item-text="formData.type==1?'name':'title'"
                   item-value="id"
                   prepend-inner-icon="mdi-folder-plus-outline"
@@ -155,7 +155,7 @@
                   hide-no-data
                   disable-lookup
                   no-filter
-                  label="Tipo de fundo"
+                  label="Texto da ligação"
                   :items="['Ler Mais', 'Ver Mais', 'Ver Detalhes', 'Visitar a página', 'Consultar Informações', 'Entrar']"
                   prepend-inner-icon="mdi-folder-plus-outline"
                 >
@@ -177,15 +177,47 @@
 
             <v-divider></v-divider>
 
-            <v-card-text>
-              <span>Escolha a cor padrão para este slider</span>
-              <v-color-picker
+            <v-card-text class="ma-0 pa-0">
+              <v-col cols="12">
+                <span>Escolha a cor padrão para este slider</span>
+              </v-col>
+              <v-col cols="12" class="my-0 py-0">
+                <v-menu
+                  v-model="slider_color_menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      dense
+                      outlined
+                      name="release"
+                      :value="formData.color"
+                      label="Cor"
+                      prepend-inner-icon="mdi-palette"
+                      placeholder="Selecione uma cor para este slider"
+                      readonly
+                      v-on="on"
+                    >
+                      <template v-slot:append>
+                        <v-chip :color="formData.color" small label></v-chip>
+                      </template>
+                    </v-text-field>
+                  </template>
+                  <v-color-picker flat v-model="formData.color"></v-color-picker>
+                </v-menu>
+              </v-col>
+
+              <!-- <v-color-picker
                 width="400"
                 hide-inputs
                 hide-canvas
                 show-swatches
                 v-model="formData.color"
-              ></v-color-picker>
+              ></v-color-picker>-->
             </v-card-text>
 
             <v-divider></v-divider>
@@ -216,6 +248,7 @@ export default {
 
   data() {
     return {
+      slider_color_menu: false,
       slider_dst: "",
       formErrors: [],
       tempSliderBackground: null,
@@ -237,27 +270,6 @@ export default {
         { id: "1", name: "Imagem" },
         { id: "2", name: "Vídeo" },
         { id: "3", name: "Cor Sólida" }
-      ],
-
-      articles: [
-        {
-          id: "1",
-          title: "teste1",
-          slug: "artigo_1",
-          summary: "Alguma coisa de sumário"
-        },
-        {
-          id: "2",
-          title: "teste2",
-          slug: "artigo_2",
-          summary: "Alguma coisa de sumário"
-        },
-        {
-          id: "3",
-          title: "teste3",
-          slug: "artigo_3",
-          summary: "Alguma coisa de sumário"
-        }
       ]
     };
   },
@@ -268,6 +280,7 @@ export default {
 
   created() {
     this.getAll(this.courses, "getFeaturedCourses");
+    this.getAll(this.published_articles, "getPublishedArticles");
 
     window.getApp.$on("APP_ADD_SLIDER", add_new => {
       this.add(
@@ -297,13 +310,23 @@ export default {
       return this.$store.getters.featured_courses;
     },
 
+    published_articles: function() {
+      return this.$store.getters.published_articles;
+    },
+
     sliderBackgroundPath() {
-      return !this.update_form
-        ? this.formData.background
-          ? this.formData.background
-          : this.apiUrl + "/images/app/sliders/default.svg"
-        : this.formData.background
-        ? this.formData.background.length > 50
+      // return !this.update_form
+      //   ? this.formData.background
+      //     ? this.formData.background
+      //     : this.apiUrl + "/images/app/sliders/default.svg"
+      //   : this.formData.background
+      //   ? this.formData.background.length > 50
+      //     ? this.formData.background
+      //     : this.apiUrl + "/images/app/sliders/" + this.formData.background
+      //   : this.apiUrl + "/images/app/sliders/default.svg";
+
+      return this.formData.background
+        ? this.formData.background.length > 100
           ? this.formData.background
           : this.apiUrl + "/images/app/sliders/" + this.formData.background
         : this.apiUrl + "/images/app/sliders/default.svg";
@@ -313,7 +336,7 @@ export default {
   methods: {
     setSliderTitle(id) {
       let course = this.courses.find(course => course.id === id);
-      let article = this.articles.find(article => article.id === id);
+      let article = this.published_articles.find(article => article.id === id);
       if (this.formData.type == 1) {
         this.formData.title = "Curso de " + course.name;
         this.formData.link = course.slug;

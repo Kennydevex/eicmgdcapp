@@ -35,6 +35,7 @@ export default {
     return {
       updateEmployeeModal: false,
       formData: {
+        id: "",
         ic: "",
         phone: "",
         active: false,
@@ -44,11 +45,13 @@ export default {
         school_id: "",
         //=====================================================
         folk: {
+          id: "",
           name: "",
           lastname: "",
           gender: "",
           birthdate: "",
           user: {
+            id: "",
             username: "",
             email: "",
             password: "",
@@ -100,6 +103,7 @@ export default {
       this.formData.folk_id = employee.folk_id;
       this.formData.school_id = employee.school_id;
 
+      this.formData.folk.id = employee.folk.id;
       this.formData.folk.name = employee.folk.name;
       this.formData.folk.lastname = employee.folk.lastname;
       this.formData.folk.gender = employee.folk.gender;
@@ -110,6 +114,7 @@ export default {
         if (employee.email == employee.folk.user.email) {
           this.formData.co_email = true;
         }
+        this.formData.folk.user.id = employee.folk.user.id;
         this.formData.folk.user.username = employee.folk.user.username;
         this.formData.folk.user.email = employee.folk.user.email;
       }
@@ -131,6 +136,7 @@ export default {
     closeUpdateMaskModel() {
       this.formData = {
         ic: "",
+        id: "",
         phone: "",
         active: false,
         perfil_photo: "",
@@ -139,11 +145,13 @@ export default {
         school_id: "",
         //=====================================================
         folk: {
+          id: "",
           name: "",
           lastname: "",
           gender: "0",
           birthdate: "",
           user: {
+            id: "",
             username: "",
             email: "",
             password: "",

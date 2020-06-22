@@ -31,8 +31,8 @@ export const actionAlert = {
                 text: text,
                 type: type,
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                // confirmButtonColor: "#3085d6",
+                // cancelButtonColor: "#d33",
                 confirmButtonText: "Sim, " + confirmText,
                 cancelButtonText: "Não, " + cancelText
             });

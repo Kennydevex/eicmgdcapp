@@ -1,7 +1,69 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12">
+      <v-col class="py-0" cols="12" v-if="schools.length==0">
+        <v-alert
+          v-model="dep_alert"
+          border="top"
+          colored-border
+          type="error"
+          elevation="2"
+          dismissible
+          prominent
+          icon="mdi-alert"
+          tile
+        >
+          <v-row align="center">
+            <v-col
+              class="grow"
+            >O registo do colaorador depende da instituição, pelo que não é possível cria-lo sem esse registo</v-col>
+            <v-col class="shrink">
+              <v-btn
+                small
+                :to="{ name: 'add_school'}"
+                v-if="canAdd()"
+                rounded
+                outlined
+                text
+                class="text-none"
+                color="primary"
+              >Configurar Instituição</v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-col>
+
+      <template v-if="employees.length==0">
+        <v-col class="py-0" cols="12">
+          <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>
+            <v-row align="center">
+              <v-col class="grow">Sem colaboradores registados para apresentar</v-col>
+              <v-col class="shrink">
+                <v-btn
+                  small
+                  @click="addEmployeeModal()"
+                  v-if="canAdd()"
+                  rounded
+                  outlined
+                  text
+                  class="text-none"
+                  color="primary"
+                >Criar um colaborador</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+      </template>
+      <v-col cols="12" v-else>
         <v-card>
           <v-toolbar color="white" flat>
             <v-text-field
@@ -38,36 +100,70 @@
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
-              single-expand
-              :expanded.sync="expanded"
-              show-expand
             >
+              <template v-slot:item.perfil_photo="{ item }">
+                <v-avatar size="36px" color="grey lighten-3">
+                  <img
+                    v-if="item.perfil_photo"
+                    alt="Foto de Perfil"
+                    :src="`${apiUrl}/images/app/resources/employees/${item.perfil_photo}`"
+                  />
+                  <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
+                </v-avatar>
+              </template>
+
+              <template v-slot:item.charges.0.name="{ item }">
+                <v-chip
+                  small
+                  :color="item.charges[0].name=='Diretor'?'primary':'grey lighten-2'"
+                  label
+                >{{item.charges[0].name}}</v-chip>
+              </template>
+
+              <template v-slot:item.active="{ item }">
+                <v-btn
+                  text
+                  :disabled="!canActive()"
+                  :loading="loadAtivaction[item.id]"
+                  x-small
+                  class="text-capitalize"
+                  :color="item.active==true?'primary':'grey darken-2'"
+                  @click="toggleStatus('toggleEmployeeStatus',item.id, item.active, 'Colaborador', 'getEmployees')"
+                >
+                  <span>{{item.active==true?'ativo':'desativo'}}</span>
+                  <span slot="loader" class="custom-loader-class">
+                    <v-icon small>mdi-dots-horizontal</v-icon>
+                  </span>
+                </v-btn>
+              </template>
+
               <template v-slot:item.action="{ item }">
+                <v-btn color="primary" small text class="text-none mr-1" icon>
+                  <v-icon>mdi-information</v-icon>
+                </v-btn>
                 <v-btn
                   v-if="canEdit()"
-                  color="primary"
-                  x-small
-                  outlined
-                  rounded
+                  color="warning"
+                  small
+                  text
                   class="text-none mr-1"
                   @click="updateEmployeeModal(item.id)"
-                >editar</v-btn>
+                  icon
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
-                  x-small
-                  outlined
-                  rounded
+                  color="error"
+                  small
+                  text
+                  icon
                   class="text-none"
                   @click="onDelete('employees',item.id,'APP_UPDATE_ALL_EMPLOYEES_DATA')"
-                >eliminar</v-btn>
-                <!-- <v-icon small class="mr-2" @click="updateEmployeeModal(item.id)">mdi-pencil</v-icon> -->
-                <!-- <v-icon small @click="onDeleteEmployee(item.id)">mdi-delete</v-icon> -->
-              </template>
-
-              <template v-slot:expanded-item="{item}">
-                <td :colspan="headers.length">{{ item.description }}</td>
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
               </template>
 
               <v-alert
@@ -96,10 +192,10 @@
 import AddEmployee from "./Create";
 import UpdateEmployee from "./Update";
 import { flashAlert, actionAlert } from "@/mixins/AppAlerts";
-import { getDatas, getData, deleteData } from "@/mixins/SendForm";
+import { getDatas, getData, deleteData, handleActivation } from "@/mixins/SendForm";
 
 export default {
-  mixins: [flashAlert, actionAlert, getData, getDatas, deleteData],
+  mixins: [flashAlert, actionAlert, getData, getDatas, deleteData, handleActivation],
 
   data() {
     return {
@@ -108,20 +204,33 @@ export default {
       search: "",
       employees_id: [],
       headers: [
+        { text: "", value: "perfil_photo" },
         {
-          text: "Marco",
-          value: "title"
+          text: "Nome",
+          value: "folk.name"
         },
 
         {
-          text: "Início",
-          value: "begin",
+          text: "Apelido",
+          value: "folk.lastname",
+          align: "left"
+        },
+
+        {
+          text: "Cargo",
+          value: "charges.0.name",
           align: "center"
         },
 
         {
-          text: "Fim",
-          value: "end",
+          text: "Início de Atividade",
+          value: "charges.0.encumbrance.activity_begin",
+          align: "center"
+        },
+
+        {
+          text: "Estado",
+          value: "active",
           align: "center"
         },
 
@@ -130,9 +239,7 @@ export default {
           align: "center",
           sortable: false,
           value: "action"
-        },
-
-        { text: "", value: "data-table-expand" }
+        }
       ],
       employee: []
     };
@@ -141,6 +248,10 @@ export default {
   computed: {
     employees: function() {
       return this.$store.getters.employees;
+    },
+
+    schools: function() {
+      return this.$store.getters.schools;
     }
   },
 

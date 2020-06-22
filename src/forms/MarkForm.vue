@@ -67,7 +67,7 @@
             :nudge-right="40"
             transition="scale-transition"
             offset-y
-            min-width="290px" 
+            min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
@@ -84,7 +84,13 @@
               ></v-text-field>
               <!-- error-messages="Teste" -->
             </template>
-            <v-date-picker v-model="formData.begin" @input="begin_menu=false" locale="pt-pt"></v-date-picker>
+            <v-date-picker
+              no-title
+              :max="new Date().toISOString().substr(0, 10)"
+              v-model="formData.begin"
+              @input="begin_menu=false"
+              locale="pt-pt"
+            ></v-date-picker>
           </v-menu>
         </v-col>
 
@@ -118,7 +124,14 @@
                 :error-messages="(errors.has('end')) ? errors.collect('end'): formErrors.end"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="formData.end" @input="end_menu=false" locale="pt-pt"></v-date-picker>
+            <v-date-picker
+              no-title
+              :max="new Date().toISOString().substr(0, 10)"
+              :min="formData.begin"
+              v-model="formData.end"
+              @input="end_menu=false"
+              locale="pt-pt"
+            ></v-date-picker>
           </v-menu>
         </v-col>
 
@@ -174,7 +187,7 @@ export default {
         "APP_UPDATE_MARK_MODAL"
       );
     });
-  }, 
+  },
 
   computed: {
     schools: function() {

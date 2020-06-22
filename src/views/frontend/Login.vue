@@ -1,83 +1,93 @@
 <template>
   <div class="background-login">
-    <v-app id="inspire">
-      <v-container fluid fill-height>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="6" lg="4">
-            <v-card class="elevation-5 pa-3">
-              <v-card-text>
-                <div class="layout column align-center">
-                  <img
-                    :src="require('../../assets/app/logo.png')"
-                    alt="EICM-GDC"
-                    width="120"
-                    height="120"
-                  />
-                  <h1 class="flex my-4 primary--text font-weight-light">EICM-GDC</h1>
-                  <small>Autenticar no sistema {{too_many_req}}</small>
-                </div>
+    <!-- <v-app id="inspire"> -->
+    <!-- <v-container fluid fill-height> -->
+      <!-- ../../assets/app/statics/login_cover.gif -->
 
-                <v-flex xs12>
-                  <v-alert
-                    :value="loginError"
-                    color="error"
-                    icon="mdi-alert"
-                    outlined
-                    dismissible
-                    transition="scale-transition"
-                  >{{loginError}}</v-alert>
-                </v-flex>
+      <v-row justify="center" align="center">
+        <v-col align="center" cols="12" sm="8" md="6" lg="4">
+          <v-card class="elevation-10" width="350" tile>
+            <v-card-text class="mb-0 pb-0">
+              <div class="layout column align-center">
+                <v-avatar color="primary" size="62">
+                  <v-icon large dark>mdi-lock</v-icon>
+                </v-avatar>
+                <h1 class="flex my-4 primary--text font-weight-light">
+                  EICM -
+                  <span class="font-weight-thin">Login</span>
+                </h1>
+              </div>
 
-                <v-form>
-                  <v-container grid-list-sm ma-0 pa-0>
-                    <v-row>
-                      <v-col cols="12" class="py-0 my-0">
-                        <v-text-field
-                          v-model="formData.email"
-                          append-icon="mdi-account-key"
-                          name="login"
-                          label="Email"
-                          type="text"
-                          @keyup.enter="authenticate()"
-                          v-validate="'required|email'"
-                          data-vv-name="email"
-                          :error-messages="errors.collect('email')"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="12" class="py-0 ma-y">
-                        <v-text-field
-                          v-model="formData.password"
-                          :append-icon="passIcon ? 'mdi-eye' : 'mdi-eye-off'"
-                          @click:append="() => (passIcon = !passIcon)"
-                          :type="passIcon ? 'password' : 'text'"
-                          name="password"
-                          label="Password"
-                          @keyup.enter="authenticate()"
-                          v-validate="'required'"
-                          data-vv-name="password"
-                          :error-messages="errors.collect('password')"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-row>
-                  <v-col cols="12" class="py-0 my-0">
-                    <v-btn
-                      class="text-none font-weight-light no"
-                      :to="{name: 'register_page'}"
-                      small
-                      text
-                      dark
-                      color="primary"
-                    >Ainda não tenho conta registada, quero criar uma...</v-btn>
-                  </v-col>
+              <v-flex xs12>
+                <v-alert
+                  dense
+                  tile
+                  :value="loginError"
+                  color="error"
+                  icon="mdi-lock-alert"
+                  border="right"
+                  colored-border
+                  dismissible
+                  elevation="3"
+                  transition="scale-transition"
+                >
+                  <small>{{loginError}}</small>
+                </v-alert>
+              </v-flex>
 
-                  <v-col>
+              <v-form>
+                <v-container grid-list-sm ma-0 pa-0>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        dense
+                        outlined
+                        v-model="formData.email"
+                        name="login"
+                        label="Email"
+                        type="text"
+                        @keyup.enter="authenticate()"
+                        v-validate="'required|email'"
+                        data-vv-name="email"
+                        :error-messages="errors.collect('email')"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" class="py-0 ma-y">
+                      <v-text-field
+                        dense
+                        outlined
+                        v-model="formData.password"
+                        :append-icon="passIcon ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="() => (passIcon = !passIcon)"
+                        :type="passIcon ? 'password' : 'text'"
+                        name="password"
+                        label="Password"
+                        @keyup.enter="authenticate()"
+                        v-validate="'required'"
+                        data-vv-name="password"
+                        :error-messages="errors.collect('password')"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-card-text>
+            <v-card-actions class="mt-0 pt-0">
+              <v-row>
+                <v-col cols="12" class="py-0 my-0">
+                  <v-btn
+                    class="text-none font-weight-light no"
+                    :to="{name: 'register_page'}"
+                    small
+                    text
+                    dark
+                    color="primary"
+                  >criar uma conta</v-btn>
+                </v-col>
+
+                <!-- <v-col>
                     <small>Autenticar usando a minha conta de:</small>
                   </v-col>
 
@@ -91,25 +101,23 @@
                     <v-btn x-small fab dark color="google">
                       <v-icon dark>mdi-google-plus</v-icon>
                     </v-btn>
-                  </v-col>
+                </v-col>-->
 
-                  <v-col cols="12" align="right" class="pr-5">
-                    <v-btn
-                      @click="authenticate()"
-                      text
-                      small
-                      right
-                      outlined
-                      color="primary"
-                    >Autenticar</v-btn>
-                  </v-col>
-                </v-row>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app>
+                <v-col cols="12" align="center">
+                  <v-btn
+                    @click="authenticate()"
+                    tile
+                    color="primary"
+                    class="text-none"
+                  >Autenticar</v-btn>
+                </v-col>
+              </v-row>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    <!-- </v-container> -->
+    <!-- </v-app> -->
   </div>
 </template>
 
@@ -124,7 +132,6 @@ export default {
   data() {
     return {
       sending: false,
-      too_many_req: "",
       formData: {
         email: "",
         password: "",
@@ -166,7 +173,6 @@ export default {
             .catch(error => {
               this.$store.commit("loginFailed", { error });
               this.sending = false;
-              this.too_many_req = error;
             });
         }
       });
@@ -180,8 +186,13 @@ export default {
 
 <style lang="css">
 .background-login {
-  background-image: url("../../assets/app/statics/Slide2.gif?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+  background-image: url("../../assets/app/statics/login_cover.gif");
   background-size: cover;
+  min-height: 640px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -30px;
 }
 #inspire {
   background: none;

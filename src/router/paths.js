@@ -14,6 +14,7 @@ import FilteredByCategory from '@/views/frontend/articles/filters/ArticleByCateg
 import FilteredByUser from '@/views/frontend/articles/filters/ArticlesByUser.vue';
 import FilteredByTag from '@/views/frontend/articles/filters/ArticlesByTag.vue';
 // Menu EICM
+import EicmPage from '@/views/frontend/eicm/Index.vue';
 import Histories from '@/views/frontend/eicm/Histories.vue';
 import Equipe from '@/views/frontend/eicm/Equipe.vue';
 
@@ -94,7 +95,8 @@ import UpdateSlider from '@/components/backend/layout/sliders/Update.vue';
 
 // Errors
 import Error_403 from '@/views/errors/403.vue';
-
+import Error_404 from '@/views/errors/404.vue';
+ 
 
 // Tester
 import Teste from '@/views/frontend/Teste.vue';
@@ -130,21 +132,38 @@ export default [
                 component: Perfil,
                 name: 'perfil'
             },
+
             {
-                path: '/eicm-gdc/historia',
-                component: Histories,
-                name: 'eicm_histories'
+                path: '/eicm-gdc',
+                component: EicmPage,
+                children: [
+                    {
+                        path: '/historia',
+                        name: 'eicm_histories',
+                        component: Histories
+                    },
+
+                    {
+                        path: '/missao',
+                        component: Missions,
+                        name: 'eicm_missions'
+                    },
+                    {
+                        path: '/equipe',
+                        component: Equipe,
+                        name: 'eicm_equipe'
+                    },
+
+                ]
             },
-            {
-                path: '/eicm-gdc/missao',
-                component: Missions,
-                name: 'eicm_missions'
-            },
-            {
-                path: '/eicm-gdc/equipe',
-                component: Equipe,
-                name: 'eicm_equipe'
-            },
+
+
+            // {
+            //     path: '/eicm-gdc/historia',
+            //     component: Histories,
+            //     name: 'eicm_histories'
+            // },
+
             {
                 path: '/estudantes/quadros',
                 component: Quadros,
@@ -157,16 +176,32 @@ export default [
                 component: CursosHome,
                 children: [
                     {
-                        path: ':slug',
-                        name: 'courses',
+                        path: '/',
+                        name: 'actived_courses',
                         component: Cursos
                     }, {
-                        path: 'detalhes/:slug',
+                        path: ':slug',
                         name: 'course_info',
                         component: Curso
                     },
                 ]
             },
+
+            // {
+            //     path: '/cursos',
+            //     component: CursosHome,
+            //     children: [
+            //         {
+            //             path: ':slug',
+            //             name: 'courses',
+            //             component: Cursos
+            //         }, {
+            //             path: 'detalhes/:slug',
+            //             name: 'course_info',
+            //             component: Curso
+            //         },
+            //     ]
+            // },
 
             {
                 path: '/blog',
@@ -438,5 +473,11 @@ export default [
                 ]
             },
         ]
+    },
+
+    {
+        path: '*',
+        name: 'error_404',
+        component: Error_404
     },
 ];

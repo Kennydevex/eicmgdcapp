@@ -8,16 +8,12 @@
       <app-murals :murals="murals"></app-murals>
     </section>
 
-    <!-- <section>
-      <app-parralax></app-parralax>
-    </section>-->
-
-    <section class="grey lighten-5">
+    <section v-if="teams.length" class="grey lighten-5">
       <app-team :teams="teams"></app-team>
     </section>
 
-    <section v-if="formations.length">
-      <app-featured-formations :formations="formations"></app-featured-formations>
+    <section v-if="featured_courses.length">
+      <app-featured-formations :formations="featured_courses"></app-featured-formations>
     </section>
 
     <section v-if="published_articles.length" class="white">
@@ -33,7 +29,7 @@
     </section>
 
     <section>
-      <app-contacts></app-contacts>
+      <app-contacts :schoolData="schools"></app-contacts>
     </section>
   </div>
 </template>
@@ -52,28 +48,6 @@ export default {
 
   data() {
     return {
-      teams: [
-        {
-          id: 1,
-          name: "Estefanio Silva",
-          charge: "Diretor"
-        },
-        {
-          id: 2,
-          name: "Paulo Pereira",
-          charge: "Secretario"
-        },
-        {
-          id: 3,
-          name: "Sandra Monteiro",
-          charge: "Sub-diretora"
-        },
-        {
-          id: 4,
-          name: "Ana Suares",
-          charge: "Sub-Diretora Academica"
-        }
-      ],
       formations: [
         {
           id: 1,
@@ -104,14 +78,24 @@ export default {
   },
 
   created: function() {
+    this.getAll(this.featured_courses, "getFeaturedCourses");
+    this.getAll(this.teams, "getTeams");
     this.getAll(this.published_articles, "getPublishedArticles");
     this.getAll(this.murals, "getMurals");
     this.getAll(this.actived_sliders, "getActivedSliders");
+    this.getAll(this.schools, "getSchools");
   },
 
   computed: {
+    schools: function() {
+      return this.$store.getters.schools;
+    },
     published_articles: function() {
       return this.$store.getters.published_articles;
+    },
+
+    teams: function() {
+      return this.$store.getters.teams;
     },
 
     actived_sliders: function() {
@@ -122,6 +106,9 @@ export default {
       return this.$store.getters.murals;
     },
 
+    featured_courses: function() {
+      return this.$store.getters.featured_courses;
+    },
     // Ainda não teremos o resultado esperado porque o métudo filter em Sore retorna apenas um resultado filtrado, enquanto que queremos ter todos os artigos destacados. uma sugestão para isso é usar o métudo "Map" ou pegar esses valores através de loop
     featured_articles: function() {
       return this.$store.getters.featured_articles;

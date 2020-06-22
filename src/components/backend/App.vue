@@ -145,12 +145,41 @@
     </v-app-bar>
     <!-- =============================================== -->
 
-    <v-content>
+    <v-main>
       <v-container fluid>
+        <v-alert
+          v-model="school_alert"
+          v-if="schools.length==0"
+          border="top"
+          colored-border
+          type="warning"
+          elevation="2"
+          dismissible
+          prominent
+          icon="mdi-alert"
+          tile
+        >
+          <v-row align="center">
+            <v-col
+              class="grow"
+            >Atenção, não se pode realizar algumas operações que dependem da instituição, pois ainda não tem nenhuma instituição configurada</v-col>
+            <v-col class="shrink">
+              <v-btn
+                small
+                :to="{ name: 'add_school'}"
+                @click="school_alert=false"
+                v-if="canAdd()"
+                rounded
+                outlined
+                color="primary"
+              >Configurar Uma</v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
         <router-view></router-view>
-        <vue-progress-bar></vue-progress-bar>
+        <!-- <vue-progress-bar></vue-progress-bar> -->
       </v-container>
-    </v-content>
+    </v-main>
     <!-- =============================================== -->
 
     <v-footer app fixed>
@@ -163,10 +192,13 @@
 
 <script>
 import menu from "@/datas/static/menu_backend";
+import { getDatas } from "@/mixins/SendForm";
 
 export default {
+  mixins: [getDatas],
   data() {
     return {
+      school_alert: true,
       back_menu_drawer: true,
       backend_mini_drawer: true,
       menus: menu,
@@ -207,14 +239,21 @@ export default {
   },
 
   created() {
-    this.adminTeste();
+    this.getAll(this.schools, "getSchools");
+    // this.adminTeste();
+  },
+
+  computed: {
+    schools: function() {
+      return this.$store.getters.schools;
+    }
   },
 
   methods: {
-    adminTeste() {
-      // eslint-disable-next-line no-console
-      console.log(this._is("Admihghhgfn"));
-    },
+    // adminTeste() {
+    //   // eslint-disable-next-line no-console
+    //   console.log(this._is("Admihghhgfn"));
+    // },
     redirectPage(name) {
       this.$router.push({ name: name });
     },

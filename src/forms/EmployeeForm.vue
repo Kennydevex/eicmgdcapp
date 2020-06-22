@@ -41,9 +41,9 @@
               name="name"
               v-model="formData.folk.name"
               outlined
-              v-validate="'required'"
+              v-validate="'required|alpha'"
               data-vv-name="name"
-              :error-messages="(errors.has('name')) ? errors.collect('name'): formErrors.name"
+              :error-messages="errorMsg('folk.name') || errors.collect('name')"
             ></v-text-field>
           </v-col>
 
@@ -54,14 +54,16 @@
               name="lastname"
               v-model="formData.folk.lastname"
               outlined
-              v-validate="'required'"
+              v-validate="'required|alpha_spaces'"
               data-vv-lastname="lastname"
-              :error-messages="(errors.has('lastname')) ? errors.collect('lastname'): formErrors.lastname"
+              :error-messages="errorMsg('folk.lastname') || errors.collect('lastname')"
             ></v-text-field>
           </v-col>
 
           <v-col cols="12" md="2" class="mb-0 py-0">
             <v-text-field
+              placeholder="000000"
+              v-mask="'######'"
               dense
               label="BI"
               name="ic"
@@ -69,12 +71,19 @@
               outlined
               v-validate="'required|numeric|max:6'"
               data-vv-name="ic"
-              :error-messages="(errors.has('ic')) ? errors.collect('ic'): formErrors.ic"
+              :error-messages="errorMsg('ic') || errors.collect('ic')"
             ></v-text-field>
           </v-col>
 
           <v-col cols="12" md="5" class="mb-0 py-0">
-            <v-radio-group dense v-model="formData.folk.gender" row>
+            <v-radio-group
+              dense
+              v-model="formData.folk.gender"
+              row
+              v-validate="'included:0,1,2'"
+              data-vv-name="gender"
+              :error-messages="errors.collect('gender')"
+            >
               <v-radio label="Masculino" value="0"></v-radio>
               <v-radio label="Feminino" value="1"></v-radio>
             </v-radio-group>
@@ -95,6 +104,7 @@
               transition="scale-transition"
               offset-y
               min-width="290px"
+              ref="birth_date_menu"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
@@ -103,16 +113,20 @@
                   name="birthdate"
                   :value="formated(formData.folk.birthdate)"
                   label="Nascimento"
-                  prepend-icon="mdi-calendar"
+                  prepend-inner-icon="mdi-calendar"
                   readonly
                   v-on="on"
                   v-validate="'date_format:dd/MM/yyyy|before:valBirthdateRef'"
                   data-vv-as="birthdate"
-                  :error-messages="(errors.has('birthdate')) ? errors.collect('birthdate'): formErrors.birthdate"
+                  :error-messages="errorMsg('folk.birthdate') || errors.collect('birthdate')"
                 ></v-text-field>
                 <!-- error-messages="Teste" -->
               </template>
               <v-date-picker
+                no-title
+                ref="birth_date_picker"
+                :max="new Date().toISOString().substr(0, 10)"
+                min="1950-01-01"
                 v-model="formData.folk.birthdate"
                 @input="birthdate_menu=false"
                 locale="pt-pt"
@@ -132,13 +146,15 @@
           <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
               dense
+              placeholder="(+238) 000-00-00"
+              v-mask="'(+238) ###-##-##'"
               label="Telefone"
               name="phone"
               v-model="formData.phone"
               outlined
-              v-validate="'required'"
+              v-validate="'required|length:16'"
               data-vv-name="phone"
-              :error-messages="(errors.has('phone')) ? errors.collect('phone'): formErrors.phone"
+              :error-messages="errorMsg('phone') || errors.collect('phone')"
             ></v-text-field>
           </v-col>
 
@@ -149,10 +165,10 @@
               name="email"
               v-model="formData.email"
               outlined
-              v-validate="'required'"
+              v-validate="'email'"
               data-vv-name="email"
               @change="setAccountEmail"
-              :error-messages="(errors.has('email')) ? errors.collect('email'): formErrors.email"
+              :error-messages="errorMsg('email') || errors.collect('email')"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -186,7 +202,7 @@
                   :items="schools"
                   item-text="name"
                   item-value="id"
-                  prepend-inner-icon="mdi-account-tie"
+                  prepend-inner-icon="mdi-city"
                   v-validate="'required'"
                   data-vv-name="schools"
                   :error-messages="errors.collect('schools')"
@@ -199,14 +215,14 @@
                   name="charges"
                   outlined
                   no-data-text="Sem cargos registados"
-                  label="Cargo do colaborador"
+                  label="Função do colaborador"
                   :items="charges"
                   item-text="name"
                   item-value="id"
                   prepend-inner-icon="mdi-account-tie"
                   v-validate="'required'"
                   data-vv-name="charges"
-                  :error-messages="errors.collect('charges')"
+                  :error-messages="errorMsg('charges.'+k+'.encumbrance.charge_id') || errors.collect('charges')"
                 >
                   <template v-slot:append-outer>
                     <v-btn small icon color="primary" @click="addMoreCharges()">
@@ -231,6 +247,7 @@
                   transition="scale-transition"
                   offset-y
                   min-width="290px"
+                  ref="activity_begin_menu"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
@@ -239,16 +256,19 @@
                       name="activity_begin"
                       :value="formated(encumbrance.encumbrance.activity_begin)"
                       label="Início de atividade"
-                      prepend-icon="mdi-calendar"
+                      prepend-inner-icon="mdi-calendar"
                       readonly
                       v-on="on"
-                      v-validate="'date_format:dd/MM/yyyy|before:valActivityBeginRef'"
+                      v-validate="'required|date_format:dd/MM/yyyy|before:valActivityBeginRef'"
                       data-vv-as="activity_begin"
-                      :error-messages="(errors.has('activity_begin')) ? errors.collect('activity_begin'): formErrors.activity_begin"
+                      :error-messages="errorMsg('charges.'+k+'.encumbrance.activity_begin') || errors.collect('activity_begin')"
                     ></v-text-field>
                     <!-- error-messages="Teste" -->
                   </template>
                   <v-date-picker
+                    no-title
+                    ref="activity_begin_picker"
+                    :max="new Date().toISOString().substr(0, 10)"
                     v-model="encumbrance.encumbrance.activity_begin"
                     @input="activity_begin_menu=false"
                     locale="pt-pt"
@@ -260,7 +280,7 @@
                   style="display:none"
                   name="activity_begin_field_target"
                   ref="valActivityEndRef"
-                  v-model="actual_date"
+                  v-model="initialActivityEndDate"
                   type="text"
                 />
                 <v-menu
@@ -278,16 +298,19 @@
                       name="activity_end"
                       :value="formated(encumbrance.encumbrance.activity_end)"
                       label="Fim de atividade"
-                      prepend-icon="mdi-calendar"
+                      prepend-inner-icon="mdi-calendar"
                       readonly
                       v-on="on"
-                      v-validate="'date_format:dd/MM/yyyy|after:valActivityBeginRef|before:valActivityEndRef'"
+                      v-validate="'date_format:dd/MM/yyyy|after:valActivityEndRef|before:valActivityBeginRef'"
                       data-vv-as="activity_end"
-                      :error-messages="(errors.has('activity_end')) ? errors.collect('activity_end'): formErrors.activity_end"
+                      :error-messages="errorMsg('charges.'+k+'.encumbrance.activity_end') || errors.collect('activity_end')"
                     ></v-text-field>
                     <!-- error-messages="Teste" -->
                   </template>
                   <v-date-picker
+                    :max="new Date().toISOString().substr(0, 10)"
+                    :min="encumbrance.encumbrance.activity_begin"
+                    no-title
                     v-model="encumbrance.encumbrance.activity_end"
                     @input="activity_end_menu=false"
                     locale="pt-pt"
@@ -334,9 +357,9 @@
                 name="user_mail"
                 v-model="formData.folk.user.email"
                 outlined
-                v-validate="'required'"
+                v-validate="'required|email'"
                 data-vv-name="user_mail"
-                :error-messages="(errors.has('user_mail')) ? errors.collect('user_mail'): formErrors.email"
+                :error-messages="errorMsg('folk.user.email') || errors.collect('user_mail')"
               ></v-text-field>
             </v-col>
 
@@ -347,36 +370,46 @@
                 name="username"
                 v-model="formData.folk.user.username"
                 outlined
-                v-validate="'required'"
+                v-validate="'required|alpha_dash'"
                 data-vv-name="username"
-                :error-messages="(errors.has('username')) ? errors.collect('username'): formErrors.username"
+                :error-messages="errorMsg('folk.user.username') || errors.collect('username')"
               ></v-text-field>
             </v-col>
 
             <template v-if="!update_form">
               <v-col cols="12" md="6" class="mb-0 py-0">
                 <v-text-field
+                  :disabled="default_password"
                   dense
-                  label="Palavra Passe"
-                  name="password"
-                  v-model="formData.folk.user.password"
                   outlined
-                  v-validate="'required'"
-                  data-vv-name="password"
-                  :error-messages="(errors.has('password')) ? errors.collect('password'): formErrors.password"
+                  v-model="formData.folk.user.password"
+                  :append-icon="show_pass ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show_pass ? 'text' : 'password'"
+                  name="user_password"
+                  label="Palavra Passe"
+                  counter
+                  ref="col_password"
+                  @click:append="show_pass = !show_pass"
+                  hint="Caso não seja inserida uma Palavra Passe, o utilizador terá uma palavra passe predefenida"
+                  persistent-hint
+                  v-validate="'min:8'"
+                  data-vv-name="user_password"
+                  :error-messages="errorMsg('folk.user.password')|| errors.collect('user_password')"
                 ></v-text-field>
               </v-col>
 
               <v-col cols="12" md="6" class="mb-0 py-0">
                 <v-text-field
+                  :disabled="default_password"
                   dense
                   label="Confirmação da palavra passe"
                   name="password_confirmation"
+                  type="password"
                   v-model="formData.password_confirmation"
                   outlined
-                  v-validate="'required'"
+                  v-validate="'confirmed:col_password'"
                   data-vv-name="password_confirmation"
-                  :error-messages="(errors.has('password_confirmation')) ? errors.collect('password_confirmation'): formErrors.password_confirmation"
+                  :error-messages="errorMsg('password_confirmation')||errors.collect('password_confirmation')"
                 ></v-text-field>
               </v-col>
             </template>
@@ -400,20 +433,44 @@ import moment from "moment";
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat],
+  mixins: [
+    clearForm,
+    flashAlert,
+    sendFormData,
+    getDatas,
+    getBackEndError,
+    dateFormat
+  ],
   props: ["formData", "update_form"],
 
   data() {
     return {
+      default_password: false,
+      show_pass: false,
+      formErrors: [],
       birthdate_menu: false,
       activity_begin_menu: false,
       activity_end_menu: false,
       dictionary: validateDictionary
     };
+  },
+
+  watch: {
+    birthdate_menu(val) {
+      val &&
+        setTimeout(() => (this.$refs.birth_date_picker.activePicker = "YEAR"));
+    },
+
+    // activity_begin_menu(val) {
+    //   val &&
+    //     setTimeout(
+    //       () => (this.$refs.activity_begin_picker.activePicker = "YEAR")
+    //     );
+    // }
   },
 
   mounted() {
@@ -423,6 +480,10 @@ export default {
   created() {
     this.getAll(this.schools, "getSchools");
     this.getAll(this.charges, "getCharges");
+
+    // window.getApp.$on("APP_CLEAR_EMPLOYEE_FORM", () => {
+    //   this.clear();
+    // });
 
     window.getApp.$on("APP_ADD_EMPLOYEE", add_new => {
       this.add(
@@ -452,8 +513,10 @@ export default {
       return this.$store.getters.schools;
     },
 
-    initialEndDate() {
-      return moment(this.$props.formData.begin).format("DD/MM/YYYY");
+    initialActivityEndDate() {
+      return moment(
+        this.$props.formData.charges[0].encumbrance.activity_begin
+      ).format("DD/MM/YYYY");
     },
 
     perfilPhotoPath() {
@@ -468,26 +531,31 @@ export default {
   },
 
   methods: {
+    backendErrorMsg(obj_prop) {
+      if (obj_prop in this.formErrors) {
+        return this.formErrors[obj_prop][0];
+      }
+      return;
+    },
     setCoEmail() {
-      let msg = this.formData.sync_user_account
-        ? "Com esta ação irá permitir que este colaborador tenha uma conta de utilizador no sistema"
-        : "Este colaborador não poderá autenticar como um utilizador";
-      let msg_type = this.formData.sync_user_account ? "info" : "warning";
-      // this.$swal(msg);
-      this.$swal(
-        // "Conta de Utilizador", msg, msg_type
-        {
-          title: "Conta de Utilizador",
-          text: msg,
-          type: msg_type,
-          width: 400,
-          confirmButtonText: "Aceito",
-          confirmButtonColor: "#3085d6"
-        }
-      );
+      // let msg = this.formData.sync_user_account
+      //   ? "Com esta ação irá permitir que este colaborador tenha uma conta de utilizador no sistema"
+      //   : "Este colaborador não poderá autenticar como um utilizador";
+      // let msg_type = this.formData.sync_user_account ? "info" : "warning";
+
+      // if (this.$props.update_form) {
+      //   this.$swal({
+      //     title: "Conta de Utilizador",
+      //     text: msg,
+      //     type: msg_type,
+      //     width: 400,
+      //     confirmButtonText: "Aceito",
+      //     confirmButtonColor: "#3085d6"
+      //   });
+      // }
 
       if (!this.formData.sync_user_account) {
-        this.this.formData.co_email = false;
+        this.formData.co_email = false;
       }
     },
     setAccountEmail() {

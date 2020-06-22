@@ -63,7 +63,7 @@
                   name="name"
                   label="Nome do curso"
                   v-model="formData.name"
-                  v-validate="'max:100|required|alpha_spaces'"
+                  v-validate="'required|alpha_spaces'"
                   data-vv-name="form-step-1.name"
                   :error-messages=" backendErrorMsg('name') || errors.collect('form-step-1.name')"
                 ></v-text-field>
@@ -138,9 +138,6 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    no-title
-                    :max="new Date().toISOString().substr(0, 10)"
-                    min="1950-01-01"
                     v-model="formData.release"
                     @input="release_menu=false"
                     locale="pt-pt"
@@ -148,9 +145,8 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="12" md="6" class="my-0 py-0">
+              <v-col cols="12" md="6" class="ma-0 py-0">
                 <v-slider
-                
                   v-model="formData.duration"
                   thumb-label="always"
                   :thumb-size="20"
@@ -268,7 +264,7 @@
                     item-text="employee.folk.name"
                     item-value="id"
                     prepend-inner-icon="mdi-folder-plus-outline"
-                    v-validate="'required'"
+                    v-validate="''"
                     :data-vv-name="'form-step-2.teacher'+k"
                     :error-messages=" backendErrorMsg('teachers.'+k+'.coordination.teacher_id') || errors.collect('form-step-2.teacher'+k)"
                   ></v-autocomplete>
@@ -297,17 +293,15 @@
                         :name="'start_date'+k"
                         :value="formated(teacher.coordination.start_date)"
                         label="Início da Coordenação"
-                        prepend-icon="mdi-calendar-arrow-right"
+                        prepend-icon="mdi-calendar"
                         readonly
                         v-on="on"
-                        v-validate="'required|date_format:dd/MM/yyyy|before:valStartStart_dateRef'"
+                        v-validate="'date_format:dd/MM/yyyy|before:valStartStart_dateRef'"
                         :data-vv-as="'form-step-2.start_date'+k"
                         :error-messages=" backendErrorMsg('teachers.'+k+'.coordination.start_date') || errors.collect('form-step-2.start_date'+k)"
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      no-title
-                      :max="new Date().toISOString().substr(0, 10)"
                       v-model="teacher.coordination.start_date"
                       @input="start_date_menu=false"
                       locale="pt-pt"
@@ -338,7 +332,7 @@
                         :name="'end_date'+k"
                         :value="formated(teacher.coordination.end_date)"
                         label="Fim da Coordenação"
-                        prepend-icon="mdi-calendar-arrow-left"
+                        prepend-icon="mdi-calendar"
                         readonly
                         v-on="on"
                         v-validate="'date_format:dd/MM/yyyy|after:valStartEnd_dateRef|before:valStartStart_dateRef'"
@@ -347,9 +341,6 @@
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      no-title
-                      :max="new Date().toISOString().substr(0, 10)"
-                      :min="teacher.coordination.start_date"
                       v-model="teacher.coordination.end_date"
                       @input="end_date_menu=false"
                       locale="pt-pt"
@@ -357,7 +348,7 @@
                   </v-menu>
                 </v-col>
 
-                <v-col cols="12" align="right" class="my-0 py-0">
+                <v-col cols="12" align="right">
                   <v-btn
                     :color="noAttribution?'error':'primary'"
                     text
@@ -567,7 +558,7 @@
         <v-stepper-content step="3">
           <v-form ref="form" @submit.prevent="nextStep('form-step-3')" data-vv-scope="form-step-3">
             <v-row>
-              <v-col cols="12" class="my-0 py-0">
+              <v-col cols="12">
                 <v-textarea
                   dense
                   outlined
@@ -585,6 +576,7 @@
 
               <v-col cols="12" class="mb-0 py-0">
                 <v-autocomplete
+                  dense
                   v-model="formData.outcomes"
                   outlined
                   no-data-text="Nenhum perfil com esse nome"
@@ -621,7 +613,7 @@
         </v-stepper-content>
 
         <!-- :editable="update_form"  -->
-        <v-stepper-step :editable="update_form" :complete="step > 4" step="4">
+        <v-stepper-step editable :complete="step > 4" step="4">
           <!-- :rules="[() => courseForm4Error()]" -->
           Apresentação
           <small>Configure as informações de apresentação da isntituição</small>
@@ -633,10 +625,58 @@
               <v-col cols="12" md="6" class="pa-3">
                 <v-row>
                   <v-col cols="12">
+                    <span>Imagem para representar o curso</span>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-card flat>
+                      <v-img
+                        :contain="formData.cover=='default.svg' || !formData.cover"
+                        height="170px"
+                        :src="courseCoverPath"
+                      >
+                        <v-container grid-list-xs>
+                          <v-row>
+                            <v-col class="px-5 mx-3" align="left">
+                              <v-btn fab @click="formData.cover=null" small color="grey lighten-5">
+                                <v-icon>mdi-close</v-icon>
+                              </v-btn>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-img>
+                      <!-- :src="!update_form?formData.cover?formData.cover:`${apiUrl}/images/app/courses/covers/default.svg`:formData.cover.length>50?formData.cover:`${apiUrl}/images/app/courses/covers/${formData.cover}`" -->
+
+                      <v-card-actions>
+                        <v-col>
+                          <v-file-input
+                            dense
+                            outlined
+                            name="cover"
+                            label="Capa do curso"
+                            prepend-icon="mdi-camera"
+                            show-size
+                            v-model="tempCourseCover"
+                            accept="image/png, image/jpeg, image/bmp"
+                            :rules="coverRules"
+                            v-validate="'image'"
+                            data-vv-name="cover"
+                            :error-messages="errors.collect('cover')"
+                            @change.self="onCourseCoverUpload()"
+                          ></v-file-input>
+                        </v-col>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-col>
+
+              <v-col cols="12" md="6" class="pa-3">
+                <v-row>
+                  <v-col cols="12">
                     <span>Especifique que paracterize este curso curso</span>
                   </v-col>
 
-                  <v-col cols="12" class="my-0 py-0">
+                  <v-col cols="12">
                     <v-menu
                       v-model="color_menu"
                       :close-on-content-click="false"
@@ -664,47 +704,6 @@
                       </template>
                       <v-color-picker flat v-model="formData.color"></v-color-picker>
                     </v-menu>
-                  </v-col>
-                </v-row>
-              </v-col>
-
-              <v-col cols="12" md="6" class="my-0 py-0">
-                <v-row>
-                  <v-col cols="12">
-                    <span>Imagem para representar o curso</span>
-                  </v-col>
-                  <v-col cols="12" class="mb-0 pb-0">
-                    <v-file-input
-                      dense
-                      outlined
-                      name="cover"
-                      label="Capa do curso"
-                      prepend-icon="mdi-camera"
-                      show-size
-                      v-model="tempCourseCover"
-                      accept="image/png, image/jpeg, image/bmp"
-                      :rules="coverRules"
-                      v-validate="'image'"
-                      data-vv-name="cover"
-                      :error-messages="errors.collect('cover')"
-                      @change.self="onCourseCoverUpload()"
-                    ></v-file-input>
-                  </v-col>
-
-                  <v-col cols="12" class="my-0 py-0">
-                    <v-img
-                      :contain="formData.cover=='default.svg' || !formData.cover"
-                      height="170px"
-                      :src="courseCoverPath"
-                    >
-                      <v-row align="start" v-if="formData.cover">
-                        <v-col align="right">
-                          <v-btn icon @click="formData.cover=null">
-                            <v-icon>mdi-close</v-icon>
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-img>
                   </v-col>
                 </v-row>
               </v-col>

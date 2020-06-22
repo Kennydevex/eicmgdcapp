@@ -35,7 +35,7 @@ export default {
         btn_style: "1",
         background: null,
         background_type: "1",
-        color: "#000000ff",
+        color: "#3E4095",
         type: "3",
         status: false
       }

@@ -23,8 +23,8 @@
             v-if="add_extra_department"
           >Gerir todas as disciplinas</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" small text @click.stop="handleAddDepartment(true)">Guardar</v-btn>
-          <v-btn color="primary" small text @click.stop="handleAddDepartment(false)">Guardar e Sair</v-btn>
+          <v-btn color="primary" small text @click="handleAddDepartment(true)">Guardar</v-btn>
+          <v-btn color="primary" small text @click="handleAddDepartment(false)">Guardar e Sair</v-btn>
           <v-btn small text @click="handleAddDepartmentModal">Sair</v-btn>
         </v-card-actions>
       </v-card>

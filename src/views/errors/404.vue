@@ -2,13 +2,10 @@
   <v-container fill-height style="height: calc(100vh - 58px);">
     <v-layout align-center>
       <v-flex text-center>
-        <img :src="require('../../assets/app/logo.png')" alt="EICM-GDC" width="120" height="120" />
-        <h1 class="display-2 primary--text">Upsss, 403</h1>
-        <p>Agradecemos a sua preferência e pedimos desculpas caso for falha do sistema, mas, por agora não tens permissão para acessar esta página</p>
-        <p>
-          
-          <small>Reinicie a sua sessão, caso for engano, contacte o sdministrador</small>
-        </p>
+        <img :src="require('../../assets/logo.png')" alt="EICM-GDC" width="auto" height="180" />
+        <h1 class="display-2 primary--text">Upsss, 404</h1>
+        <p>A página indicada não foi encontrado, certifica-te do enderço inserido</p>
+
         <v-btn to="/" outlined color="primary">Ir para a Página inicial</v-btn>
 
         <!-- <v-btn to="/" outlined color="primary">Ir para a Página inicial</v-btn> -->
@@ -19,7 +16,7 @@
 
 <script>
 export default {
-  name: "FourOhThree",
+  name: "FourOhFour",
   props: {
     lang: {
       type: String,

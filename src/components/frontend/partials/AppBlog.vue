@@ -11,19 +11,22 @@
             <swiper :options="swiperOption" ref="swiperRef">
               <template v-for="article in published_articles">
                 <swiper-slide :key="'artigo_'+article.id">
-                  <v-card>
+                  <v-card tile  data-aos="slide-right" data-aos-duration="2000">
                     <v-img
                       :src="`${apiUrl}/images/articles/covers/${article.media.name}`"
-                      height="150px"
+                      height="120px"
                       aspect-ratio="2.75"
-                    ></v-img>
+                      class="white--text align-end"
+                    >
+                      <v-card-title class="font-weight-light" v-text="article.title"></v-card-title>
+                    </v-img>
 
                     <v-card-text>
-                      <small>Há 10 dias</small>
-                      <br />
-                      <span class="grey--text text--darken-4">
-                        <span>{{article.summary|truncate(100)}}</span>
-                      </span>
+                      <div class="text-capitalize">{{dateForHumanPresentation(article.start)}}</div>
+                      <v-divider class="mr-7 py-1"></v-divider>
+                      <div class="pr-5 grey--text text--darken-4 font-weight-regular">
+                        <span>{{article.summary|truncate(80)}}</span>
+                      </div>
                     </v-card-text>
 
                     <v-card-actions class="pb-3 pt-0 pl-2">
@@ -31,10 +34,11 @@
                         color="primary"
                         text
                         small
+                        left
                         :ripple="false"
                         @click="onView('read_article', article.slug)"
-                        class="text-none font-weight-light"
-                      >Saber mais</v-btn>
+                        class="font-weight-regular"
+                      >Ler</v-btn>
                     </v-card-actions>
                   </v-card>
                 </swiper-slide>
@@ -55,10 +59,12 @@
 import { truncateFilter } from "@/mixins/Filters";
 import { viewAndUpdate } from "@/mixins/Redirects";
 import { actionAlert } from "@/mixins/AppAlerts";
+import { dateFormat } from "@/mixins/DateTime";
+
 export default {
   props: ["published_articles"],
 
-  mixins: [truncateFilter, actionAlert, viewAndUpdate],
+  mixins: [truncateFilter, actionAlert, viewAndUpdate, dateFormat],
 
   data() {
     return {
@@ -111,7 +117,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .title-divider {
   width: 70px;
   height: 2px;

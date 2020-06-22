@@ -25,7 +25,7 @@
             name="lastname"
             v-model="formData.folk.lastname"
             outlined
-            v-validate="'required|alpha'"
+            v-validate="'required|alpha_spaces'"
             data-vv-name="lastname"
             :error-messages="errors.collect('lastname')"
           ></v-text-field>
@@ -66,7 +66,7 @@
             name="username"
             v-model="formData.username"
             outlined
-            v-validate="'required|alpha'"
+            v-validate="'required|alpha_dash'"
             data-vv-name="username"
             :error-messages="(errors.has('username')) ? errors.collect('username'): formErrors.username"
           ></v-text-field>

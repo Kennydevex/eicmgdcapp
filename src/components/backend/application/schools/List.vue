@@ -1,12 +1,30 @@
 <template>
   <div>
     <v-row>
+      <template v-if="schools.length==0">
+        <v-col cols="12" md="6">
+          <v-skeleton-loader
+            class="elevation-2"
+            boilerplate
+            type="list-item-avatar-three-line, image, article, actions"
+          ></v-skeleton-loader>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-skeleton-loader
+            class="elevation-2"
+            boilerplate
+            type="list-item-avatar-three-line, image, article, actions"
+          ></v-skeleton-loader>
+        </v-col>
+      </template>
+
       <template v-for="(school, s) in schools">
         <v-col cols="12" md="6" :key="'school_'+s" class="mt-0 pt-0">
           <v-card tile>
-            <v-list-item>
+            <v-list-item @click="() => {}">
               <v-list-item-avatar>
-                <v-img :src="require('@/assets/app/logo.png')"></v-img>
+                <v-img :src="`${apiUrl}/images/app/schools/logos/${school.logo}`"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="headline">{{school.abbr}}</v-list-item-title>
@@ -18,7 +36,9 @@
               </v-btn>
             </v-list-item>
 
-            <v-img :src="require('@/assets/app/sliders/slide2.gif')" height="194"></v-img>
+            <v-img :src="`${apiUrl}/images/app/schools/covers/${school.cover}`" height="194"></v-img>
+
+            <!-- <v-img :src="require('@/assets/app/sliders/slide2.gif')" height="194"></v-img> -->
 
             <v-expand-transition>
               <div v-show="show_contact_info[school.id]">
@@ -27,7 +47,7 @@
                   <v-list two-line>
                     <template v-for="(contact, k) in school.contacts">
                       <div :key="'phone'+k">
-                        <v-list-item v-if="contact.type==1">
+                        <v-list-item v-if="contact.type==1" @click="() => {}">
                           <v-list-item-action>
                             <!-- <v-icon v-if="k == 0" color="primary">mdi-phone</v-icon> -->
                           </v-list-item-action>
@@ -46,7 +66,7 @@
 
                     <template v-for="(contact, e) in school.contacts">
                       <div :key="'email'+e">
-                        <v-list-item v-if="contact.type==2">
+                        <v-list-item v-if="contact.type==2" @click="() => {}">
                           <v-list-item-action>
                             <!-- <v-icon v-if="e < e+1" color="primary">mdi-email</v-icon> -->
                           </v-list-item-action>
@@ -144,12 +164,10 @@ export default {
     schools: function() {
       return this.$store.getters.schools;
     }
-
-    // phone
   },
 
   created: function() {
-    this.getAll(this.schools, "getSchools");
+    // this.getAll(this.schools, "getSchools");
     window.getApp.$on("APP_UPDATE_ALL_SCHOOLS_DATA", () => {
       this.refresh("getSchools");
     });

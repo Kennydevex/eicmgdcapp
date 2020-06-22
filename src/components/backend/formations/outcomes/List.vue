@@ -8,7 +8,7 @@
               flat
               solo
               prepend-icon="mdi-magnify"
-              placeholder="Procurar utilizador na tabela..."
+              placeholder="Procurar saídas na tabela..."
               v-model="search"
               hide-details
               class="hidden-sm-and-down"
@@ -45,23 +45,19 @@
               <template v-slot:item.action="{ item }">
                 <v-btn
                   v-if="canEdit()"
-                  color="primary"
-                  x-small
-                  outlined
-                  rounded
+                  color="warning"
+                  icon
                   class="text-none mr-1"
                   @click="updateOutcomeModal(item.id)"
-                >editar</v-btn>
+                ><v-icon>mdi-pencil</v-icon></v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
-                  x-small
-                  outlined
-                  rounded
+                  color="error"
+                  icon
                   class="text-none"
                   @click="onDelete('outcomes',item.id,'APP_UPDATE_ALL_OUTCOMES_DATA')"
-                >eliminar</v-btn>
+                ><v-icon>mdi-delete</v-icon></v-btn>
                 <!-- <v-icon small class="mr-2" @click="updateOutcomeModal(item.id)">mdi-pencil</v-icon> -->
                 <!-- <v-icon small @click="onDeleteOutcome(item.id)">mdi-delete</v-icon> -->
               </template>
@@ -85,7 +81,7 @@
 
     <v-row>
       <v-col>
-        <add-outcome></add-outcome>
+        <add-outcome :add_extra_outcome="false"></add-outcome>
         <update-outcome></update-outcome>
       </v-col>
     </v-row>

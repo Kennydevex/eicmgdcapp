@@ -1,4 +1,5 @@
 import moment from 'moment';
+moment.locale("pt-pt");
 export const dateFormat = {
     computed: {
         actual_date() {
@@ -11,6 +12,10 @@ export const dateFormat = {
         formated(date) {
             return date ? moment(date).format("DD/MM/YYYY") : "";
         },
+
+        dateForHumanPresentation(date) {
+            return date ? moment(date).fromNow() : "";
+        }
 
     },
 }

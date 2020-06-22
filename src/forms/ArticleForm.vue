@@ -50,8 +50,9 @@
             hint="Apresente um greve resumo da sua publicação"
             v-model="formData.summary"
             outlined
-            rows="2"
-            v-validate="'required'"
+            rows="2" 
+            counter
+            v-validate="'required|max:200'"
             data-vv-name="summary"
             :error-messages="errors.collect('summary')"
           ></v-textarea>
@@ -196,7 +197,7 @@
               </v-menu>
             </v-col>
           </v-row>
-        </v-col> 
+        </v-col>
       </v-row>
     </v-container>
   </v-form>
@@ -259,7 +260,7 @@ export default {
         "APP_UPDATE_ALL_ARTICLES_DATA",
         "APP_CANCEL_ADD_ARTICLE",
         false,
-        'list_articles'
+        "list_articles"
       );
     });
 
@@ -268,8 +269,8 @@ export default {
         "articles/" + this.$props.formData.slug,
         this.$props.formData,
         "APP_UPDATE_ALL_ARTICLES_DATA",
-         false,
-        'list_articles'
+        false,
+        "list_articles"
       );
     });
   },

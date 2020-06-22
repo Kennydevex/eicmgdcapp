@@ -3,44 +3,59 @@
   <v-container grid-list-xs mb-0>
     <v-row>
       <v-col cols="12" align="left" justify="center">
-        <h4 class="text-uppercase font-weight-light">Formações Em Destaque</h4>
+        <h4 class="text-uppercase font-weight-light">Cursos Em Destaques</h4>
         <div class="title-divider"></div>
       </v-col>
     </v-row>
-
-    <v-row class="fill-height" align="center" justify="center">
-      <template v-for="(course, i) in courses">
-        <v-col :key="i" cols="12" md="4">
+    <v-row
+      data-aos="fade-in"
+      data-aos-duration="2000"
+      class="fill-height"
+      align="start"
+      justify="center"
+    >
+      <template v-for="(course, i) in formations">
+        <v-col :key="i" cols="12" :md="formations.length==1?'12':formations.length==2?'6':'4'">
           <v-hover v-slot:default="{ hover }">
-            <v-card
-              @click="verFormacao"
-              class="pa-2"
-              :elevation="hover ? 12 : 2"
-              :class="{ 'on-hover': hover }"
-            >
-              <v-img :src="course.img" height="250">
-                <v-card-title class="title white--text ma-4">
-                  <v-row class="fill-height flex-column" justify="space-between">
-                    <p class="mt-2 subheading text-center">{{ course.name }}</p>
-
-                    <div>
-                      <p
-                        class="ma-0 body-1 font-weight-regular text-justify"
-                      >{{course.presentation|truncate(100)}}</p>
-                      <v-divider></v-divider>
-                      <span class="caption font-weight-regular text-left">
-                        <v-icon dark small>mdi-clock</v-icon>
-                        {{course.start}}
-                      </span>
-                        
-                    </div>
-                    <div v-if="hover">
-                      <v-btn @click="verFormacao" outlined small color="primary" dark>Ver...</v-btn>
-                      <!-- <v-btn icon dark><v-icon>mdi-share-variant</v-icon></v-btn> -->
-                    </div>
-                  </v-row>
-                </v-card-title>
+            <v-card class="mx-auto" tile>
+              <v-img
+                max-height="300"
+                :aspect-ratio="16/9"
+                :src="`${apiUrl}/images/app/courses/covers/${course.cover}`"
+              >
+                <v-expand-transition>
+                  <div
+                    :style="{backgroundColor: course.color}"
+                    v-if="hover"
+                    class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-1 white--text text-capitalize"
+                    style="height: 100%;"
+                  >{{dateForHumanPresentation(course.release)}}</div>
+                </v-expand-transition>
               </v-img>
+              <v-card-text class="pt-6" style="position: relative;">
+                <v-btn
+                  @click="onView('course_info', course.slug)"
+                  small
+                  absolute
+                  :color="course.color"
+                  class="white--text"
+                  fab
+                  right
+                  top
+                >
+                  <v-icon>mdi-book-open-page-variant</v-icon>
+                </v-btn>
+                <div
+                  :style="{color: course.color}"
+                  class="font-weight-light title mb-2 text-capitalize"
+                  v-text="course.name"
+                ></div>
+                <!-- <h3 class="display-1 font-weight-light orange--text mb-2">QW cooking utensils</h3> -->
+                <v-divider></v-divider>
+                <div>
+                  <p class="font-weight-light mb-2">{{course.description|truncate(100)}}</p>
+                </div>
+              </v-card-text>
             </v-card>
           </v-hover>
         </v-col>
@@ -49,48 +64,36 @@
   </v-container>
 </template>
 <script>
+import { viewAndUpdate } from "@/mixins/Redirects";
 import { truncateFilter } from "@/mixins/Filters";
+import { dateFormat } from "@/mixins/DateTime";
+import moment from "moment";
+moment.locale("pt-pt");
 
 export default {
-  mixins: [truncateFilter],
+  mixins: [truncateFilter, viewAndUpdate, dateFormat],
 
   props: ["formations"],
 
-  data: () => ({
-    icons: ["mdi-share-variant"],
-    courses: [
-      {
-        name: "Informatica de Gestao",
-        presentation:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci possimus sapiente quidem laudantium voluptatum perferendis eaque sunt deleniti repellendus repellat.",
-        start: "Ha 10 dias",
-        img: "https://i.picsum.photos/id/1012/3973/2639.jpg"
-      },
-      {
-        name: "Mecanica",
-        presentation:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci possimus sapiente quidem laudantium voluptatum perferendis eaque sunt deleniti repellendus repellat.",
-        start: "Ha 2 anos",
-        img: "https://i.picsum.photos/id/1018/3914/2935.jpg"
-      },
-      {
-        name: "Eletricidade",
-        presentation:
-          "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci possimus sapiente quidem laudantium voluptatum perferendis eaque sunt deleniti repellendus repellat.",
-        start: "Ha 1 Mês",
-        img: "https://i.picsum.photos/id/1022/6000/3376.jpg"
-      }
-    ],
-    transparent: "rgba(255, 255, 255, 0)"
-  }),
+  data: () => ({})
 
-  methods: {
-     verFormacao() {
-      // eslint-disable-next-line no-console
-      console.log("Viasualizar informações da formação ");
-    }
-  }
+  // methods: {
+  //   releaseDatePresentation(date) {
+  //     return date ? moment(date).fromNow() : "";
+  //   }
+  // }
 };
 </script>
 
+
+<style>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>
 

@@ -3,12 +3,15 @@ import Vue from 'vue';
 import App from './App.vue';
 
 
+
+
 import pt from 'vee-validate/dist/locale/pt_PT';
 import VeeValidate, { Validator } from 'vee-validate';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VueProgressBar from 'vue-progressbar';
+import VueMask from 'v-mask'
 
 
 import AOS from 'aos';
@@ -24,8 +27,9 @@ import { acl } from '@/mixins/AccessControl';
 Vue.config.productionTip = false;
 AOS.init();
 Vue.use(VueAwesomeSwiper);
+Vue.use(VueMask);
 import 'swiper/dist/css/swiper.css';
-Vue.use(VueSweetalert2, { confirmButtonColor: '#004D40', cancelButtonColor: '#C62828' });
+Vue.use(VueSweetalert2, { confirmButtonColor: '#40953E', cancelButtonColor: '#953E40' });
 Vue.use(VueProgressBar, {
   color: '#2698d9',
   failedColor: 'red',

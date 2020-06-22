@@ -1,5 +1,6 @@
 <template>
   <v-row justify="center">
+   
     <v-dialog v-model="addDisciplineModal" scrollable max-width="640px" persistent>
       <v-card>
         <v-card-title primary-title>
@@ -23,8 +24,8 @@
             v-if="add_extra_discipline"
           >Gerir todas as disciplinas</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="primary" small text @click.stop="handleAddDiscipline(true)">Guardar</v-btn>
-          <v-btn color="primary" small text @click.stop="handleAddDiscipline(false)">Guardar e Sair</v-btn>
+          <v-btn color="primary" small text @click="handleAddDiscipline(true)">Guardar</v-btn>
+          <v-btn color="primary" small text @click="handleAddDiscipline(false)">Guardar e Sair</v-btn>
           <v-btn small text @click="handleAddDisciplineModal">Sair</v-btn>
         </v-card-actions>
       </v-card>

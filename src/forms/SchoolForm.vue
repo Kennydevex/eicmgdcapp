@@ -33,7 +33,7 @@
                 name="abbr"
                 label="Abreviatura"
                 v-model="formData.abbr"
-                v-validate="'required|alpha'"
+                v-validate="'required|alpha_dash|max:15'"
                 data-vv-name="form-step-1.abbr"
                 :error-messages="backendErrorMsg('abbr') || errors.collect('form-step-1.abbr')"
                 hint="Abreviatura do nome da Escola"
@@ -67,6 +67,7 @@
                 auto-grow
                 hint="Descriva esta escola"
                 v-validate="'max:500'"
+                counter
                 data-vv-name="form-step-1.description"
                 :error-messages="errors.collect('form-step-1.description')"
               ></v-textarea>
@@ -168,15 +169,32 @@
 
                   <v-col cols="12" :md="contact.type==1?'3':'4'" class="my-0 py-0">
                     <v-text-field
+                      v-if="contact.type==1"
                       dense
                       :name="'contact'+k"
-                      :label="contact.type==1?'Telefone/Móvel '+(k+1):'Correio Eletrónico '+(k+1)"
+                      :label="'Telefone/Móvel '+(k+1)"
+                      v-mask="'(+238) ###-##-##'"
+                      placeholder="(+238) 000-00-00"
                       v-model="contact.contact"
-                      v-validate="contact.type==2?'required|email':'required|max:11'"
+                      v-validate="'required|length:16'"
                       :data-vv-name="'form-step-2.contact'+k"
                       :error-messages="backendErrorMsg('contacts.'+k+'.contact') || errors.collect('form-step-2.contact'+k)"
                       @change="findRepeatedContact(contact.contact, k)"
-                      :hint="contact.type==1?'Insira um número de telefone válido e funcional':'Insira um correio eletrónico válido e em utilização na instituição'"
+                      hint="Insira um número de telefone válido e funcional"
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-else
+                      dense
+                      :name="'contact'+k"
+                      :label="'Correio Eletronico '+(k+1)"
+                      placeholder="exemplo@email.com"
+                      v-model="contact.contact"
+                      v-validate="'required|email'"
+                      :data-vv-name="'form-step-2.contact'+k"
+                      :error-messages="backendErrorMsg('contacts.'+k+'.contact') || errors.collect('form-step-2.contact'+k)"
+                      @change="findRepeatedContact(contact.contact, k)"
+                      hint="Insira um correio eletrónico válido e em utilização na instituição"
                     ></v-text-field>
                   </v-col>
 
@@ -197,7 +215,7 @@
                           outlined
                           icon
                           small
-                          color="warning"
+                          color="error"
                           @click="removeContact(k)"
                           v-show="k || ( !k && formData.contacts.length > 1)"
                         >
@@ -244,7 +262,7 @@
                       <v-icon v-if="repeatedContact" small>mdi-alert</v-icon>
                       <v-icon v-else small>mdi-plus</v-icon>Inserir mais contactos
                     </v-btn>
-                  </v-col> -->
+                  </v-col>-->
                 </v-row>
               </template>
               <v-row>
