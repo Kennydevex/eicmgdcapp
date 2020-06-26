@@ -1,7 +1,69 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12">
+      <v-col class="py-0" cols="12" v-if="schools.length==0">
+        <!-- v-model="dep_alert" -->
+        <v-alert
+          border="top"
+          colored-border
+          type="error"
+          elevation="2"
+          dismissible
+          prominent
+          icon="mdi-alert"
+          tile
+        >
+          <v-row align="center">
+            <v-col
+              class="grow"
+            >O registo do professor depende da instituição, pelo que não é possível cria-lo sem esse registo</v-col>
+            <v-col class="shrink">
+              <v-btn
+                small
+                :to="{ name: 'add_school'}"
+                v-if="canAdd()"
+                rounded
+                outlined
+                text
+                class="text-none"
+                color="primary"
+              >Configurar Instituição</v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-col>
+
+      <template v-if="teachers.length==0">
+        <v-col class="py-0" cols="12">
+          <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>
+            <v-row align="center">
+              <v-col class="grow">Sem colaboradores registados para apresentar</v-col>
+              <v-col class="shrink">
+                <v-btn
+                  small
+                  @click="addTeacherModal()"
+                  v-if="canAdd()"
+                  rounded
+                  outlined
+                  text
+                  class="text-none"
+                  color="primary"
+                >Criar um colaborador</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+      </template>
+      <v-col cols="12" v-else>
         <v-card>
           <v-toolbar color="white" flat>
             <v-text-field
@@ -14,14 +76,14 @@
               class="hidden-sm-and-down"
             ></v-text-field>
             <template v-if="selected.length>0 && canRemove()">
-              <v-btn icon @click="onDelete('marks','','APP_UPDATE_ALL_MARK_DATA', true)">
+              <v-btn icon @click="onDelete('teachers','','APP_UPDATE_ALL_TEACHER_DATA', true)">
                 <v-icon>mdi-trash-can</v-icon>
               </v-btn>
             </template>
             <v-btn icon>
               <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
-            <v-btn v-if="canAdd()" color="primary" fab small @click="addMarkModal()">
+            <v-btn v-if="canAdd()" color="primary" fab small @click="addTeacherModal()">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-toolbar>
@@ -30,7 +92,7 @@
             <v-data-table
               :headers="headers"
               :search="search"
-              :items="marks"
+              :items="teachers"
               :items-per-page="10"
               class="elevation-1"
               item-key="id"
@@ -38,36 +100,62 @@
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
-              single-expand
-              :expanded.sync="expanded"
-              show-expand
             >
+              <template v-slot:item.perfil_photo="{ item }">
+                <v-avatar size="36px" color="grey lighten-3">
+                  <img
+                    v-if="item.employee.perfil_photo"
+                    alt="Foto de Perfil"
+                    :src="`${apiUrl}/images/app/resources/employees/${item.employee.perfil_photo}`"
+                  />
+                  <v-icon v-else color="grey">mdi-teach</v-icon>
+                </v-avatar>
+              </template>
+
+              <template v-slot:item.employee.active="{ item }">
+                <v-btn
+                  text
+                  :disabled="!canActive()"
+                  :loading="loadAtivaction[item.id]"
+                  x-small
+                  class="text-capitalize"
+                  :color="item.employee.active==true?'primary':'grey darken-2'"
+                  @click="toggleStatus('toggleTeacherStatus',item.id, item.employee.active, 'Professor', 'getTeachers')"
+                >
+                  <span>{{item.employee.active==true?'ativo':'desativo'}}</span>
+                  <span slot="loader" class="custom-loader-class">
+                    <v-icon small>mdi-dots-horizontal</v-icon>
+                  </span>
+                </v-btn>
+              </template>
+
               <template v-slot:item.action="{ item }">
+                <v-btn color="primary" small text class="text-none mr-1" icon>
+                  <v-icon>mdi-information</v-icon>
+                </v-btn>
                 <v-btn
                   v-if="canEdit()"
-                  color="primary"
-                  x-small
-                  outlined
-                  rounded
+                  color="warning"
+                  small
+                  text
                   class="text-none mr-1"
-                  @click="updateMarkModal(item.id)"
-                >editar</v-btn>
+                  @click="updateTeacherModal(item.id)"
+                  icon
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
-                  x-small
-                  outlined
-                  rounded
+                  color="error"
+                  small
+                  text
+                  icon
                   class="text-none"
-                  @click="onDelete('marks',item.id,'APP_UPDATE_ALL_MARKS_DATA')"
-                >eliminar</v-btn>
-                <!-- <v-icon small class="mr-2" @click="updateMarkModal(item.id)">mdi-pencil</v-icon> -->
-                <!-- <v-icon small @click="onDeleteMark(item.id)">mdi-delete</v-icon> -->
-              </template>
-
-              <template v-slot:expanded-item="{item}">
-                <td :colspan="headers.length">{{ item.description }}</td>
+                  @click="onDelete('teachers',item.id,'APP_UPDATE_ALL_TEACHERS_DATA')"
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
               </template>
 
               <v-alert
@@ -85,43 +173,58 @@
 
     <v-row>
       <v-col>
-        <add-mark></add-mark>
-        <update-mark></update-mark>
+        <add-teacher></add-teacher>
+        <update-teacher></update-teacher>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import AddMark from "./Create";
-import UpdateMark from "./Update";
+import AddTeacher from "./Create";
+import UpdateTeacher from "./Update";
 import { flashAlert, actionAlert } from "@/mixins/AppAlerts";
-import { getDatas, getData, deleteData } from "@/mixins/SendForm";
+import {
+  getDatas,
+  getData,
+  deleteData,
+  handleActivation
+} from "@/mixins/SendForm";
 
 export default {
-  mixins: [flashAlert, actionAlert, getData, getDatas, deleteData],
+  mixins: [
+    flashAlert,
+    actionAlert,
+    getData,
+    getDatas,
+    deleteData,
+    handleActivation
+  ],
 
   data() {
     return {
       expanded: [],
       fab: false,
       search: "",
-      marks_id: [],
+      teachers_id: [],
       headers: [
+        { text: "", value: "perfil_photo" },
         {
-          text: "Marco",
-          value: "title"
+          text: "Nome",
+          value: "employee.folk.name"
         },
 
         {
-          text: "Início",
-          value: "begin",
-          align: "center"
+          text: "Apelido",
+          value: "employee.folk.lastname",
+          align: "left"
         },
 
         {
-          text: "Fim",
-          value: "end",
+          text: "Estado",
+          value: "employee.active",
+          sortable: false,
+
           align: "center"
         },
 
@@ -130,53 +233,55 @@ export default {
           align: "center",
           sortable: false,
           value: "action"
-        },
-
-        { text: "", value: "data-table-expand" }
+        }
       ],
-      mark: []
+      teacher: []
     };
   },
 
   computed: {
-    marks: function() {
-      return this.$store.getters.marks;
+    teachers: function() {
+      return this.$store.getters.teachers;
+    },
+
+    schools: function() {
+      return this.$store.getters.schools;
     }
   },
 
   created: function() {
-    this.getAll(this.marks, "getMarks");
-    window.getApp.$on("APP_UPDATE_ALL_MARKS_DATA", () => {
-      this.refresh("getMarks");
+    this.getAll(this.teachers, "getTeachers");
+    window.getApp.$on("APP_UPDATE_ALL_TEACHERS_DATA", () => {
+      this.refresh("getTeachers");
     });
   },
 
   components: {
-    AddMark,
-    UpdateMark
+    AddTeacher,
+    UpdateTeacher
   },
 
   methods: {
-    addMarkModal() {
-      window.getApp.$emit("APP_ADD_MARK_MODAL");
+    addTeacherModal() {
+      window.getApp.$emit("APP_ADD_TEACHER_MODAL");
     },
 
-    updateMarkModal(id) {
-      this.mark = this.getSingle("marks", id, this.marks);
-      window.getApp.$emit("APP_UPDATE_MARK_MODAL", this.mark);
+    updateTeacherModal(id) {
+      this.teacher = this.getSingle("teachers", id, this.teachers);
+      window.getApp.$emit("APP_UPDATE_TEACHER_MODAL", this.teacher);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-#marks-action .v-speed-dial {
+#teachers-action .v-speed-dial {
   position: fixed;
   z-index: 100;
   bottom: 35px;
 }
 
-#marks-action .v-btn--floating {
+#teachers-action .v-btn--floating {
   position: relative;
 }
 </style>

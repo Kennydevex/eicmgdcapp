@@ -1,11 +1,10 @@
 <template>
   <v-container grid-list-xs pt-0>
-    <v-row row wrap>
-      <v-col cols="12" class="pt-0">
+    <v-layout row wrap>
+      <v-flex xs12 class="mb-5">
         <AppFeaturedArticleSlider :articles="featured_articles" />
-      </v-col>
-
-      <v-col cols="12" md="8">
+      </v-flex>
+      <v-flex xs12 md9>
         <template v-for="category in categories">
           <v-card color="transparent" class="mb-8" :key="'categoria'+category.id" flat tile>
             <v-card-title
@@ -26,7 +25,6 @@
                 <template v-for="(article, a) in category.articles">
                   <v-col
                     cols="12"
-                    sm="6"
                     :md="category.articles.length == 1?'12':category.articles.length == 2?'6':'6'"
                     class="ma-0 pa-2"
                     :key="'artigo_'+a"
@@ -39,19 +37,66 @@
                       <v-img
                         class="white--text align-end"
                         height="120"
-                        :src="`${apiUrl}/images/articles/covers/${article.cover}`"
+                        :src="`${apiUrl}/images/articles/covers/${article.media.name}`"
                       >
                         <v-card-title class="title font-weight-regular">{{article.title}}</v-card-title>
                       </v-img>
 
                       <v-card-text class="text--primary py-2">
                         <div class="my-2">
+                          <!-- <small>
+                            <v-btn
+                              text
+                              x-small
+                              @click="onView('articles_by_user', article.user.username)"
+                              class="text-none"
+                            >
+                              <v-icon small>mdi-account</v-icon>
+                              {{article.user.folk.name}} {{article.user.folk.lastname}}
+                            </v-btn>
+                          </small>-->
                           <span
                             class="grey--text text--darken-2 text-capitalize"
                           >{{dateForHumanPresentation(article.created_at)}}</span>
                         </div>
+                        <!-- <v-divider></v-divider> -->
+
                         <p class="font-weight-regular body-2">{{ article.summary|truncate(100)}}</p>
                       </v-card-text>
+
+                      <!-- <v-card-actions>
+                        <v-btn
+                          text
+                          small
+                          class="text-none p0-1 my-1"
+                          color="grey darken-3"
+                          @click="onView('read_article', article.slug)"
+                        >Ler</v-btn>
+                        <v-btn small icon color="grey darken-1">
+                          <v-icon small>mdi-share-variant</v-icon>
+                        </v-btn>
+                        <v-spacer></v-spacer>
+                        <template v-if="authUser">
+                          <v-btn
+                            color="primary"
+                            small
+                            text
+                            icon
+                            @click="onUpdate('update_article', article.slug)"
+                          >
+                            <v-icon small>mdi-pencil</v-icon>
+                          </v-btn>
+                          <v-btn
+                            small
+                            text
+                            icon
+                            color="error"
+                            @click="onDelete('articles',article.id,'APP_UPDATE_ALL_ARTICLES_DATA')"
+                          >
+                            <v-icon small>mdi-trash-can</v-icon>
+                          </v-btn>
+                        </template>
+                      </v-card-actions>-->
                     </v-card>
                   </v-col>
                 </template>
@@ -70,12 +115,12 @@
             <v-divider></v-divider>
           </v-card>
         </template>
-      </v-col>
+      </v-flex>
 
-      <v-col cols="12" md="4" class="mt-8 pt-0">
-        <article-aside />
-      </v-col>
-    </v-row>
+      <v-flex xs12 md3 class="mt-0 pt-0">
+        <article-aside :categories="categories" :tags="tags"></article-aside>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -107,30 +152,28 @@ export default {
 
   created: function() {
     this.getAll(this.articles, "getPublishedArticles");
-    // this.getAll(this.categories, "getCategories");
-    this.getAll(this.categories, "getArticlesByCategories");
-    this.getAll(this.tags, "getArticlesByTags");
+    this.getAll(this.categories, "getArticleByCategories");
+    this.getAll(this.tags, "getArticleByTag");
   },
 
   computed: {
+    // actiAr: function() {
+    //   return this.articles.filter(function(article) {
+    //     return article.status == true;
+    //   });
+    // },
+
     featured_articles: function() {
       return this.$store.getters.featured_articles;
     },
-
     articles: function() {
       return this.$store.getters.published_articles;
     },
-
-    // categories: function() {
-    //   return this.$store.getters.categories;
-    // },
-
     categories: function() {
       return this.$store.getters.articles_by_categories;
     },
-
     tags: function() {
-      return this.$store.getters.articles_by_tags;
+      return this.$store.getters.articles_by_tag;
     }
   },
 

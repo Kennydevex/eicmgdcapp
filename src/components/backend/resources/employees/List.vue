@@ -2,8 +2,8 @@
   <div>
     <v-row>
       <v-col class="py-0" cols="12" v-if="schools.length==0">
+          <!-- v-model="dep_alert" -->
         <v-alert
-          v-model="dep_alert"
           border="top"
           colored-border
           type="error"
@@ -112,13 +112,14 @@
                 </v-avatar>
               </template>
 
-              <template v-slot:item.charges.0.name="{ item }">
+              <!-- <template v-slot:item.charges.0.name="{ item }">
                 <v-chip
+                  v-if="item.charges"
                   small
                   :color="item.charges[0].name=='Diretor'?'primary':'grey lighten-2'"
                   label
                 >{{item.charges[0].name}}</v-chip>
-              </template>
+              </template> -->
 
               <template v-slot:item.active="{ item }">
                 <v-btn
@@ -192,10 +193,22 @@
 import AddEmployee from "./Create";
 import UpdateEmployee from "./Update";
 import { flashAlert, actionAlert } from "@/mixins/AppAlerts";
-import { getDatas, getData, deleteData, handleActivation } from "@/mixins/SendForm";
+import {
+  getDatas,
+  getData,
+  deleteData,
+  handleActivation
+} from "@/mixins/SendForm";
 
 export default {
-  mixins: [flashAlert, actionAlert, getData, getDatas, deleteData, handleActivation],
+  mixins: [
+    flashAlert,
+    actionAlert,
+    getData,
+    getDatas,
+    deleteData,
+    handleActivation
+  ],
 
   data() {
     return {
@@ -216,22 +229,24 @@ export default {
           align: "left"
         },
 
-        {
-          text: "Cargo",
-          value: "charges.0.name",
-          align: "center"
-        },
+        // {
+        //   text: "Cargo",
+        //   value: "charges.0.name",
+        //   align: "center"
+        // },
 
-        {
-          text: "Início de Atividade",
-          value: "charges.0.encumbrance.activity_begin",
-          align: "center"
-        },
+        // {
+        //   text: "Início de Atividade",
+        //   value: "charges.0.encumbrance.activity_begin",
+        //   align: "center"
+        // },
 
         {
           text: "Estado",
           value: "active",
-          align: "center"
+          align: "center",
+          sortable: false,
+
         },
 
         {

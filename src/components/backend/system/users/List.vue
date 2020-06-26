@@ -41,13 +41,12 @@
                   :disabled="!canActive()"
                   :loading="loadAtivaction[item.id]"
                   x-small
-                  rounded
-                  outlined
+                  text
                   class="text-capitalize"
-                  :color="item.status==true?'primary':'warning'"
+                  :color="item.status==true?'primary':'grey darken-2'"
                   @click="toggleStatus('toggleUserStatus',item.id, item.status, 'Utilizador', 'getUsers')"
                 >
-                  <small>{{item.status==true?'ativo':'desativo'}}</small>
+                  <span>{{item.status==true?'ativo':'desativo'}}</span>
                   <span slot="loader" class="custom-loader-class">
                     <v-icon small>mdi-dots-horizontal</v-icon>
                   </span>
@@ -55,30 +54,27 @@
               </template>
 
               <template v-slot:item.action="{ item }">
-                <!-- <v-icon small class="mr-2" @click="userInfoModal(item.id)">mdi-information</v-icon> -->
-                <!-- ===================================== -->
-                <v-btn color="primary" @click="updateUserModal(item.id)">Editar</v-btn>
-
-                <v-icon
+                <v-btn
                   v-if="canEdit()"
-                  small
-                  class="mr-2"
-                  @click="updateUserModal(item.id)"
-                >mdi-pencil</v-icon>
-                <!-- ===================================== -->
-
-                <!-- ===================================== -->
-                <!-- <v-btn
                   color="warning"
-                  @click="onDelete('users',item.id,'APP_UPDATE_ALL_USERS_DATA')"
-                >Apagar</v-btn>-->
-
-                <v-icon
-                  v-if="canRemove()"
+                  icon
                   small
-                  @click="onDelete('users', item.id, 'APP_UPDATE_ALL_USERS_DATA')"
-                >mdi-delete</v-icon>
-                <!-- ===================================== -->
+                  class="text-none mr-1"
+                  @click="updateUserModal(item.id)"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+
+                <v-btn
+                  v-if="canRemove()"
+                  color="error"
+                  icon
+                  small
+                  class="text-none"
+                  @click="onDelete('users',item.id,'APP_UPDATE_ALL_USERS_DATA')"
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
               </template>
 
               <v-alert
@@ -98,6 +94,7 @@
       <v-col>
         <v-card id="users-action">
           <v-speed-dial
+            color="primary"
             v-model="fab"
             bottom="bottom"
             right="right"
@@ -105,7 +102,7 @@
             transition="slide-y-reverse-transition"
           >
             <template v-slot:activator>
-              <v-btn v-model="fab" color="blue darken-2" dark fab>
+              <v-btn v-model="fab" color="primary" dark fab>
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>

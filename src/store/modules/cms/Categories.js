@@ -7,8 +7,12 @@ export default ({
     //tem acesso.
     getters: {
         categories(state) { return state.categories; },
-        articles_by_categories(state) { return state.articles_by_categories; },
         category: (state) => (slug) => {
+            return state.categories.find(category => category.slug === slug);
+        },
+
+        articles_by_categories(state) { return state.articles_by_categories; },
+        article_category: (state) => (slug) => {
             return state.articles_by_categories.find(category => category.slug === slug);
         }
 
@@ -25,7 +29,7 @@ export default ({
             // eslint-disable-next-line no-undef
             axios.get('categories').then(function (response) { context.commit('updateCategories', response.data.data); });
         },
-        getArticleByCategories(context) {
+        getArticlesByCategories(context) {
             // eslint-disable-next-line no-undef
             axios.get('articlesByCategories').then(function (response) { context.commit('updateArticlesByCategories', response.data.data); });
         },

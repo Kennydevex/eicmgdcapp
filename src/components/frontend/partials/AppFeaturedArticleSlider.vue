@@ -1,13 +1,12 @@
 <template>
   <v-card tile flat mt-0 pt-0>
     <swiper ref="mySwiper" :options="swiperOption">
-      <template v-for="(slider, s) in sliders">
-        <swiper-slide :key="'slider_'+s">
+      <template v-for="(article, a) in articles">
+        <swiper-slide :key="'article_slider_'+a">
           <v-img
             class="white--text slide--igm"
-            :src="`${apiUrl}/images/app/sliders/${slider.image}`"
-            aspect-ratio="2.75"
-            max-height="420"
+            :src="`${apiUrl}/images/articles/covers/${article.cover}`"
+            height="280"
           >
             <!-- ====================================== -->
             <section class="ani" swiper-animate-effect="slideInLeft" swiper-animate-duration="3s">
@@ -21,11 +20,11 @@
                           <div class="slide-title">
                             <h3
                               class="ani text-uppercase"
-                              swiper-animate-effect="flipInX"
+                              swiper-animate-effect="fadeUp"
                               swiper-animate-delay="3s"
                               swiper-animate-duration="2s"
                             >
-                              <b>{{slider.header}}</b>
+                              <b>{{article.title}}</b>
                             </h3>
                             <div class="slide-title-underline"></div>
                           </div>
@@ -35,7 +34,7 @@
                             swiper-animate-delay="1s"
                             swiper-animate-duration="3s"
                           >
-                            <p>{{slider.body|truncate(300)}}</p>
+                            <p class="body-2">{{article.summary|truncate(150)}}</p>
                           </div>
 
                           <div
@@ -45,13 +44,7 @@
                             swiper-animate-duration="3s"
                           >
                             <!-- <a href class="text-center btn">Nosso Trabalho</a> -->
-                            <v-btn
-                              class="ma-0 px-5"
-                              small
-                              color="indigo"
-                              dark
-                              tile
-                            >Ler</v-btn>
+                            <v-btn @click="onView('read_article', article.slug)" class="ma-0 px-5" small color="indigo" dark tile>Ler</v-btn>
                           </div>
                         </div>
                       </div>
@@ -75,55 +68,17 @@
 <script>
 import * as swiperAni from "@/plugins/swiper.animate.min.js";
 import { truncateFilter } from "@/mixins/Filters";
+import { viewAndUpdate } from "@/mixins/Redirects";
+
 
 export default {
   name: "AppFeaturedArticleSlider",
-    
-  mixins: [truncateFilter],
+
+  props: ['articles'],
+
+  mixins: [truncateFilter, viewAndUpdate],
   data() {
     return {
-      sliders: [
-        {
-          id: 1,
-          header: "Formação Profissional em Cabo Verde",
-          body:
-            "Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-          button_text: "",
-          image: "slide1.gif",
-          link: "slug do artigo",
-          type: 1,
-          status: true,
-          position: "topLeft",
-          color: "rgba(221, 54, 118, 0.5)"
-        },
-        {
-          id: 1,
-          header: "O desafio da educação em Cabo Verde",
-          body:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
-          button_text: "Vert mais",
-          image: "slide2.gif",
-          link: "slug do artigo",
-          type: 1,
-          status: true,
-          position: "topRight",
-          color: "rgba(151, 103, 57, 0.5)"
-        },
-        {
-          id: 1,
-          header: "O futuro da nossa juventude",
-          body:
-            "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.",
-          button_text: "Vert mais",
-          image: "slide3.gif",
-          link: "slug do artigo",
-          type: 1,
-          status: true,
-          position: "bottomRight",
-          color: "rgba(34, 140, 221, 0.5)"
-        }
-      ],
-
       swiperOption: {
         spaceBetween: 60,
         centeredSlides: true,
@@ -176,23 +131,23 @@ export default {
   background: linear-gradient(
     to right,
     black 0%,
-    rgba(	0,0,0, 0.738) 19%,
-    rgba(	0,0,0, 0.541) 34%,
-    rgba(	0,0,0, 0.382) 47%,
-    rgba(	0,0,0, 0.278) 56.5%,
-    rgba(	0,0,0, 0.194) 65%,
-    rgba(	0,0,0, 0.126) 73%,
-    rgba(	0,0,0, 0.075) 80.2%,
-    rgba(	0,0,0, 0.042) 86.1%,
-    rgba(	0,0,0, 0.021) 91%,
-    rgba(	0,0,0, 0.008) 95.2%,
-    rgba(	0,0,0, 0.002) 98.2%,
+    rgba(0, 0, 0, 0.738) 19%,
+    rgba(0, 0, 0, 0.541) 34%,
+    rgba(0, 0, 0, 0.382) 47%,
+    rgba(0, 0, 0, 0.278) 56.5%,
+    rgba(0, 0, 0, 0.194) 65%,
+    rgba(0, 0, 0, 0.126) 73%,
+    rgba(0, 0, 0, 0.075) 80.2%,
+    rgba(0, 0, 0, 0.042) 86.1%,
+    rgba(0, 0, 0, 0.021) 91%,
+    rgba(0, 0, 0, 0.008) 95.2%,
+    rgba(0, 0, 0, 0.002) 98.2%,
     transparent 100%
   );
 }
 .slide-content-box {
   float: left;
-  height: 450px;
+  height: 280px;
 }
 
 .slide-content-box-outer {
@@ -204,7 +159,7 @@ export default {
 
 .slide-content-box-inner {
   display: table-cell;
-  vertical-align:bottom;
+  vertical-align: bottom;
   padding: 20px;
 }
 

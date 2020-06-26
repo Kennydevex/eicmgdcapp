@@ -20,7 +20,7 @@
           text
           @click.stop="handleUpdateEmployee(true)"
         >Guardar alterações</v-btn>
-        <v-btn small text @click="closeUpdateMaskModel">Sair</v-btn>
+        <v-btn small text @click="closeUpdateEmployeeModel">Sair</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -133,7 +133,7 @@ export default {
       this.updateEmployeeModal = !this.updateEmployeeModal;
     },
 
-    closeUpdateMaskModel() {
+    closeUpdateEmployeeModel() {
       this.formData = {
         ic: "",
         id: "",

@@ -18,8 +18,25 @@ export default ({
         published_article: (state) => (slug) => {
             return state.published_articles.find(published_article => published_article.slug === slug);
         },
+
         featured_articles(state) {
-            return state.published_articles.find(featured => featured.featuring === true);
+            return state.published_articles.filter(function (article) {
+                return article.featuring == true;
+            });
+        },
+
+        articles_by_category: (state) => (slug) => {
+            return state.published_articles.filter(function (article) {
+                return article.category.slug == slug;
+            });
+        },
+
+        articles_by_tag: (state) => (slug) => {
+            return state.published_articles.filter(function (article) {
+                return article.tags.filter(function (tag) {
+                    return tag.slug == slug;
+                });
+            });
         },
     },
 

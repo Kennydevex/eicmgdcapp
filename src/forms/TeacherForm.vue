@@ -1,167 +1,313 @@
 <template>
-  <v-form ref="form">
-    <v-container grid-list-xs pa-0 ma-0>
-      <v-row>
-        <v-col cols="12" md="4" class="mb-0 py-0">
-          <v-autocomplete
-            v-model="formData.school_id"
-            auto-select-first
-            outlined
-            readonly
-            no-data-text="Nenhuma instituição com este nome"
-            hide-selected
-            label="Instituição*"
-            clearable
-            :items="schools"
-            item-text="name"
-            item-value="id"
-            prepend-inner-icon="mdi-folder-plus-outline"
-            v-validate="'required'"
-            data-vv-name="school"
-            :error-messages="errors.collect('school')"
-          ></v-autocomplete>
-        </v-col>
+  <div>
+    <v-form ref="form">
+      <v-container grid-list-xs pa-0 ma-0>
+        <v-row>
+          <v-col cols="12" class="mb-5" align="center">
+            <v-avatar
+              class="photo-perfil"
+              @click="onActivePerfilPhotoField"
+              :color="formData.employee.perfil_photo?'white':'primary'"
+              :size="formData.employee.perfil_photo?100:80"
+            >
+              <img v-if="formData.employee.perfil_photo" :src="perfilPhotoPath" />
+              <v-icon v-else dark large>mdi-cloud-upload</v-icon>
+            </v-avatar>
+            <br />
+            <small>{{formData.employee.perfil_photo?'Imagem de Perfil do Colaborador':'Carregar uma foto de perfil'}}</small>
 
-        <v-col cols="12" md="8" class="mb-0 py-0">
-          <v-text-field
-            label="Titulo*"
-            name="title"
-            v-model="formData.title"
-            outlined
-            v-validate="'required'"
-            data-vv-name="title"
-            :error-messages="(errors.has('title')) ? errors.collect('title'): formErrors.title"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" class="my-0 py-0">
-          <v-textarea
-            label="Descrição*"
-            name="description"
-            hint="Apresente a descrição deste marco"
-            persistent-hint
-            v-model="formData.description"
-            outlined
-            rows="4"
-            v-validate="'required|max:500'"
-            data-vv-name="description"
-            :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
-          ></v-textarea>
-        </v-col>
+            <input
+              accept="image/png, image/jpeg"
+              style="display:none"
+              type="file"
+              @change="onPerfilPhotoChange"
+              name="perfil_photo"
+              ref="upload_perfil_photo_form"
+            />
+          </v-col>
 
-        <v-col cols="12" class="mt-5 mb-0 pb-0">
-          <v-divider></v-divider>
-          <v-subheader>Data do acontecimento</v-subheader>
-        </v-col>
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-text-field
+              dense
+              label="Nome"
+              name="name"
+              v-model="formData.employee.folk.name"
+              outlined
+              v-validate="'required|alpha'"
+              data-vv-name="name"
+              :error-messages="errorMsg('employee.folk.name') || errors.collect('name')"
+            ></v-text-field>
+          </v-col>
 
-        <v-col cols="12" md="6" class="my-0 py-0">
-          <input
-            style="display:none"
-            name="begin_mark_field_target"
-            ref="valStartMarkRef"
-            v-model="actual_date"
-            type="text"
-          />
-          <v-menu
-            v-model="begin_menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-text-field
+              dense
+              label="Apelido"
+              name="lastname"
+              v-model="formData.employee.folk.lastname"
+              outlined
+              v-validate="'required|alpha_spaces'"
+              data-vv-lastname="lastname"
+              :error-messages="errorMsg('employee.folk.lastname') || errors.collect('lastname')"
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-text-field
+              placeholder="000000"
+              v-mask="'######'"
+              dense
+              label="BI"
+              name="ic"
+              v-model="formData.employee.ic"
+              outlined
+              v-validate="'required|numeric|max:6'"
+              data-vv-name="ic"
+              :error-messages="errorMsg('employee.ic') || errors.collect('ic')"
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <input
+              style="display:none"
+              name="birthdate_field_target"
+              ref="valBirthdateRef"
+              v-model="actual_date"
+              type="text"
+            />
+            <v-menu
+              v-model="birthdate_menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+              ref="birth_date_menu"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  dense
+                  outlined
+                  name="birthdate"
+                  :value="formated(formData.employee.folk.birthdate)"
+                  label="Nascimento"
+                  prepend-inner-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+                  v-validate="'date_format:dd/MM/yyyy|before:valBirthdateRef'"
+                  data-vv-as="birthdate"
+                  :error-messages="errorMsg('employee.folk.birthdate') || errors.collect('birthdate')"
+                ></v-text-field>
+                <!-- error-messages="Teste" -->
+              </template>
+              <v-date-picker
+                no-title
+                ref="birth_date_picker"
+                :max="new Date().toISOString().substr(0, 10)"
+                min="1950-01-01"
+                v-model="formData.employee.folk.birthdate"
+                @input="birthdate_menu=false"
+                locale="pt-pt"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-radio-group
+              dense
+              v-model="formData.employee.folk.gender"
+              row
+              v-validate="'included:0,1,2'"
+              data-vv-name="gender"
+              :error-messages="errors.collect('gender')"
+            >
+              <v-radio label="Masculino" value="0"></v-radio>
+              <v-radio label="Feminino" value="1"></v-radio>
+            </v-radio-group>
+          </v-col>
+        </v-row>
+
+        <v-divider></v-divider>
+        <v-row class="mt-5">
+          <!-- <v-col cols="12" class="my-0 py-0">
+            <v-subheader>Informações de Contactos</v-subheader>
+          </v-col>-->
+
+          <!-- =============================================================== -->
+
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-text-field
+              dense
+              placeholder="(+238) 000-00-00"
+              v-mask="'(+238) ###-##-##'"
+              label="Telefone"
+              name="phone"
+              v-model="formData.employee.phone"
+              outlined
+              v-validate="'required|length:16'"
+              data-vv-name="phone"
+              :error-messages="errorMsg('employee.phone') || errors.collect('phone')"
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-text-field
+              dense
+              label="Email Coorporativo"
+              name="email"
+              v-model="formData.employee.email"
+              outlined
+              v-validate="'email'"
+              data-vv-name="email"
+              @change="setAccountEmail"
+              :error-messages="errorMsg('employee.email') || errors.collect('email')"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <!-- <v-row>
+          <v-col cols="12" class="my-0 py-0">
+            <v-subheader>Sessão de utilizador e autenticação</v-subheader>
+          </v-col>
+
+          <v-col cols="12" class="mb-0 py-0">
+            <v-checkbox
+              dense
+              label="Vincular este colaborador a uma conta de utilizador"
+              v-model="formData.sync_user_account"
+              @change="setCoEmail"
+            ></v-checkbox>
+            <v-divider></v-divider>
+          </v-col>
+
+          <template v-if="formData.sync_user_account">
+            <v-col cols="12" class="mb-0 py-0">
+              <v-checkbox
+                :disabled="formData.email==''"
+                @change="setAccountEmail"
+                label="Utilizar o email coorporativo"
+                v-model="formData.co_email"
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="12" md="6" class="mb-0 py-0">
               <v-text-field
+                dense
+                :disabled="formData.co_email"
+                label="Email de autenticação"
+                name="user_mail"
+                v-model="formData.employee.folk.user.email"
                 outlined
-                name="begin"
-                :value="formated(formData.begin)"
-                label="Início*"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-on="on"
-                v-validate="'required|date_format:dd/MM/yyyy|before:valStartMarkRef'"
-                data-vv-as="begin"
-                :error-messages="(errors.has('begin')) ? errors.collect('begin'): formErrors.begin"
+                v-validate="'required|email'"
+                data-vv-name="user_mail"
+                :error-messages="errorMsg('employee.folk.user.email') || errors.collect('user_mail')"
               ></v-text-field>
-              <!-- error-messages="Teste" -->
-            </template>
-            <v-date-picker v-model="formData.begin" @input="begin_menu=false" locale="pt-pt"></v-date-picker>
-          </v-menu>
-        </v-col>
+            </v-col>
 
-        <v-col cols="12" md="6" class="my-0 py-0">
-          <input
-            style="display:none"
-            name="end_mark_field_target"
-            v-model="initialEndDate"
-            ref="valEndMarkRef"
-            type="text"
-          />
-          <v-menu
-            v-model="end_menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
+            <v-col cols="12" md="6" class="mb-0 py-0">
               <v-text-field
+                dense
+                label="Nome de Utilizador"
+                name="username"
+                v-model="formData.employee.folk.user.username"
                 outlined
-                name="end"
-                :value="formated(formData.end)"
-                label="Fím"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-on="on"
-                v-validate="'date_format:dd/MM/yyyy|after:valEndMarkRef|before:valStartMarkRef'"
-                data-vv-as="end"
-                :error-messages="(errors.has('end')) ? errors.collect('end'): formErrors.end"
+                v-validate="'required|alpha_dash'"
+                data-vv-name="username"
+                :error-messages="errorMsg('employee.folk.user.username') || errors.collect('username')"
               ></v-text-field>
-            </template>
-            <v-date-picker v-model="formData.end" @input="end_menu=false" locale="pt-pt"></v-date-picker>
-          </v-menu>
-        </v-col>
+            </v-col>
 
-        <v-col cols="12" class="mt-5 mb-0 pb-0">
-          <small>(*) campos de preenchimento obrigatório</small>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+            <template v-if="!update_form">
+              <v-col cols="12" md="6" class="mb-0 py-0">
+                <v-text-field
+                  :disabled="default_password"
+                  dense
+                  outlined
+                  v-model="formData.employee.folk.user.password"
+                  :append-icon="show_pass ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show_pass ? 'text' : 'password'"
+                  name="user_password"
+                  label="Palavra Passe"
+                  counter
+                  ref="col_password"
+                  @click:append="show_pass = !show_pass"
+                  hint="Caso não seja inserida uma Palavra Passe, o utilizador terá uma palavra passe predefenida"
+                  persistent-hint
+                  v-validate="'min:8'"
+                  data-vv-name="user_password"
+                  :error-messages="errorMsg('employee.folk.user.password')|| errors.collect('user_password')"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" md="6" class="mb-0 py-0">
+                <v-text-field
+                  :disabled="default_password"
+                  dense
+                  label="Confirmação da palavra passe"
+                  name="password_confirmation"
+                  type="password"
+                  v-model="formData.employee.password_confirmation"
+                  outlined
+                  v-validate="'confirmed:col_password'"
+                  data-vv-name="password_confirmation"
+                  :error-messages="errorMsg('employee.password_confirmation')||errors.collect('password_confirmation')"
+                ></v-text-field>
+              </v-col>
+            </template>
+          </template>
+        </v-row>-->
+        <v-divider></v-divider>
+        <v-row>
+          <v-col cols="12" class="mt-5 mb-0 pb-0">
+            <small>(*) campos de preenchimento obrigatório</small>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
+  </div>
 </template>
 
 <script>
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
-import moment from "moment";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat],
-  props: ["formData"],
+  mixins: [
+    clearForm,
+    flashAlert,
+    sendFormData,
+    getDatas,
+    getBackEndError,
+    dateFormat
+  ],
+  props: ["formData", "update_form"],
 
   data() {
     return {
-      //  formData: {
-      //   name: "",
-      //   description: "",
-      //   release: "",
-      //   requirement: "",
-      //   duration: "",
-      //   status: "",
-      //   featured: "",
-      //   type: "",
-      //   color:","
-      //   departament_id: "",
-      //   school_id: "",
-      // },
-
-      begin_menu: false,
-      end_menu: false,
+      default_password: false,
+      show_pass: false,
+      formErrors: [],
+      birthdate_menu: false,
+      activity_begin_menu: false,
+      activity_end_menu: false,
       dictionary: validateDictionary
     };
+  },
+
+  watch: {
+    birthdate_menu(val) {
+      val &&
+        setTimeout(() => (this.$refs.birth_date_picker.activePicker = "YEAR"));
+    }
+
+    // activity_begin_menu(val) {
+    //   val &&
+    //     setTimeout(
+    //       () => (this.$refs.activity_begin_picker.activePicker = "YEAR")
+    //     );
+    // }
   },
 
   mounted() {
@@ -169,35 +315,67 @@ export default {
   },
 
   created() {
-    this.getAll(this.schools, "getSchools");
-
-    window.getApp.$on("APP_ADD_MARK", add_new => {
+    window.getApp.$on("APP_ADD_TEACHER", add_new => {
       this.add(
         add_new,
-        "marks",
+        "teachers",
         this.$props.formData,
-        "APP_UPDATE_ALL_MARKS_DATA",
-        "APP_ADD_MARK_MODAL"
+        "APP_UPDATE_ALL_TEACHERS_DATA",
+        "APP_ADD_TEACHER_MODAL"
       );
     });
 
-    window.getApp.$on("APP_UPDATE_MARK", () => {
+    window.getApp.$on("APP_UPDATE_TEACHER", () => {
       this.update(
-        "marks/" + this.$props.formData.id,
+        "teachers/" + this.$props.formData.id,
         this.$props.formData,
-        "APP_UPDATE_MARK_MODAL"
+        "APP_UPDATE_TEACHER_MODAL"
       );
     });
   },
 
   computed: {
-    schools: function() {
-      return this.$store.getters.schools;
+    perfilPhotoPath() {
+      return this.formData.employee.perfil_photo
+        ? this.formData.employee.perfil_photo.length > 100
+          ? this.formData.employee.perfil_photo
+          : this.apiUrl +
+            "/images/app/resources/employees/" +
+            this.formData.employee.perfil_photo
+        : this.apiUrl + "/images/app/resources/employees/default.svg";
+    }
+  },
+
+  methods: {
+    setCoEmail() {
+      if (!this.formData.sync_user_account) {
+        this.formData.co_email = false;
+      }
+    },
+    setAccountEmail() {
+      if (this.formData.sync_user_account && this.formData.co_email)
+        this.formData.folk.user.email = this.formData.email;
+      else this.formData.folk.user.email = "";
     },
 
-    initialEndDate() {
-      return moment(this.$props.formData.begin).format("DD/MM/YYYY");
+    onActivePerfilPhotoField() {
+      this.$refs.upload_perfil_photo_form.click();
+    },
+
+    onPerfilPhotoChange(e) {
+      const file = e.target.files[0] || e.dataTransfer.files[0];
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = event => {
+        this.formData.employee.perfil_photo = event.target.result;
+      };
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.photo-perfil {
+  cursor: pointer;
+}
+</style>

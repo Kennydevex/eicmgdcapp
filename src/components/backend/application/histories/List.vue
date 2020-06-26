@@ -1,14 +1,46 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12">
+      <template v-if="histories.length==0">
+        <v-col class="py-0" cols="12">
+          <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>
+            <v-row align="center">
+              <v-col class="grow">Sem histórias registadas para apresentar</v-col>
+              <v-col class="shrink">
+                <v-btn
+                  small
+                  @click="addHistoryModal()"
+                  v-if="canAdd()"
+                  rounded
+                  outlined
+                  text
+                  class="text-none"
+                  color="primary"
+                >Criar um historia</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+      </template>
+
+      <v-col cols="12" v-else>
+          <h3 class="font-weight-regular mb-7">Histórias da Instituição</h3>
         <v-card>
           <v-toolbar color="white" flat>
             <v-text-field
               flat
               solo
               prepend-icon="mdi-magnify"
-              placeholder="Procurar utilizador na tabela..."
+              placeholder="Procurar histórias..."
               v-model="search"
               hide-details
               class="hidden-sm-and-down"
@@ -21,7 +53,14 @@
             <v-btn icon>
               <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
-            <v-btn v-if="canAdd()" color="primary" fab small @click="addHistoryModal()">
+            <v-btn
+              :disabled="histories.length==1"
+              v-if="canAdd()"
+              color="primary"
+              fab
+              small
+              @click="addHistoryModal()"
+            >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-toolbar>
@@ -45,23 +84,25 @@
               <template v-slot:item.action="{ item }">
                 <v-btn
                   v-if="canEdit()"
-                  color="primary"
-                  x-small
-                  outlined
-                  rounded
+                  color="warning"
+                  icon
+                  small
                   class="text-none mr-1"
                   @click="updateHistoryModal(item.id)"
-                >editar</v-btn>
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
-                  x-small
-                  outlined
-                  rounded
+                  color="error"
+                  icon
+                  small
                   class="text-none"
                   @click="onDelete('histories',item.id,'APP_UPDATE_ALL_HISTORIES_DATA')"
-                >eliminar</v-btn>
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
                 <!-- <v-icon small class="mr-2" @click="updateHistoryModal(item.id)">mdi-pencil</v-icon> -->
                 <!-- <v-icon small @click="onDeleteHistory(item.id)">mdi-delete</v-icon> -->
               </template>
@@ -84,6 +125,15 @@
     </v-row>
 
     <v-row>
+      <v-col cols="12">
+        <h3 class="font-weight-regular">Marcos Históricos</h3>
+      </v-col>
+      <v-col cols="12">
+        <list-marks></list-marks>
+      </v-col>
+    </v-row>
+
+    <v-row>
       <v-col>
         <add-history></add-history>
         <update-history></update-history>
@@ -93,6 +143,7 @@
 </template>
 
 <script>
+import ListMarks from "../marks/List";
 import AddHistory from "./Create";
 import UpdateHistory from "./Update";
 import { flashAlert, actionAlert } from "@/mixins/AppAlerts";
@@ -108,15 +159,15 @@ export default {
       search: "",
       histories_id: [],
       headers: [
-        {
-          text: "Escola",
-          value: "school.name"
-        },
+        // {
+        //   text: "Escola",
+        //   value: "school.name"
+        // },
         {
           text: "Título da História",
           value: "title"
         },
-        
+
         {
           text: "Operação",
           align: "center",
@@ -145,7 +196,8 @@ export default {
 
   components: {
     AddHistory,
-    UpdateHistory
+    UpdateHistory,
+    ListMarks
   },
 
   methods: {

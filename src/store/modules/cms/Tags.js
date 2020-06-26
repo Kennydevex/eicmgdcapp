@@ -1,16 +1,22 @@
 // jshint esversion:6
 export default ({
-    state: { tags: [], articles_by_tag: [] },
+    state: { tags: [], articles_by_tags: [] },
 
     getters: {
         tags(state) { return state.tags; },
-        articles_by_tag(state) { return state.articles_by_tag; },
+        tag: (state) => (slug) => {
+            return state.categories.find(tag => tag.slug === slug);
+        },
+        articles_by_tags(state) { return state.articles_by_tags; },
 
+        article_tag: (state) => (slug) => {
+            return state.articles_by_tags.find(tag => tag.slug === slug);
+        },
     },
 
     mutations: {
         updateTags(state, payload) { state.tags = payload; },
-        updateArticlesByTag(state, payload) { state.articles_by_tag = payload; },
+        updateArticlesByTags(state, payload) { state.articles_by_tags = payload; },
 
     },
 
@@ -19,9 +25,9 @@ export default ({
             // eslint-disable-next-line no-undef
             axios.get('tags').then(function (response) { context.commit('updateTags', response.data.data); });
         },
-        getArticleByTag(context) {
+        getArticlesByTags(context) {
             // eslint-disable-next-line no-undef
-            axios.get('articlesByTag').then(function (response) { context.commit('updateArticlesByTag', response.data.data); });
+            axios.get('articlesByTags').then(function (response) { context.commit('updateArticlesByTags', response.data.data); });
         },
     }
 });

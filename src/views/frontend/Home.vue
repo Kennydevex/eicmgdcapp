@@ -8,15 +8,15 @@
       <app-murals :murals="murals"></app-murals>
     </section>
 
-    <section v-if="teams.length" class="grey lighten-5">
-      <app-team :teams="teams"></app-team>
+    <section v-if="featured_employees.length" class="grey lighten-3">
+      <app-team :teams="featured_employees"></app-team>
     </section>
 
     <section v-if="featured_courses.length">
       <app-featured-formations :formations="featured_courses"></app-featured-formations>
     </section>
 
-    <section v-if="published_articles.length" class="white">
+    <section v-if="featured_articles.length" class="white">
       <v-container grid-list-xs>
         <v-row>
           <v-col cols="12" align="left" justify="center">
@@ -25,7 +25,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <app-blog :published_articles="published_articles"></app-blog>
+      <app-blog :featured_articles="featured_articles"></app-blog>
     </section>
 
     <section>
@@ -78,7 +78,7 @@ export default {
   },
 
   created: function() {
-    this.getAll(this.featured_courses, "getFeaturedCourses");
+    this.getAll(this.featured_courses, "getActivedCourses");
     this.getAll(this.teams, "getTeams");
     this.getAll(this.published_articles, "getPublishedArticles");
     this.getAll(this.murals, "getMurals");
@@ -109,7 +109,11 @@ export default {
     featured_courses: function() {
       return this.$store.getters.featured_courses;
     },
-    // Ainda não teremos o resultado esperado porque o métudo filter em Sore retorna apenas um resultado filtrado, enquanto que queremos ter todos os artigos destacados. uma sugestão para isso é usar o métudo "Map" ou pegar esses valores através de loop
+
+    featured_employees: function() {
+      return this.$store.getters.featured_employees;
+    },
+
     featured_articles: function() {
       return this.$store.getters.featured_articles;
     }

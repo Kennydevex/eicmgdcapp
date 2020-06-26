@@ -15,6 +15,14 @@ export const dateFormat = {
 
         dateForHumanPresentation(date) {
             return date ? moment(date).fromNow() : "";
+        },
+
+        displayDate(date) {
+            return date ? moment().format("LL") : "";
+        },
+
+        displayDayAndMonth(date) {
+            return date ? moment().format("MM-YYYY") : "";
         }
 
     },

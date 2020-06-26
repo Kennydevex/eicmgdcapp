@@ -10,7 +10,7 @@ import Missions from '@/views/frontend/eicm/Missions.vue';
 import Blog from '@/views/frontend/articles/Index.vue';
 import PublishedArticles from '@/views/frontend/articles/List.vue';
 import ReadArticle from '@/views/frontend/articles/View.vue';
-import FilteredByCategory from '@/views/frontend/articles/filters/ArticleByCategories.vue';
+import FilteredByCategory from '@/views/frontend/articles/filters/ArticlesByCategory.vue';
 import FilteredByUser from '@/views/frontend/articles/filters/ArticlesByUser.vue';
 import FilteredByTag from '@/views/frontend/articles/filters/ArticlesByTag.vue';
 // Menu EICM

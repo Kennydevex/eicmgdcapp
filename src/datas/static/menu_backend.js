@@ -39,13 +39,13 @@ const Menu = [
                 icon: 'mdi-square-small',
                 permission: 'Gerir',
             },
-            {
-                name: 'list-marks',
-                title: 'Marcos Históricos',
-                component: 'list_marks',
-                icon: 'mdi-square-small',
-                permission: 'Gerir',
-            },
+            // {
+            //     name: 'list-marks',
+            //     title: 'Marcos Históricos',
+            //     component: 'list_marks',
+            //     icon: 'mdi-square-small',
+            //     permission: 'Gerir',
+            // },
             {
                 name: 'list-murals',
                 title: 'Mural',

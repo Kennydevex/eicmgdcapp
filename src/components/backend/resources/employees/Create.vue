@@ -34,6 +34,7 @@ export default {
         ic: "",
         phone: "",
         active: false,
+        featured: false,
         perfil_photo: "",
         email: "",
         folk_id: "",

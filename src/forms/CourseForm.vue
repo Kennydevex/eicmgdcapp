@@ -150,7 +150,6 @@
 
               <v-col cols="12" md="6" class="my-0 py-0">
                 <v-slider
-                
                   v-model="formData.duration"
                   thumb-label="always"
                   :thumb-size="20"
@@ -207,7 +206,7 @@
         <v-stepper-content step="2">
           <v-form ref="form" @submit.prevent="nextStep('form-step-2')" data-vv-scope="form-step-2">
             <v-row class="mt-1">
-              <v-col cols="12" md="6" class="mb-0 py-0">
+              <!-- <v-col cols="12" md="6" class="mb-0 py-0">
                 <v-autocomplete
                   dense
                   name="school"
@@ -225,9 +224,9 @@
                   data-vv-name="form-step-2.school"
                   :error-messages="errors.collect('form-step-2.school')"
                 ></v-autocomplete>
-              </v-col>
+              </v-col> -->
 
-              <v-col cols="12" md="6" class="mb-0 py-0">
+              <v-col cols="12" class="mb-0 py-0">
                 <v-autocomplete
                   dense
                   name="department"
@@ -822,7 +821,7 @@ export default {
   created() {
     this.getAll(this.schools, "getSchools");
     this.getAll(this.departments, "getDepartments");
-    this.getAll(this.teachers, "getTeachers");
+    this.getAll(this.teachers, "getActivedTeachers");
     this.getAll(this.disciplines, "getDisciplines");
     this.getAll(this.outcomes, "getOutcomes");
   },
@@ -857,7 +856,7 @@ export default {
     },
 
     teachers: function() {
-      return this.$store.getters.teachers;
+      return this.$store.getters.actived_teachers;
     },
 
     disciplines: function() {

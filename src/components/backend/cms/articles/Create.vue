@@ -7,13 +7,13 @@
       </small>
     </v-card-title>
     <v-card-text>
-      <article-form :formData="formData" :updating="false"></article-form>
+      <article-form :formData="formData" :update_form="false"></article-form>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" small text @click="onAddArticle(true)">Guardar</v-btn>
       <v-btn color="primary" small text @click="onAddArticle(false)">Guardar e Sair</v-btn>
-      <v-btn small text @click="cancelAddArticle">Sair</v-btn>
+      <v-btn small text @click="redirectTo('list_articles')">Sair</v-btn>
     </v-card-actions>
   </v-card>
 </template> 
@@ -22,8 +22,10 @@
 
 <script>
 import ArticleForm from "@/forms/ArticleForm";
+import { cancelActions } from "@/mixins/Redirects";
 
 export default {
+  mixins: [cancelActions],
   data() {
     return {
       formData: {
@@ -32,36 +34,27 @@ export default {
         content: "",
         status: "",
         featuring: "",
-        start: '',
-        end: '',
+        start: "",
+        end: "",
+        cover: null,
         user: "",
         category_id: "",
-        tags: [],
-        image: null,
-        media: {
-          image: "",
-          type: 1,
-        }
-        // img: "teste3",
+        tags: []
       }
     };
   },
 
   created() {
     window.getApp.$on("APP_CANCEL_ADD_ARTICLE", () => {
-      this.cancelAddArticle();
+      this.redirectTo("list_articles");
     });
   },
 
   components: {
     ArticleForm
-  }, 
+  },
 
   methods: {
-    cancelAddArticle() {
-      this.$router.go(-1);
-    },
-
     onAddArticle(add_new) {
       window.getApp.$emit("APP_VALIDATE_DATE");
       window.getApp.$emit("APP_ADD_ARTICLE", add_new);

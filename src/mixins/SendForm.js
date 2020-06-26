@@ -36,8 +36,8 @@ export const sendFormData = {
     },
     methods: {
         add(add_new, url, form_data, data_update, modal, simple_form_page = false, rdr_page = '') {
-            this.$validator.validateAll().then(noErrorOnValidate => {
-                if (noErrorOnValidate) {
+            // this.$validator.validateAll().then(noErrorOnValidate => {
+            //     if (noErrorOnValidate) {
                     this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
@@ -67,8 +67,8 @@ export const sendFormData = {
                                 this.$Progress.fail();
                             }
                         });
-                }
-            });
+        //         } 
+        //    });
         },
 
         update(url, form_data, modal, simple_form_page = false, rdr_page = '') {
@@ -210,7 +210,7 @@ export const handleActivation = {
                                 response.data.msg,
                                 3000,
                                 true,
-                                "top"
+                                "top-end"
                             );
                             this.$set(this.loadAtivaction, id, false);
                         })

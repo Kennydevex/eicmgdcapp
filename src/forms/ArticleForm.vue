@@ -2,9 +2,10 @@
   <v-form ref="form">
     <v-container fluid grid-list-xs>
       <v-row>
-        <v-col cols="12" md="9" class="my-0 py-0" v-if="updating">imagem aqui</v-col>
-        <v-col cols="12" :md="updating?'12':'9'" class="my-0 py-0">
+        <!-- <v-col cols="12" md="9" class="my-0 py-0" v-if="update_form">imagem aqui</v-col> -->
+        <v-col cols="12" md="9" class="my-0 py-0">
           <v-text-field
+            dense
             label="Título da Publicação*"
             name="name"
             v-model="formData.title"
@@ -13,11 +14,11 @@
             v-validate="'required'"
             data-vv-validate-on="blur"
             data-vv-name="title"
-            :error-messages="errors.collect('title')"
+            :error-messages="errorMsg('title') || errors.collect('title')"
           ></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="3" class="my-0 py-0" v-if="!updating">
+        <v-col cols="12" md="3" class="my-0 py-0">
           <!-- <file-upload
             :accept="'image/png, image/jpeg, image/bmp'"
             :label="'Capa da publicação'"
@@ -30,13 +31,14 @@
           ></file-upload>-->
 
           <v-file-input
+            dense
             outlined
-            placeholder="Imagem de fundo"
+            :placeholder="!update_form?'Imagem de fundo':'Alterar Imagem'"
             prepend-icon="mdi-camera"
             show-size
             :rules="coverRules"
             v-model="imgTemp"
-            v-validate="'required'"
+            v-validate="!update_form?'required':''"
             data-vv-name="image"
             :error-messages="errors.collect('image')"
             @change="onFileUpload"
@@ -45,21 +47,22 @@
 
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            dense
             label="Resumo da publicação*"
             name="summary"
             hint="Apresente um greve resumo da sua publicação"
             v-model="formData.summary"
             outlined
-            rows="2" 
+            rows="2"
             counter
             v-validate="'required|max:200'"
             data-vv-name="summary"
-            :error-messages="errors.collect('summary')"
+            :error-messages="errorMsg('summary') || errors.collect('summary')"
           ></v-textarea>
         </v-col>
 
         <v-col cols="12" md="9" class="my-0 py-0">
-          <v-textarea
+          <!-- <v-textarea
             label="Conteúdo da publicação*"
             name="content"
             hint="Descreva aqui a sua publicação"
@@ -69,13 +72,21 @@
             v-validate="'required'"
             data-vv-name="content"
             :error-messages="errors.collect('content')"
-          ></v-textarea>
+          ></v-textarea>-->
+          <tinymce
+            ref="tm_editor"
+            id="d1"
+            v-model="formData.content"
+            :other_options="editor_options"
+          ></tinymce>
+          <!-- :value="formData.content" -->
         </v-col>
 
         <v-col cols="12" md="3" class="my-0 py-0">
           <v-row>
             <v-col cols="12" class="my-0 py-0">
               <v-autocomplete
+                dense
                 v-model="formData.category_id"
                 outlined
                 no-data-text="Nenhuma categoria com este nome"
@@ -93,6 +104,8 @@
             </v-col>
             <v-col cols="12" class="my-0 py-0">
               <v-autocomplete
+                small-chips
+                dense
                 v-model="formData.tags"
                 outlined
                 no-data-text="Marcador não encontrado"
@@ -110,7 +123,11 @@
             </v-col>
 
             <v-col cols="12" class="my-0 py-0">
-              <v-checkbox label="Publicar esta publicação" v-model="formData.status"></v-checkbox>
+              <v-checkbox
+                @change="setDisableArticleStartDate()"
+                label="Publicar esta publicação"
+                v-model="formData.status"
+              ></v-checkbox>
             </v-col>
             <v-col cols="12" class="my-0 py-0">
               <v-switch
@@ -128,7 +145,7 @@
               <v-subheader>Definir data de publicação</v-subheader>
             </v-col>
 
-            <v-col cols="12" md="6" class="my-0 py-0">
+            <v-col cols="12" class="my-0 py-0">
               <input
                 style="display:none"
                 name="start_field_target"
@@ -146,24 +163,32 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
+                    :disabled="formData.status"
+                    dense
                     outlined
                     name="start"
                     :value="formated(formData.start)"
                     label="Início"
-                    prepend-icon="mdi-calendar"
+                    prepend-inner-icon="mdi-calendar-arrow-right"
                     readonly
                     v-on="on"
                     v-validate="'date_format:dd/MM/yyyy|after:valStartRef'"
                     data-vv-as="start"
-                    :error-messages="errors.collect('start')"
+                    :error-messages="errorMsg('start') || errors.collect('start')"
                   ></v-text-field>
                   <!-- error-messages="Teste" -->
                 </template>
-                <v-date-picker v-model="formData.start" @input="start_menu=false" locale="pt-pt"></v-date-picker>
+                <v-date-picker
+                  no-title
+                  :min="new Date().toISOString().substr(0, 10)"
+                  v-model="formData.start"
+                  @input="start_menu=false"
+                  locale="pt-pt"
+                ></v-date-picker>
               </v-menu>
             </v-col>
 
-            <v-col cols="12" md="6" class="my-0 py-0">
+            <v-col cols="12" class="my-0 py-0">
               <input
                 style="display:none"
                 name="end_field_target"
@@ -181,19 +206,26 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
+                    dense
                     outlined
                     name="end"
                     :value="formated(formData.end)"
                     label="Fím"
-                    prepend-icon="mdi-calendar"
+                    prepend-inner-icon="mdi-calendar-arrow-left"
                     readonly
                     v-on="on"
                     v-validate="'date_format:dd/MM/yyyy|after:valEndRef'"
                     data-vv-as="end"
-                    :error-messages="errors.collect('end')"
+                    :error-messages="errorMsg('end') || errors.collect('end')"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="formData.end" @input="end_menu=false" locale="pt-pt"></v-date-picker>
+                <v-date-picker
+                  no-title
+                  :min="formData.start"
+                  v-model="formData.end"
+                  @input="end_menu=false"
+                  locale="pt-pt"
+                ></v-date-picker>
               </v-menu>
             </v-col>
           </v-row>
@@ -207,12 +239,12 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { dateFormat } from "@/mixins/DateTime";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import moment from "moment";
 
 export default {
-  mixins: [clearForm, dateFormat, sendFormData, getDatas],
-  props: ["formData", "updating"],
+  mixins: [clearForm, dateFormat, sendFormData, getDatas, getBackEndError],
+  props: ["formData", "update_form"],
 
   data() {
     return {
@@ -227,7 +259,11 @@ export default {
           !value ||
           value.size < 2000000 ||
           "Imagem de capa não pode ter um tamanho superior a 2MB"
-      ]
+      ],
+      editor_options: {
+        language_url: "../plugins/editor/pt_PT.js" //This url points to location of persian language file.
+        // language: "pt_PT" //This url points to location of persian language file.
+      }
     };
   },
 
@@ -276,18 +312,33 @@ export default {
   },
 
   methods: {
+    // onFileUpload(e) {
+    //   const file = e.target.files[0] || e.dataTransfer.files[0];
+    //   let fileReader = new FileReader();
+    //   fileReader.readAsDataURL(file);
+    //   fileReader.onload = event => {
+    //     this.formData.cover = event.target.result;
+    //   };
+    // }
+
+    setDisableArticleStartDate() {
+      this.formData.start = "";
+    },
+
     onFileUpload(e) {
       let fileReader = new FileReader();
       try {
         fileReader.readAsDataURL(e);
         fileReader.onload = ev => {
-          this.formData.media.image = ev.target.result;
+          this.formData.cover = ev.target.result;
         };
       } catch (error) {
         //eslint-disable-next-line
         console.log(error);
       }
     }
-  }
+  },
+
+  components: {}
 };
 </script>

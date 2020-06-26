@@ -1,12 +1,10 @@
 <template>
-  <v-container grid-list-xs pt-0>
+  <v-container grid-list-xs pt-0 mt-0>
     <v-row>
       <v-col class="mt-0 pt-0">
         <read-article :article="article" :flat="true"></read-article>
       </v-col>
-      
     </v-row>
-    
   </v-container>
 </template>
 
@@ -30,6 +28,7 @@ export default {
     articles: function() {
       return this.$store.getters.published_articles;
     },
+
     article: function() {
       return this.$store.getters.published_article(this.slug);
     }

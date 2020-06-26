@@ -8,7 +8,7 @@
               :disabled="!!authUser"
               color="primary"
               label="Nome"
-              v-model="messageInfo.name"
+              v-model="formData.name"
               name="name"
               v-validate="'required'"
               data-vv-name="name"
@@ -21,7 +21,7 @@
               :disabled="!!authUser"
               color="primary"
               label="Email"
-              v-model="messageInfo.from"
+              v-model="formData.from"
               name="email"
               v-validate="'required|email'"
               data-vv-name="email"
@@ -30,17 +30,17 @@
           </v-col>
 
           <!-- <v-col cols="12" class="my-0 py-0">
-            <v-radio-group class="my-0 py-0" v-model="messageInfo.to" row>
+            <v-radio-group class="my-0 py-0" v-model="formData.to" row>
               <span>Para:</span>
               <v-radio color="secundary" label="Direção" value="director@gmail.com"></v-radio>
               <v-radio color="secundary" label="Sub-Direção" value="subdiretor@gmail.com"></v-radio>
               <v-radio color="secundary" label="Secretaria" value="sec@gmail.com"></v-radio>
             </v-radio-group>
-          </v-col> -->
+          </v-col>-->
 
           <v-col cols="12" class="my-0 py-0">
             <v-autocomplete
-              v-model="messageInfo.subject"
+              v-model="formData.subject"
               ref="subject"
               color="primary"
               no-data-text="Este assunto não está disponível, escolha 'Outros' e especifique o seu assunto"
@@ -53,12 +53,12 @@
             ></v-autocomplete>
           </v-col>
 
-          <template v-if="messageInfo.subject=='Outros'">
+          <template v-if="formData.subject=='Outros'">
             <v-col cols="12" class="my-0 py-0">
               <v-text-field
                 color="primary"
                 label="Assunto"
-                v-model="messageInfo.otherSubject"
+                v-model="formData.otherSubject"
                 name="otherSubject"
                 hint="Especifíque o seu assunto..."
                 v-validate.immediate="'required_if:subject,Outros'"
@@ -72,10 +72,10 @@
             <v-textarea
               color="primary"
               outlined
-              rows="2"
+              rows="4"
               auto-grow
               label="Escreva aqui a sua mensagem"
-              v-model="messageInfo.content"
+              v-model="formData.content"
               name="message"
               v-validate="'required'"
               data-vv-name="message"
@@ -85,7 +85,7 @@
           </v-col>
 
           <v-col
-            v-if="messageInfo.name && messageInfo.from && messageInfo.content && (messageInfo.subject || messageInfo.otherSubject)"
+            v-if="formData.name && formData.from && formData.content && (formData.subject || formData.otherSubject)"
             cols="12"
             align="right"
             class="my-0 py-0"
@@ -115,7 +115,7 @@ export default {
         "Formação Profossional",
         "Outros"
       ],
-      messageInfo: {
+      formData: {
         name: "",
         from: "",
         to: "",
@@ -139,8 +139,8 @@ export default {
   methods: {
     setContactFields() {
       if (this.authUser) {
-        this.messageInfo.name = this.authUser.username;
-        this.messageInfo.from = this.authUser.email;
+        this.formData.name = this.authUser.username;
+        this.formData.from = this.authUser.email;
       }
     },
 
@@ -149,10 +149,23 @@ export default {
         if (noErrorOnValidate) {
           //eslint-disable-next-line no-undef
           axios
-            .post("services/to_contact", this.$data.messageInfo)
+            .post("to_contact", this.$data.formData)
             .then(response => {
               this.clear();
-              this.feedback("success", response.data.msg, 3000, true, "top");
+              this.registerCreated(
+                "success",
+                "Mensagem Inviada",
+                response.data.msg,
+                "A equipa da EICM-GDC agradece o seu contacto, e promete retorna-lo em breve"
+              );
+
+              // this.feedback(
+              //   "success",
+              //   response.data.msg,
+              //   3000,
+              //   true,
+              //   "top-end"
+              // );
             })
             .catch(err => {
               //eslint-disable-next-line no-console

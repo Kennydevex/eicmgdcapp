@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <v-container grid-list-xs mt-0 pt-0>
     <v-row>
       <v-col>
         <course-info :course="course"></course-info>
@@ -26,10 +26,10 @@ export default {
 
   computed: {
     courses: function() {
-      return this.$store.getters.courses;
+      return this.$store.getters.actived_courses;
     },
     course: function() {
-      return this.$store.getters.course(this.slug);
+      return this.$store.getters.actived_course(this.slug);
     }
   },
 

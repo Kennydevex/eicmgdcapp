@@ -11,8 +11,9 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VueProgressBar from 'vue-progressbar';
-import VueMask from 'v-mask'
-
+import VueMask from 'v-mask';
+import tinymce from 'vue-tinymce-editor';
+import VueSocialSharing from 'vue-social-sharing'
 
 import AOS from 'aos';
 import 'animate.css';
@@ -35,6 +36,10 @@ Vue.use(VueProgressBar, {
   failedColor: 'red',
   height: '3px'
 });
+Vue.component('tinymce', tinymce);
+Vue.use(VueSocialSharing);
+
+
 
 Vue.use(VeeValidate);
 Validator.localize('pt', pt);

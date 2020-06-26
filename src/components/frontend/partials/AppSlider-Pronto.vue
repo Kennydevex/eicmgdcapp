@@ -104,15 +104,16 @@
                     swiper-animate-duration="3s"
                   >
                     <v-btn
-                      :text="slider.btn_style==1&&slider.type==2?true:false"
+                      :text="slider.btn_style==1?true:false"
+                      small
                       dark
                       outlined
                       tile
-                      :color="slider.type==1?'white':slider.color"
-                      class="text-none"
-                      course_info
+                      :color="slider.color"
+                      class="text-none"  course_info
                       @click="slider.type==1?onView('course_info', slider.slug):onView('read_article', slider.slug)"
                     >{{slider.btn_text}}</v-btn>
+                    <!-- :to="{name: slider.link}" -->
                   </div>
                 </div>
               </div>
@@ -281,13 +282,13 @@ $lg-screen: 1904px;
 
   .slider-content {
     width: 100%;
-    // background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
     padding: 20px;
   }
 
   .slider-title {
     text-align: left;
-    color: rgb(255, 255, 255);
+    color: rgb(50, 50, 50);
     padding-bottom: 20px;
     .slide-title-underline {
       width: 30%;
@@ -300,7 +301,7 @@ $lg-screen: 1904px;
   .slider-body {
     margin-bottom: 10px;
     text-align: justify;
-    color: rgb(255, 255, 255);
+    color: rgb(75, 75, 75);
   }
 }
 
@@ -325,16 +326,11 @@ $lg-screen: 1904px;
     width: 45%;
   }
 
-  .post-slider-body {
-    color: rgb(80, 80, 80);
-  }
-
   .post-slider-content {
     position: relative;
     left: -30px;
     // border-bottom: 2px solid;
     // border-left: 2px solid;
-    background-color: rgb(255, 255, 255);
     transition: left 1s;
     z-index: 100;
 
@@ -370,7 +366,7 @@ $lg-screen: 1904px;
   height: 580px;
   width: 35%;
   padding: 0 15px 0 35px;
-  transition: background-color 0.5s;
+  transition: background-color 1s;
 
   background-color: #3e4095;
   background: linear-gradient(
@@ -406,7 +402,7 @@ $lg-screen: 1904px;
 
   .course-slider-content {
     width: 100%;
-    // background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
     padding: 20px;
   }
   // @include xs {
@@ -423,11 +419,11 @@ $lg-screen: 1904px;
   // }
 
   .course-slider-footer {
-    text-align: left;
+    text-align: right;
   }
 }
 
 .course-slider-container:hover {
-  background-color: #3e3f95cc;
+  background-color: #5c5c5c44;
 }
 </style>

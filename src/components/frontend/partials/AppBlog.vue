@@ -5,15 +5,16 @@
       <v-row justify="center">
         <v-col cols="12">
           <div
+          data-aos="slide-up" data-aos-duration="2000"
             @mouseenter="$refs.swiperRef.swiper.autoplay.stop()"
             @mouseleave="$refs.swiperRef.swiper.autoplay.start()"
           >
             <swiper :options="swiperOption" ref="swiperRef">
-              <template v-for="article in published_articles">
+              <template v-for="article in featured_articles">
                 <swiper-slide :key="'artigo_'+article.id">
-                  <v-card tile  data-aos="slide-right" data-aos-duration="2000">
+                  <v-card tile>
                     <v-img
-                      :src="`${apiUrl}/images/articles/covers/${article.media.name}`"
+                      :src="`${apiUrl}/images/articles/covers/${article.cover}`"
                       height="120px"
                       aspect-ratio="2.75"
                       class="white--text align-end"
@@ -22,9 +23,10 @@
                     </v-img>
 
                     <v-card-text>
-                      <div class="text-capitalize">{{dateForHumanPresentation(article.start)}}</div>
-                      <v-divider class="mr-7 py-1"></v-divider>
-                      <div class="pr-5 grey--text text--darken-4 font-weight-regular">
+                      <div class="text-capitalize">
+                        <small>{{dateForHumanPresentation(article.created_at)}}</small>
+                      </div>
+                      <div class=" grey--text text--darken-4 font-weight-regular">
                         <span>{{article.summary|truncate(80)}}</span>
                       </div>
                     </v-card-text>
@@ -62,14 +64,14 @@ import { actionAlert } from "@/mixins/AppAlerts";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  props: ["published_articles"],
+  props: ["featured_articles"],
 
   mixins: [truncateFilter, actionAlert, viewAndUpdate, dateFormat],
 
   data() {
     return {
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 3,
         spaceBetween: 10,
         // loop: true,
         loopFillGroupWithBlank: true,
@@ -106,12 +108,12 @@ export default {
   }
 
   // created: function() {
-  //   this.getAll(this.published_articles, "getPublishedArticles");
+  //   this.getAll(this.featured_articles, "getPublishedArticles");
   // },
 
   // computed: {
-  //   published_articles: function() {
-  //     return this.$store.getters.published_articles;
+  //   featured_articles: function() {
+  //     return this.$store.getters.featured_articles;
   //   }
   // }
 };

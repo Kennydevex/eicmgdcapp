@@ -6,7 +6,7 @@ export default ({
         featured_courses: [],
     },
 
-    getters: { 
+    getters: {
         courses(state) { return state.courses; },
         course: (state) => (slug) => {
             return state.courses.find(course => course.slug === slug);
@@ -19,17 +19,22 @@ export default ({
         },
 
         featured_courses(state) {
-            return state.featured_courses;
+            return state.actived_courses.filter(function (course) {
+                return course.featured == true;
+            });
         },
-        featured_course: (state) => (slug) => {
-            return state.featured_courses.find(featured_course => featured_course.slug === slug);
+
+        cursos_via_tecnica(state) {
+            return state.actived_courses.filter(function (course) {
+                return course.type == 1;
+            }); 
         },
+
     },
 
     mutations: {
         updateCourses(state, payload) { state.courses = payload; },
         updateActivedCourses(state, payload) { state.actived_courses = payload; },
-        updateFeaturedCourses(state, payload) { state.featured_courses = payload; },
     },
 
     actions: {
@@ -41,11 +46,6 @@ export default ({
         getActivedCourses(context) {
             // eslint-disable-next-line no-undef
             axios.get('activedCourses').then(function (response) { context.commit('updateActivedCourses', response.data.data); });
-        },
-
-        getFeaturedCourses(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('featuredCourses').then(function (response) { context.commit('updateFeaturedCourses', response.data.data); });
         },
     }
 });

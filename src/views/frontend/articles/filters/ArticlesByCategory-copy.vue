@@ -2,7 +2,12 @@
   <v-container grid-list-xs>
     <v-row>
       <v-col cols="12" class="py-0 my-0">
-        <div class="pa-2 ma-0 grey lighten-4"><span>Todos os Artigos da Categoria: <i class="primary--text">{{category.name}}</i></span></div>
+        <div class="pa-2 ma-0 grey lighten-4">
+          <span>
+            Todos os Artigos da Categoria: {{articles_by_category}}
+            <i class="primary--text">{{category.name}}</i>
+          </span>
+        </div>
       </v-col>
       <template v-for="article in category.articles">
         <v-col cols="12" md="3" class="mx-1" :key="article.id">
@@ -15,7 +20,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-img :src="`${apiUrl}/images/articles/covers/${article.media.name}`" height="130"></v-img>
+            <v-img :src="`${apiUrl}/images/articles/covers/${article.cover}`" height="130"></v-img>
 
             <v-card-text>{{ article.summary|truncate(50)}}</v-card-text>
 
@@ -60,12 +65,22 @@ export default {
 
   created: function() {
     this.getAll(this.categories, "getArticleByCategories");
+    this.getAll(this.articles, "getPublishedArticles");
   },
 
   computed: {
+    articles: function() {
+      return this.$store.getters.published_articles;
+    },
+
     categories: function() {
       return this.$store.getters.articles_by_categories;
     },
+
+    articles_by_category: function() {
+      return this.$store.getters.articles_by_category(this.slug);
+    },
+
     category: function() {
       return this.$store.getters.category(this.slug);
     }

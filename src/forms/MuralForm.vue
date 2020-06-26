@@ -2,7 +2,37 @@
   <v-form ref="form">
     <v-container grid-list-xs pa-0 ma-0>
       <v-row>
-        <v-col cols="12" md="4" class="mb-0 py-0">
+        <v-col class="py-0" cols="12" v-if="schools.length==0">
+          <v-alert
+            border="top"
+            colored-border
+            type="error"
+            elevation="2"
+            dismissible
+            prominent
+            icon="mdi-alert"
+            tile
+          >
+            <v-row align="center">
+              <v-col
+                class="grow"
+              >Nenhuma instituição encontrada na base de dados, é preciso o seu registo para poder criar a sua história</v-col>
+              <v-col class="shrink">
+                <v-btn
+                  small
+                  :to="{ name: 'add_school'}"
+                  v-if="canAdd()"
+                  rounded
+                  outlined
+                  color="primary"
+                  text
+                  class="text-none"
+                >Registar Instituição</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+        <!-- <v-col cols="12" md="4" class="mb-0 py-0">
           <v-autocomplete
             dense
             v-model="formData.school_id"
@@ -19,10 +49,11 @@
             data-vv-name="school"
             :error-messages="errors.collect('school')"
           ></v-autocomplete>
-        </v-col>
+        </v-col>-->
 
-        <v-col cols="12" md="8" class="mb-0 py-0">
+        <v-col cols="12" class="mb-0 py-0">
           <v-text-field
+            :disabled="schools.length==0"
             dense
             label="Titulo*"
             name="title"
@@ -30,22 +61,24 @@
             outlined
             v-validate="'required'"
             data-vv-name="title"
-            :error-messages="(errors.has('title')) ? errors.collect('title'): formErrors.title"
+            :error-messages="errorMsg('title') || errors.collect('title')"
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            :disabled="schools.length==0"
             dense
+            counter
             label="Descrição*"
             name="description"
             hint="Apresente uma descrição"
             persistent-hint
             v-model="formData.description"
             outlined
-            rows="4"
-            v-validate="'required|max:500'"
+            rows="3"
+            v-validate="'required|max:100'"
             data-vv-name="description"
-            :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
+            :error-messages="errorMsg('description') || errors.collect('description')"
           ></v-textarea>
         </v-col>
 
@@ -56,8 +89,8 @@
 
         <v-col cols="12" md="6" class="mb-0 py-0">
           <v-autocomplete
+            :disabled="schools.length==0"
             dense
-            outlined
             v-model="formData.icon"
             no-data-text="Nenhuma instituição com este nome"
             hide-selected
@@ -68,7 +101,7 @@
             :prepend-inner-icon="formData.icon"
             v-validate="'required'"
             data-vv-name="icon"
-            :error-messages="errors.collect('icon')"
+            :error-messages="errorMsg('icon') || errors.collect('icon')"
           ></v-autocomplete>
         </v-col>
       </v-row>
@@ -80,12 +113,12 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import moment from "moment";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat],
+  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat, getBackEndError],
   props: ["formData"],
 
   data() {

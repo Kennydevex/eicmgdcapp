@@ -2,10 +2,12 @@
 <template>
   <v-container grid-list-xs fluid>
     <!-- <v-row>
-      <v-col cols="12">
-        <v-btn large rounded class="text-uppercase font-weight-regular" text>Equipa</v-btn>
-      </v-col>
-    </v-row>-->
+      <v-container grid-list-xs>
+        <v-col cols="12" class="ma-0 pa-0">
+          <v-btn large rounded class="text-uppercase font-weight-regular" text>Equipa</v-btn>
+        </v-col>
+      </v-container>
+    </v-row> -->
     <v-row data-aos="fade-in" data-aos-duration="2000" class="my-3" align="center" justify="center">
       <template v-for="(team, t) in teams">
         <v-col :key="'team_'+t" cols="12" md="2" sm="6" align="center" justify="center">

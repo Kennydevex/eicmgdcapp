@@ -1,14 +1,53 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12">
+      <v-col class="py-0" cols="12">
+        <v-alert border="top" colored-border dense tile text type="warning" elevation="2" dismissible v-model="mural_alert">
+          <v-row align="center">
+            <v-col>Limita-se a criação de até três lemas, se realmente for necessario cria mais, contacte o adminitrador do sistema</v-col>
+          </v-row>
+        </v-alert>
+      </v-col>
+
+      <template v-if="murals.length==0">
+        <v-col class="py-0" cols="12">
+          <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>
+            <v-row align="center">
+              <v-col class="grow">Sem registos para apresentar</v-col>
+              <v-col class="shrink">
+                <v-btn
+                  small
+                  @click="addMuralModal()"
+                  v-if="canAdd()"
+                  rounded
+                  outlined
+                  text
+                  class="text-none"
+                  color="primary"
+                >Criar um lema</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader class="elevation-2" type="article, actions"></v-skeleton-loader>
+        </v-col>
+      </template>
+
+      <v-col cols="12" v-else>
         <v-card>
           <v-toolbar color="white" flat>
             <v-text-field
               flat
               solo
               prepend-icon="mdi-magnify"
-              placeholder="Procurar utilizador na tabela..."
+              placeholder="Procurar lema na tabela..."
               v-model="search"
               hide-details
               class="hidden-sm-and-down"
@@ -21,7 +60,13 @@
             <v-btn icon>
               <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
-            <v-btn v-if="canAdd()" color="primary" fab small @click="addMuralModal()">
+            <v-btn
+              v-if="canAdd()"
+              color="primary"
+              fab
+              small
+              @click="addMuralModal()"
+            >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-toolbar>
@@ -43,29 +88,31 @@
               show-expand
             >
               <template v-slot:item.icon="{ item }">
-                <v-icon>{{item.icon}}</v-icon>
+                <v-icon large color="primary">{{item.icon}}</v-icon>
               </template>
 
               <template v-slot:item.action="{ item }">
                 <v-btn
                   v-if="canEdit()"
-                  color="primary"
-                  x-small
-                  outlined
-                  rounded
+                  color="warning"
+                  icon
+                  small
                   class="text-none mr-1"
                   @click="updateMuralModal(item.id)"
-                >editar</v-btn>
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
-                  x-small
-                  outlined
-                  rounded
+                  color="error"
+                  icon
+                  small
                   class="text-none"
                   @click="onDelete('murals',item.id,'APP_UPDATE_ALL_MURALS_DATA')"
-                >eliminar</v-btn>
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
                 <!-- <v-icon small class="mr-2" @click="updateMuralModal(item.id)">mdi-pencil</v-icon> -->
                 <!-- <v-icon small @click="onDeleteMural(item.id)">mdi-delete</v-icon> -->
               </template>
@@ -107,6 +154,7 @@ export default {
 
   data() {
     return {
+      mural_alert: false,
       expanded: [],
       fab: false,
       search: "",
@@ -115,11 +163,12 @@ export default {
         {
           text: "Ícone",
           value: "icon",
-          align: "center"
+          align: "center",
+          sortable: false
         },
-        
+
         {
-          text: "Mural",
+          text: "Mural/Lema",
           value: "title"
         },
 
@@ -156,6 +205,10 @@ export default {
 
   methods: {
     addMuralModal() {
+      if (this.murals.length >= 3) {
+        this.mural_alert = true;
+        return;
+      }
       window.getApp.$emit("APP_ADD_MURAL_MODAL");
     },
 

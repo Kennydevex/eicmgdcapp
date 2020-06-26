@@ -51,7 +51,7 @@
                   v-text="course.name"
                 ></div>
                 <!-- <h3 class="display-1 font-weight-light orange--text mb-2">QW cooking utensils</h3> -->
-                <v-divider></v-divider>
+                <!-- <v-divider></v-divider> -->
                 <div>
                   <p class="font-weight-light mb-2">{{course.description|truncate(100)}}</p>
                 </div>

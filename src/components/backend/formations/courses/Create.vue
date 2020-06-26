@@ -20,12 +20,13 @@ export default {
   data() {
     return {
       formData: {
+        id:'',
         name: "",
         description: "",
         release: "",
         requirement: "",
         duration_type: "1",
-        duration: "1",
+        duration: "2",
         status: false,
         featured: false,
         type: "",

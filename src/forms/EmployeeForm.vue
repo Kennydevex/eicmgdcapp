@@ -415,6 +415,12 @@
             </template>
           </template>
         </v-row>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col>
+            <v-switch label="Destacar página principal" v-model="formData.featured"></v-switch>
+          </v-col>
+        </v-row>
 
         <v-row>
           <v-col cols="12" class="mt-5 mb-0 pb-0">
@@ -463,7 +469,7 @@ export default {
     birthdate_menu(val) {
       val &&
         setTimeout(() => (this.$refs.birth_date_picker.activePicker = "YEAR"));
-    },
+    }
 
     // activity_begin_menu(val) {
     //   val &&

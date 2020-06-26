@@ -2,8 +2,9 @@
   <v-form ref="form">
     <v-container grid-list-xs pa-0 ma-0>
       <v-row>
-        <v-col cols="12" md="4" class="mb-0 py-0">
+        <!-- <v-col cols="12" md="4" class="mb-0 py-0">
           <v-autocomplete
+            dense
             v-model="formData.school_id"
             auto-select-first
             outlined
@@ -20,10 +21,12 @@
             data-vv-name="school"
             :error-messages="errors.collect('school')"
           ></v-autocomplete>
-        </v-col>
+        </v-col>-->
 
-        <v-col cols="12" md="8" class="mb-0 py-0">
+        <v-col cols="12" class="mb-0 py-0">
           <v-text-field
+            :disabled="schools.length==0"
+            dense
             label="Titulo*"
             name="title"
             v-model="formData.title"
@@ -35,12 +38,15 @@
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            :disabled="schools.length==0"
+            dense
             label="Descrição*"
             name="description"
-            hint="Apresente a descrição deste marco"
+            hint="Apresente a descrição deste marco de no máximo 500 caracteres"
             persistent-hint
             v-model="formData.description"
             outlined
+            counter
             rows="4"
             v-validate="'required|max:500'"
             data-vv-name="description"
@@ -71,11 +77,13 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                :disabled="schools.length==0"
+                dense
                 outlined
                 name="begin"
                 :value="formated(formData.begin)"
                 label="Início*"
-                prepend-icon="mdi-calendar"
+                prepend-inner-icon="mdi-calendar-arrow-right"
                 readonly
                 v-on="on"
                 v-validate="'required|date_format:dd/MM/yyyy|before:valStartMarkRef'"
@@ -112,14 +120,16 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                :disabled="schools.length==0"
+                dense
                 outlined
                 name="end"
                 :value="formated(formData.end)"
                 label="Fím"
-                prepend-icon="mdi-calendar"
+                prepend-inner-icon="mdi-calendar-arrow-left"
                 readonly
                 v-on="on"
-                v-validate="'date_format:dd/MM/yyyy|after:valEndMarkRef|before:valStartMarkRef'"
+                v-validate="'required|date_format:dd/MM/yyyy|after:valEndMarkRef|before:valStartMarkRef'"
                 data-vv-as="end"
                 :error-messages="(errors.has('end')) ? errors.collect('end'): formErrors.end"
               ></v-text-field>

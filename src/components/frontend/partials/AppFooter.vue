@@ -30,23 +30,8 @@
                     <v-col cols="12" class="pa-0">
                       <small>Subscreva com o seu email para estar em dia com as nossas publicações</small>
                     </v-col>
-                    <v-col cols="12" class="px-0">
-                      <v-text-field
-                        dense
-                        solo
-                        hide-details
-                        name="name"
-                        label="Insira o seu e-mail"
-                        id="id"
-                        persistent-hint
-                      >
-                        <template v-slot:append>
-                          <v-btn icon>
-                            <v-icon>mdi-send</v-icon>
-                          </v-btn>
-                        </template>
-                      </v-text-field>
-                    </v-col>
+
+                    <subscribe></subscribe>
                   </v-row>
                 </v-card-text>
               </v-card-text>
@@ -59,28 +44,7 @@
                 >Cursos técnicos</v-card-title>
                 <v-divider dark></v-divider>
                 <v-card-text class="py-0 px-3 mt-2 text-center">
-                  <v-row>
-                    <v-col cols="12" class="pa-0">
-                      <ul type="none">
-                        <template v-for="(course_link, i) in item_courses">
-                          <li :key="i" class="ma-0 pa-0">
-                            <!-- <a class="grey--text lighten-3" href="#">{{course_link}}</a> -->
-                            <v-btn
-                              exact
-                              :ripple="false"
-                              retain-focus-on-click
-                              href="#"
-                              target="_blank"
-                              color="grey lighten-1"
-                              class="py-1 ma-0 text-none font-weight-light"
-                              small
-                              text
-                            >{{course_link}}</v-btn>
-                          </li>
-                        </template>
-                      </ul>
-                    </v-col>
-                  </v-row>
+                  <courses></courses>
                 </v-card-text>
               </v-card-text>
             </v-col>
@@ -139,6 +103,8 @@
 </template>
 
 <script>
+import Subscribe from "./Footer/Subscribe";
+import Courses from "./Footer/Courses";
 export default {
   data: () => ({
     icons: ["mdi-home", "mdi-account-tie", "mdi-briefcase"],
@@ -185,7 +151,12 @@ export default {
       }
     ]
   }),
-  methods: {}
+  methods: {},
+
+  components: {
+    Subscribe,
+    Courses
+  }
 };
 </script>
 
@@ -196,7 +167,7 @@ li {
 a {
   text-decoration: none;
   transition: color 0.6s;
-  color: aliceblue;
+  color: rgb(209, 224, 238);
 }
 a:hover {
   color: white;

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="updateHistoryModal" max-width="940px" persistent>
+  <v-dialog v-model="updateHistoryModal" max-width="640px" persistent>
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">

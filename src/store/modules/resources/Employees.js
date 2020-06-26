@@ -9,9 +9,21 @@ export default ({
 
     getters: {
         employees(state) { return state.employees; },
+
         teams(state) { return state.teams; },
+
+        team: (state) => (id) => {
+            return state.employees.find(employee => employee.id === id);
+        },
+
         employee: (state) => (id) => {
             return state.employees.find(employee => employee.id === id);
+        },
+
+        featured_employees(state) {
+            return state.teams.filter(function (team) {
+                return team.featured == true;
+            });
         },
     },
 
