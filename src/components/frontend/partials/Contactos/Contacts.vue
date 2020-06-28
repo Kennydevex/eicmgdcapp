@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="mb-5">
     <v-card flat color="transparent">
-      <v-card-text class="mx-0 px-0">
-        <v-list two-line>
+      <v-card-text class="ma-0 pa-0">
+        <v-list two-line color="transparent">
           <template v-for="(contact, c) in contacts">
             <v-list-item @click="()=>{}" :key="'f_contact'+c">
               <v-list-item-icon>

@@ -7,11 +7,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col  v-if="schoolData.length!=0" cols="12" sm="6">
+      <v-col v-if="schoolData.length!=0" cols="12" md="5">
         <contacts :contacts="schoolData[0].contacts" :address="schoolData[0].address"></contacts>
       </v-col>
 
-      <v-col cols="12" sm="6">
+      <v-col data-aos="fade-up-left" data-aos-duration="2000"  cols="12" md="7">
         <to-contact></to-contact>
       </v-col>
       </v-row>

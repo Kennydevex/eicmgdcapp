@@ -28,7 +28,7 @@
       <app-blog :featured_articles="featured_articles"></app-blog>
     </section>
 
-    <section>
+    <section class="grey lighten-3">
       <app-contacts :schoolData="schools"></app-contacts>
     </section>
   </div>

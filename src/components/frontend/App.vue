@@ -49,7 +49,12 @@
             </template>
           </v-list-group>
 
-          <v-list-item color="primary" :key="i+'s_front_drawer_'+i" v-else @click="menuLink(item.name, item.slug)">
+          <v-list-item
+            color="primary"
+            :key="i+'s_front_drawer_'+i"
+            v-else
+            @click="menuLink(item.name, item.slug)"
+          >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
@@ -206,7 +211,9 @@
     <v-main class="white" height="auto">
       <router-view></router-view>
     </v-main>
-    <app-footer></app-footer>
+    <div>
+      <app-footer></app-footer>
+    </div>
   </v-app>
 </template>
 

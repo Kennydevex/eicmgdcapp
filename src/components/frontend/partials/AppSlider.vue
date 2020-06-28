@@ -68,11 +68,11 @@
                     :class="slider.type==1?'course-slider-title':'post-slider-title'"
                   >
                     <h3
-                      class="ani text-uppercase font-weight-light"
+                      class="ani text-uppercase font-weight-light display-1"
                       swiper-animate-effect="flipInX"
                       swiper-animate-delay="3s"
                       swiper-animate-duration="2s"
-                      :style="{color: slider.color}"
+                      :style="{color: slider.type==2?slider.color:'grey lighten-4'}"
                     >
                       <b>{{slider.title}}</b>
                     </h3>
@@ -335,7 +335,7 @@ $lg-screen: 1904px;
     // border-bottom: 2px solid;
     // border-left: 2px solid;
     background-color: rgb(255, 255, 255);
-    transition: left 1s;
+    transition: left 0.5s;
     z-index: 100;
 
     @include xs {
@@ -372,7 +372,7 @@ $lg-screen: 1904px;
   padding: 0 15px 0 35px;
   transition: background-color 0.5s;
 
-  background-color: #3e4095;
+  background-color: #3e3f95cc;
   background: linear-gradient(
     to right,
     #3e4095 0%,
@@ -394,7 +394,7 @@ $lg-screen: 1904px;
     width: 95%;
     padding: 10px;
     margin: 20px;
-    height: 42%;
+    height: 62%;
     background-color: rgba(62, 64, 149, 0.3);
   }
   @include sm {
