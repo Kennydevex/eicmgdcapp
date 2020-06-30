@@ -103,14 +103,7 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn
-          active-class
-          :ripple="false"
-          :to="{name: 'home_page'}"
-          class="pa-2 mybtn"
-          text
-          color="primary"
-        >
+        <v-btn :ripple="false" :to="{name: 'home_page'}" class="mybtn" text color="primary">
           <span class="font-weight-regular">Principal</span>
         </v-btn>
 
@@ -298,7 +291,8 @@ export default {
           //eslint-disable-next-line
           click: e => {
             this.$router.push({
-              name: "app-perfil",
+              name: "front_perfil",
+              // name: "app-perfil",
               params: { username: this.authUser.username }
             });
           }
@@ -367,6 +361,7 @@ export default {
 .mybtn,
 .submenuitem {
   border-bottom: 2px transparent solid;
+  border-top: 2px transparent solid;
   // padding-bottom: 2px;
   transition: border-bottom 0.5s;
 }
@@ -374,6 +369,14 @@ export default {
 .submenuitem:hover {
   // padding-bottom: 0px;
   border-bottom: 2px rgb(62, 64, 149) solid;
+}
+
+.v-btn:before {
+  background-color: transparent;
+}
+
+.v-btn:hover:before {
+  background-color: transparent;
 }
 
 li {

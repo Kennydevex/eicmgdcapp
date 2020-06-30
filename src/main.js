@@ -2,9 +2,6 @@ require('./bootstrap');
 import Vue from 'vue';
 import App from './App.vue';
 
-
-
-
 import pt from 'vee-validate/dist/locale/pt_PT';
 import VeeValidate, { Validator } from 'vee-validate';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
@@ -47,7 +44,8 @@ Validator.localize('pt', pt);
 // Global mixins
 
 Vue.mixin({
-  data() { return { apiUrl: 'http://localhost:8000' } },
+  data() { return { apiUrl: 'http://45.32.146.227' } },
+  // data() { return { apiUrl: 'http://localhost:8000' } },
   computed: { authUser: function () { return this.$store.getters.authUser; } },
 });
 Vue.mixin(acl);

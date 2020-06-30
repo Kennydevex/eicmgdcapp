@@ -5,7 +5,8 @@ import AppBack from '@/components/backend/App.vue';
 import Home from '@/views/frontend/Home.vue';
 import LoginPage from '@/views/frontend/Login.vue';
 import RegisterPage from '@/views/frontend/Register.vue';
-import Perfil from '@/views/common/Perfil.vue';
+import FrontPerfil from '@/views/frontend/FrontPerfil.vue';
+// import Perfil from '@/views/common/Perfil.vue';
 import Missions from '@/views/frontend/eicm/Missions.vue';
 import Blog from '@/views/frontend/articles/Index.vue';
 import PublishedArticles from '@/views/frontend/articles/List.vue';
@@ -90,18 +91,18 @@ import AddSlider from '@/components/backend/layout/sliders/Create.vue';
 import SliderInfo from '@/components/backend/layout/sliders/View.vue';
 import UpdateSlider from '@/components/backend/layout/sliders/Update.vue';
 
+// Perfil
 
+import BackPerfil from '@/views/backend/BackPerfil.vue';
 
 
 // Errors
 import Error_403 from '@/views/errors/403.vue';
 import Error_404 from '@/views/errors/404.vue';
- 
+
 
 // Tester
 import Teste from '@/views/frontend/Teste.vue';
-
-
 
 export default [
 
@@ -127,10 +128,16 @@ export default [
                 component: RegisterPage,
                 name: 'register_page'
             },
+            // {
+            //     path: '/perfil',
+            //     component: Perfil,
+            //     name: 'perfil'
+            // },
+
             {
-                path: '/perfil',
-                component: Perfil,
-                name: 'perfil'
+                path: '/perfil/:username',
+                component: FrontPerfil,
+                name: 'front_perfil'
             },
 
             {
@@ -258,6 +265,12 @@ export default [
                 path: '/',
                 name: 'admin_page',
                 component: Admin,
+            },
+
+            {
+                path: '/perfil/:username',
+                component: BackPerfil,
+                name: 'back_perfil'
             },
 
 

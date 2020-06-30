@@ -11,7 +11,7 @@
           id="id"
           v-validate="'required|email'"
           data-vv-name="form-subscribe.email"
-          :error-messages="errors.collect('form-subscribe.email')"
+          :error-messages="errorMsg('email') || errors.collect('form-subscribe.email')"
           hint="Por favor seja claro e direto com a sua mensagem..."
           @keyup.enter="subscribe('form-subscribe')"
         >
@@ -25,7 +25,7 @@
     </v-form>
 
     <v-col cols="12" class="pa-0">
-      <v-dialog v-model="dialog" persistent max-width="400px">
+      <v-dialog v-model="dialog" persistent max-width="460px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             dark
@@ -70,9 +70,24 @@
           <v-window v-model="step">
             <v-form ref="form" data-vv-scope="form-unsubscribe">
               <v-window-item :value="1">
+                <v-card-text class="my-0 py-0" v-if="err_msg">
+                  <v-alert
+                    dense
+                    tile
+                    color="error"
+                    icon="mdi-email-alert"
+                    border="right"
+                    colored-border
+                    dismissible
+                    elevation="3"
+                    transition="scale-transition"
+                  >
+                    <small>{{err_msg}}</small>
+                  </v-alert>
+                </v-card-text>
                 <v-card-text>
                   <v-text-field
-                    v-model="formData2.email"
+                    v-model="email"
                     label="Email"
                     name="cancel_email"
                     placeholder="exemplo@eicm.cv"
@@ -86,13 +101,34 @@
                   >Introduza o email que corresponde à respectiva subscrição</span>
                 </v-card-text>
               </v-window-item>
-
               <v-window-item :value="2">
+                <v-card-text class="my-0 py-0" v-if="unsub_err_msg">
+                  <v-alert
+                    dense
+                    tile
+                    color="error"
+                    icon="mdi-form-textbox-password"
+                    border="right"
+                    colored-border
+                    dismissible
+                    elevation="3"
+                    transition="scale-transition"
+                  >
+                    <small>{{unsub_err_msg}}</small>
+                  </v-alert>
+                </v-card-text>
                 <v-card-text>
-                  <v-text-field label="Código de confirmação" type="password"></v-text-field>
+                  <v-text-field
+                    v-model="code"
+                    label="Código de confirmação"
+                    name="code"
+                    v-validate="'required'"
+                    data-vv-name="form-unsubscribe.code"
+                    :error-messages="errors.collect('form-unsubscribe.code')"
+                  ></v-text-field>
                   <span
                     class="caption grey--text text--darken-1"
-                  >Insira o código de confirmação que foi emviado pa o email</span>
+                  >Copie o código que foi lhe enviado por email e cole-o aqui</span>
                 </v-card-text>
               </v-window-item>
             </v-form>
@@ -101,7 +137,7 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn small :disabled="step === 1" text @click="step--">Anterior</v-btn>
+            <!-- <v-btn small :disabled="step === 1" text @click="step--">Anterior</v-btn> -->
             <v-spacer></v-spacer>
             <v-btn
               small
@@ -110,14 +146,20 @@
               color="primary"
               depressed
               @click="nextStep('form-unsubscribe')"
-            >Seguinte</v-btn>
+              :loading="sending"
+            >
+              Seguinte
+              <template v-slot:loader>
+                <span>Verificando...</span>
+              </template>
+            </v-btn>
             <v-btn
               small
               text
               v-if="step === 2"
               color="primary"
-              @click="subscribe()"
-              @keyup.enter="subscribe()"
+              @click="unSubscribe('form-unsubscribe')"
+              @keyup.enter="unSubscribe('form-unsubscribe')"
               depressed
             >Enviar</v-btn>
           </v-card-actions>
@@ -131,21 +173,26 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { clearForm } from "@/mixins/Form";
+import { getBackEndError } from "@/mixins/SendForm";
 export default {
-  mixins: [flashAlert, clearForm],
+  mixins: [flashAlert, clearForm, getBackEndError],
 
   data() {
     return {
+      formErrors: {},
+      err_msg: "",
+      unsub_err_msg: "",
       dialog: false,
       step: 1,
+      sending: false,
+
+      email: "",
+      code: "",
 
       formData: {
         email: ""
       },
 
-      formData2: {
-        email: ""
-      },
       dictionary: validateDictionary
     };
   },
@@ -170,9 +217,29 @@ export default {
 
   methods: {
     nextStep(scope) {
+      this.err_msg = "";
+      this.sending = false;
       this.$validator.validateAll(scope).then(noErrorOnValidate => {
         if (noErrorOnValidate) {
-          this.step++;
+          this.sending = true;
+          // eslint-disable-next-line no-undef
+          axios
+            .get("verify_subscriber/" + this.$data.email)
+            .then(response => {
+              if (!response.data.exist) {
+                this.sending = false;
+                this.err_msg = response.data.msg;
+                return;
+              }
+              this.sending = false;
+              this.step++;
+            })
+            .catch(err => {
+              // eslint-disable-next-line no-console
+              console.log(err);
+              this.sending = false;
+              this.err_msg = "Ocorreu algum problema com a operação";
+            });
         }
       });
     },
@@ -183,6 +250,7 @@ export default {
           axios
             .post("subscribe", this.$data.formData)
             .then(response => {
+              this.formErrors = {};
               this.clear();
               this.registerCreated(
                 "success",
@@ -192,14 +260,42 @@ export default {
               );
             })
             .catch(err => {
-              //eslint-disable-next-line no-console
-              console.log(err);
+              this.formErrors = err.response.data.errors;
             });
         }
       });
     },
 
-    unSubscribe() {}
+    unSubscribe(scope) {
+      (this.unsub_err_msg = ""),
+        this.$validator.validateAll(scope).then(noErrorOnValidate => {
+          if (noErrorOnValidate) {
+            // eslint-disable-next-line no-undef
+            axios
+              .get("unsubscribe/" + this.$data.email + "/" + this.$data.code)
+              .then(response => {
+                if (response.data.success) {
+                  this.dialog = false;
+                  this.feedback(
+                    response.data.success ? "success" : "error",
+                    response.data.msg,
+                    3000,
+                    true,
+                    "top-end"
+                  );
+                  this.unsub_err_msg = "";
+                  return;
+                }
+                this.unsub_err_msg = "Verifique o código";
+              })
+              .catch(err => {
+                // eslint-disable-next-line no-console
+                console.log(err);
+                this.msg = "Ocorreu algum problema com a operação";
+              });
+          }
+        });
+    }
   }
 };
 </script>
