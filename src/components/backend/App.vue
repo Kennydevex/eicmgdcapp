@@ -18,7 +18,9 @@
     >
       <v-list-item class="pb-2">
         <v-list-item-avatar>
-          <v-img :src="require('@/assets/placeholder/default.svg')"></v-img>
+          <!-- <v-img :src="`${apiUrl}/images/app/system/${authUser.avatar}`"></v-img> -->
+          <v-img :src="'https://cdn.vuetifyjs.com/images/lists/3.jpg'"></v-img>
+          <!-- <v-img :src="require('@/assets/placeholder/default.svg')"></v-img> -->
         </v-list-item-avatar>
         <v-list-item-title>Estefanio Silva</v-list-item-title>
         <!-- <v-list-item-title class="primary--text">Estefanio Silva</v-list-item-title> -->
@@ -124,7 +126,9 @@
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" text icon color="primary">
             <v-avatar size="28px">
-              <img :src="require('@/assets/placeholder/default.svg')" alt="Avatar" />
+              <!-- <v-img :src="`${apiUrl}/images/app/system/${authUser.avatar}`"></v-img> -->
+              <img :src=" 'https://cdn.vuetifyjs.com/images/lists/1.jpg'" alt="User Avatar" />
+              <!-- <img :src="require('@/assets/placeholder/default.svg')" alt="Avatar" /> -->
             </v-avatar>
           </v-btn>
         </template>

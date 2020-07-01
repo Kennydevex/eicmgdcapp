@@ -1,11 +1,12 @@
 
 <template>
-  <v-parallax :src="require('@/assets/app/statics/parralax1.jpeg')" height="400">
+  <v-parallax :src="require('@/assets/parralax/parrallax.jpg')" height="400">
     <v-container grid-list-xs>
       <v-row justify="center">
         <v-col cols="12">
           <div
-          data-aos="slide-up" data-aos-duration="2000"
+            data-aos="slide-up"
+            data-aos-duration="2000"
             @mouseenter="$refs.swiperRef.swiper.autoplay.stop()"
             @mouseleave="$refs.swiperRef.swiper.autoplay.start()"
           >
@@ -26,7 +27,7 @@
                       <div class="text-capitalize">
                         <small>{{dateForHumanPresentation(article.created_at)}}</small>
                       </div>
-                      <div class=" grey--text text--darken-4 font-weight-regular">
+                      <div class="grey--text text--darken-4 font-weight-regular">
                         <span>{{article.summary|truncate(80)}}</span>
                       </div>
                     </v-card-text>
@@ -106,16 +107,6 @@ export default {
       }
     };
   }
-
-  // created: function() {
-  //   this.getAll(this.featured_articles, "getPublishedArticles");
-  // },
-
-  // computed: {
-  //   featured_articles: function() {
-  //     return this.$store.getters.featured_articles;
-  //   }
-  // }
 };
 </script>
 

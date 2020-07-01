@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-container v-if="sliders.length==0" pt-1>
-      <v-skeleton-loader class="mx-auto" min-height="650" width="100%" type="card"></v-skeleton-loader>
-    </v-container>
-
-    <v-card tile flat v-else @mouseenter="pauseSlider" @mouseleave="startSlider">
+    <v-card tile flat @mouseenter="pauseSlider" @mouseleave="startSlider">
       <swiper ref="sliderSwiper" :options="swiperOption">
         <template v-for="(slider, s) in sliders">
           <swiper-slide :key="'slider_'+s">

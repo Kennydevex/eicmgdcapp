@@ -1,37 +1,89 @@
 <template>
-  <div>
-    <section>
-      <app-slider :sliders="actived_sliders"></app-slider>
-    </section>
-
-    <section v-if="murals.length">
-      <app-murals :murals="murals"></app-murals>
-    </section>
-
-    <section v-if="featured_employees.length" class="grey lighten-3">
-      <app-team :teams="featured_employees"></app-team>
-    </section>
-
-    <section v-if="featured_courses.length">
-      <app-featured-formations :formations="featured_courses"></app-featured-formations>
-    </section>
-
-    <section v-if="featured_articles.length" class="white">
+  <v-row>
+    <v-col
+      cols="12"
+      class="ma-0 pa-0"
+      v-if="!actived_sliders.length && !actived_sliders.length && !featured_employees.length && !featured_courses.length && !murals.length && !schools.length"
+    >
       <v-container grid-list-xs>
         <v-row>
-          <v-col cols="12" align="left" justify="center">
-            <h4 class="text-uppercase font-weight-light">EICM Blog</h4>
-            <div class="title-divider"></div>
-          </v-col>
+          <template v-if="!actived_sliders.length">
+            <v-col cols="12" class="pt-0 mb-5">
+              <v-skeleton-loader type="image"></v-skeleton-loader>
+            </v-col>
+          </template>
+
+          <template>
+            <v-col cols="4" align="center">
+              <v-skeleton-loader type="avatar"></v-skeleton-loader>
+            </v-col>
+            <v-col cols="4" align="center">
+              <v-skeleton-loader type="avatar"></v-skeleton-loader>
+            </v-col>
+            <v-col cols="4" align="center">
+              <v-skeleton-loader type="avatar"></v-skeleton-loader>
+            </v-col>
+          </template>
+
+          <template>
+            <v-col cols="12" md="6">
+              <v-skeleton-loader type="list-item-three-line"></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-skeleton-loader type="list-item-three-line"></v-skeleton-loader>
+            </v-col>
+          </template>
+
+          <template>
+            <v-col cols="12" md="4">
+              <v-skeleton-loader type="card"></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-skeleton-loader type="card"></v-skeleton-loader>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-skeleton-loader type="card"></v-skeleton-loader>
+            </v-col>
+          </template>
         </v-row>
       </v-container>
-      <app-blog :featured_articles="featured_articles"></app-blog>
-    </section>
+    </v-col>
 
-    <section class="grey lighten-3">
-      <app-contacts :schoolData="schools"></app-contacts>
-    </section>
-  </div>
+    <v-col cols="12" class="ma-0 pa-0">
+      <section v-if="actived_sliders.length">
+        <app-slider :sliders="actived_sliders"></app-slider>
+      </section>
+
+      <section v-if="murals.length">
+        <app-murals :murals="murals"></app-murals>
+      </section>
+
+      <section v-if="featured_employees.length" class="grey lighten-3">
+        <app-team :teams="featured_employees"></app-team>
+      </section>
+
+      <section v-if="featured_courses.length">
+        <app-featured-formations :formations="featured_courses"></app-featured-formations>
+      </section>
+
+      <section v-if="featured_articles.length" class="white">
+        <v-container grid-list-xs>
+          <v-row>
+            <v-col cols="12" align="left" justify="center">
+              <h4 class="text-uppercase font-weight-light">EICM Blog</h4>
+              <div class="title-divider"></div>
+            </v-col>
+          </v-row>
+        </v-container>
+        <app-blog :featured_articles="featured_articles"></app-blog>
+      </section>
+
+      <section class="grey lighten-3" v-if="schools.length">
+        <app-contacts :schoolData="schools"></app-contacts>
+      </section>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

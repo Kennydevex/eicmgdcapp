@@ -2,7 +2,7 @@
   <v-container fill-height style="height: calc(100vh - 58px);">
     <v-layout align-center>
       <v-flex text-center>
-        <img :src="require('../../assets/logo.png')" alt="EICM-GDC" width="auto" height="180" />
+        <img :src="require('../../assets/logos/principal_logo.svg')" alt="EICM-GDC" width="auto" height="180" />
         <h1 class="display-2 primary--text">Upsss, 404</h1>
         <p>A página indicada não foi encontrado, certifica-te do enderço inserido</p>
 

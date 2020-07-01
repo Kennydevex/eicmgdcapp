@@ -1,6 +1,5 @@
 <template>
   <div>
-    User perfil
     <perfil />
   </div>
 </template>

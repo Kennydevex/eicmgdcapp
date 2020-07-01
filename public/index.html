@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>EICM-GDC</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
 
-    <script type="text/javascript">
-      window.csrf_token = "{{ csrf_token() }}"
-    </script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <meta property="og:site_name" content="EICM-GDC" />
+  <meta property="og:title" content="Escola Comercial e Industrial do Mindelo - Guilherme Dias Chantre" />
+  <meta property="og:description" content="A Escola Técnica do Mindelo, servindo a população" />
+  <meta property="og:type" content="website" />
+  <!-- <meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" /> -->
+  <!-- <meta property="og:url" content="http://www.imdb.com/title/tt0117500/" /> -->
+
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>EICM-GDC</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+</head>
+
+<body>
+  <noscript>
+    <strong>Recomenda-se a ativação de Javascript no navegador para poderes utilizar as funcionalidades desta
+      plataforma</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script type="text/javascript">
+    window.csrf_token = "{{ csrf_token() }}"
+  </script>
+</body>
+
 </html>

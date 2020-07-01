@@ -4,7 +4,10 @@
       <!-- <v-navigation-drawer  :src="'https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg'" width="320" app v-model="mobile_front_menu" disable-resize-watcher dark> -->
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title">EICM-GDC</v-list-item-title>
+          <v-list-item-title class="title primary--text">
+            EICM -
+            <span class="font-weight-light">GDC</span>
+          </v-list-item-title>
           <v-list-item-subtitle>Escola Industrial e Comercial do Mindelo</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -88,18 +91,18 @@
         class="hidden-md-and-up"
         @click.stop="toggle_mobile_front_menu"
       ></v-app-bar-nav-icon>
-      <v-img
-        class="mx-2"
-        :src="require('@/assets/logo.png')"
-        max-height="130"
-        max-width="130"
-        contain
-      ></v-img>
 
-      <!-- <v-toolbar-title class="text-uppercase primary--text">
-        <span class="font-weight-light">EICM-</span>
-        <span class="font-weight-thin">GDC</span>
-      </v-toolbar-title>-->
+      <img class="hidden-sm-and-down"  :src="require('../../assets/logos/tiny_logo.svg')" width="60" alt="EICM GDC" />
+      <v-toolbar-title class="text-uppercase primary--text">
+        <div class="pt-6 hidden-sm-and-down">
+          <span class="font-weight-regular">EICM-</span>
+          <span class="font-weight-thin">GDC</span>
+        </div>
+        <div class="hidden-md-and-up">
+          <span class="font-weight-regular">EICM-</span>
+          <span class="font-weight-thin">GDC</span>
+        </div>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
@@ -172,7 +175,9 @@
           <template v-slot:activator="{ on }">
             <v-btn active-class :ripple="false" icon v-on="on" text color="primary">
               <v-avatar size="28px">
-                <img :src="require('../../assets/logo.png')" alt="Avatar" />
+                <!-- <v-img :src="`${apiUrl}/images/app/system/${authUser.avatar}`"></v-img> -->
+                <!-- <img :src="'https://cdn.vuetifyjs.com/images/lists/1.jpg'" alt="User Avatar" /> -->
+                <img :src="require('../../assets/logos/principal_logo.svg')" alt="Avatar" />
               </v-avatar>
             </v-btn>
           </template>
