@@ -3,6 +3,9 @@
     <v-navigation-drawer width="320" app v-model="mobile_front_menu" disable-resize-watcher>
       <!-- <v-navigation-drawer  :src="'https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg'" width="320" app v-model="mobile_front_menu" disable-resize-watcher dark> -->
       <v-list-item>
+        <v-list-item-avatar>
+          <v-img :src="require('@/assets/logos/tiny_logo.svg')"></v-img>
+        </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="title primary--text">
             EICM -
@@ -92,7 +95,12 @@
         @click.stop="toggle_mobile_front_menu"
       ></v-app-bar-nav-icon>
 
-      <img class="hidden-sm-and-down"  :src="require('../../assets/logos/tiny_logo.svg')" width="60" alt="EICM GDC" />
+      <img
+        class="hidden-sm-and-down"
+        :src="require('@/assets/logos/tiny_logo.svg')"
+        width="60"
+        alt="EICM GDC"
+      />
       <v-toolbar-title class="text-uppercase primary--text">
         <div class="pt-6 hidden-sm-and-down">
           <span class="font-weight-regular">EICM-</span>
@@ -174,30 +182,38 @@
         <v-menu left bottom :rounded="false">
           <template v-slot:activator="{ on }">
             <v-btn active-class :ripple="false" icon v-on="on" text color="primary">
-              <v-avatar size="28px">
-                <!-- <v-img :src="`${apiUrl}/images/app/system/${authUser.avatar}`"></v-img> -->
-                <!-- <img :src="'https://cdn.vuetifyjs.com/images/lists/1.jpg'" alt="User Avatar" /> -->
-                <img :src="require('../../assets/logos/principal_logo.svg')" alt="Avatar" />
+              <v-avatar size="32" color="grey lighten-2">
+                <v-img :src="`${apiUrl}/images/app/system/users/${authUser.avatar}`"></v-img>
               </v-avatar>
             </v-btn>
           </template>
 
-          <v-list shaped dense>
+          <v-list dense class="pa-0">
             <v-list-item-group color="primary">
-              <v-list-item
-                v-for="(dropmenu, i) in dropmenus"
-                :key="'dropmenu'+i"
-                :to="!dropmenu.href ? { name: dropmenu.name } : null"
-                :href="dropmenu.href"
-                @click="dropmenu.click"
-                :ripple="false"
-                class="submenuitem"
-              >
+              <v-list-item @click.stop="onView('back_perfil', authUser.username)" :ripple="false">
                 <v-list-item-icon>
-                  <v-icon v-text="dropmenu.icon"></v-icon>
+                  <v-icon>mdi-at</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-text="dropmenu.title"></v-list-item-title>
+                  <v-list-item-title v-text="authUser.username"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click.stop="onView('admin_page')" :ripple="false">
+                <v-list-item-icon>
+                  <v-icon>mdi-view-dashboard-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Admin</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click.stop="logout()" :ripple="false">
+                <v-list-item-icon>
+                  <v-icon>mdi-logout-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Terminr Sessão</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -218,13 +234,14 @@
 <script>
 import menus from "@/datas/static/menu_frontend";
 import { getDatas } from "@/mixins/SendForm";
+import { viewAndUpdate } from "@/mixins/Redirects";
 
 import AppFooter from "./partials/AppFooter";
 
 export default {
-  name: "App",
+  name: "app_front",
 
-  mixins: [getDatas],
+  mixins: [getDatas, viewAndUpdate],
 
   data() {
     return {
@@ -287,41 +304,7 @@ export default {
 
       // ================================================
       mobile_front_menu: false,
-      menus: menus,
-      dropmenus: [
-        {
-          icon: "mdi-account-details",
-          href: "#",
-          title: "Meu Perfil",
-          //eslint-disable-next-line
-          click: e => {
-            this.$router.push({
-              name: "front_perfil",
-              // name: "app-perfil",
-              params: { username: this.authUser.username }
-            });
-          }
-        },
-        {
-          icon: "mdi-view-dashboard-variant",
-          href: "#",
-          title: "Dashboard",
-          permission: "acess admin panel",
-          //eslint-disable-next-line
-          click: e => {
-            this.$router.push({ name: "admin_page" });
-          }
-        },
-        {
-          icon: "mdi-logout",
-          href: "#",
-          title: "Terminar Sessão",
-          //eslint-disable-next-line
-          click: e => {
-            this.logout();
-          }
-        }
-      ]
+      menus: menus
     };
   },
 
@@ -350,7 +333,7 @@ export default {
 
     logout: function() {
       this.$store.commit("logout");
-      this.$router.push("/");
+      this.onView('home_page')
     }
   },
 

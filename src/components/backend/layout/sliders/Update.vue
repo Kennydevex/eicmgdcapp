@@ -12,7 +12,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" small text @click="onUpdateSlider()">Guadar Alteração</v-btn>
-      <v-btn small text @click="back2('list_sliders')">Terminar</v-btn>
+      <v-btn small text @click="redirectTo('list_sliders')">Terminar</v-btn>
     </v-card-actions>
   </v-card>
 </template>

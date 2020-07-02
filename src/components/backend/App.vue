@@ -1,16 +1,6 @@
 <template>
   <v-app>
-    <!-- <v-navigation-drawer
-      :dark="dark"
-      app
-      hide-overlay
-      clipped
-      v-model="back_menu_drawer"
-      :mini-variant.sync="backend_mini_drawer"
-      stateless
-    >-->
     <v-navigation-drawer
-      :dark="dark"
       app
       hide-overlay
       v-model="back_menu_drawer"
@@ -18,12 +8,9 @@
     >
       <v-list-item class="pb-2">
         <v-list-item-avatar>
-          <!-- <v-img :src="`${apiUrl}/images/app/system/${authUser.avatar}`"></v-img> -->
-          <v-img :src="'https://cdn.vuetifyjs.com/images/lists/3.jpg'"></v-img>
-          <!-- <v-img :src="require('@/assets/placeholder/default.svg')"></v-img> -->
+          <v-img :src="`${apiUrl}/images/app/system/users/${authUser.avatar}`"></v-img>
         </v-list-item-avatar>
-        <v-list-item-title>Estefanio Silva</v-list-item-title>
-        <!-- <v-list-item-title class="primary--text">Estefanio Silva</v-list-item-title> -->
+        <v-list-item-title class="primary--text">#{{authUser.username}}</v-list-item-title>
         <v-btn icon @click.stop="backend_mini_drawer = !backend_mini_drawer">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -114,33 +101,49 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon color="primary">
+      <!-- <v-btn icon color="primary">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
       <v-btn icon color="primary">
         <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+      </v-btn>-->
 
       <v-menu left bottom>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" text icon color="primary">
             <v-avatar size="28px">
-              <!-- <v-img :src="`${apiUrl}/images/app/system/${authUser.avatar}`"></v-img> -->
-              <img :src=" 'https://cdn.vuetifyjs.com/images/lists/1.jpg'" alt="User Avatar" />
-              <!-- <img :src="require('@/assets/placeholder/default.svg')" alt="Avatar" /> -->
+              <img :src="`${apiUrl}/images/app/system/users/${authUser.avatar}`" alt="User Avatar" />
             </v-avatar>
           </v-btn>
         </template>
 
-        <v-list shaped>
+        <v-list dense>
           <v-list-item-group color="primary">
-            <v-list-item v-for="(item, i) in items" :key="i" @click.stop="item.click">
+            <v-list-item @click.stop="onView('back_perfil', authUser.username)">
               <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
+                <v-icon>mdi-at</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
+                <v-list-item-title  v-text="authUser.username"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click.stop="onView('home_page')" :ripple="false">
+              <v-list-item-icon>
+                <v-icon>mdi-home</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Principal</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item @click.stop="logout()" :ripple="false">
+              <v-list-item-icon>
+                <v-icon>mdi-logout-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Terminr Sessão</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -197,54 +200,21 @@
 <script>
 import menu from "@/datas/static/menu_backend";
 import { getDatas } from "@/mixins/SendForm";
+import { viewAndUpdate } from "@/mixins/Redirects";
 
 export default {
-  mixins: [getDatas],
+  mixins: [getDatas, viewAndUpdate],
   data() {
     return {
       school_alert: true,
       back_menu_drawer: true,
       backend_mini_drawer: true,
-      menus: menu,
-      dark: false,
-      scrollSettings: {
-        maxScrollbarLength: 160
-      },
-
-      items: [
-        {
-          icon: "mdi-account-details",
-          href: "#",
-          title: "Meu Perfil",
-          //eslint-disable-next-line
-          click: e => {
-            this.$router.push({ name: "perfil" });
-          }
-        },
-        {
-          icon: "mdi-home",
-          title: "Início",
-          //eslint-disable-next-line
-          click: e => {
-            this.redirectPage("home_page");
-          }
-        },
-        {
-          icon: "mdi-logout",
-          href: "#",
-          title: "Terminar Sessão",
-          //eslint-disable-next-line
-          click: e => {
-            this.logout();
-          }
-        }
-      ]
+      menus: menu
     };
   },
 
   created() {
     this.getAll(this.schools, "getSchools");
-    // this.adminTeste();
   },
 
   computed: {
@@ -254,14 +224,6 @@ export default {
   },
 
   methods: {
-    // adminTeste() {
-    //   // eslint-disable-next-line no-console
-    //   console.log(this._is("Admihghhgfn"));
-    // },
-    redirectPage(name) {
-      this.$router.push({ name: name });
-    },
-
     genChildTarget(item, subItem) {
       if (subItem.href) return;
       if (subItem.component) {
@@ -274,7 +236,7 @@ export default {
 
     logout: function() {
       this.$store.commit("logout");
-      this.$router.push("/");
+      this.onView("home_page");
     }
   }
 };

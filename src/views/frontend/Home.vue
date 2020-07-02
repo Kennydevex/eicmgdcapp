@@ -2,48 +2,48 @@
   <v-row>
     <v-col
       cols="12"
-      class="ma-0 pa-0"
+      class="ma-0 pt-0 pb-5"
       v-if="!actived_sliders.length && !actived_sliders.length && !featured_employees.length && !featured_courses.length && !murals.length && !schools.length"
     >
       <v-container grid-list-xs>
         <v-row>
           <template v-if="!actived_sliders.length">
             <v-col cols="12" class="pt-0 mb-5">
-              <v-skeleton-loader type="image"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="image"></v-skeleton-loader>
             </v-col>
           </template>
 
           <template>
             <v-col cols="4" align="center">
-              <v-skeleton-loader type="avatar"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="avatar"></v-skeleton-loader>
             </v-col>
             <v-col cols="4" align="center">
-              <v-skeleton-loader type="avatar"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="avatar"></v-skeleton-loader>
             </v-col>
             <v-col cols="4" align="center">
-              <v-skeleton-loader type="avatar"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="avatar"></v-skeleton-loader>
             </v-col>
           </template>
 
           <template>
             <v-col cols="12" md="6">
-              <v-skeleton-loader type="list-item-three-line"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="list-item-three-line"></v-skeleton-loader>
             </v-col>
             <v-col cols="12" md="6">
-              <v-skeleton-loader type="list-item-three-line"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="list-item-three-line"></v-skeleton-loader>
             </v-col>
           </template>
 
           <template>
             <v-col cols="12" md="4">
-              <v-skeleton-loader type="card"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="image"></v-skeleton-loader>
             </v-col>
             <v-col cols="12" md="4">
-              <v-skeleton-loader type="card"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="image"></v-skeleton-loader>
             </v-col>
 
             <v-col cols="12" md="4">
-              <v-skeleton-loader type="card"></v-skeleton-loader>
+              <v-skeleton-loader boilerplate type="image"></v-skeleton-loader>
             </v-col>
           </template>
         </v-row>

@@ -13,7 +13,7 @@
       <v-spacer></v-spacer>
       <v-btn color="primary" small text @click="onAddSlider(false)">Guardar</v-btn>
       <!-- <v-btn color="primary" small text @click="onAddSlider(false)">Guardar e Sair</v-btn> -->
-      <v-btn small text @click="back2('list_sliders')">Sair</v-btn>
+      <v-btn small text @click="redirectTo('list_sliders')">Sair</v-btn>
     </v-card-actions>
   </v-card>
 </template>

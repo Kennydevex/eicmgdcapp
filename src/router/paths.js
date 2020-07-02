@@ -135,7 +135,7 @@ export default [
             // },
 
             {
-                path: '/perfil/:username',
+                path: '/perfil/:slug',
                 component: FrontPerfil,
                 name: 'front_perfil'
             },
@@ -268,7 +268,7 @@ export default [
             },
 
             {
-                path: '/perfil/:username',
+                path: '/perfil/:slug',
                 component: BackPerfil,
                 name: 'back_perfil'
             },

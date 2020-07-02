@@ -6,11 +6,11 @@
 
     <v-row justify="center" align="center">
       <v-col align="center" cols="12" sm="8" md="6" lg="4">
-        <v-card class="elevation-10" width="350" tile>
+        <v-card class="elevation-10" width="350">
           <v-card-text class="mb-0 pb-0">
             <div class="layout column align-center">
               <v-avatar color="primary" size="62">
-                <v-icon large dark>mdi-lock</v-icon>
+                <v-icon large dark>mdi-account-lock</v-icon>
               </v-avatar>
               <h1 class="flex my-4 primary--text font-weight-light">
                 EICM -
