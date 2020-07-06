@@ -1,11 +1,41 @@
 <template>
   <v-container grid-list-xs pt-0>
+    <v-alert
+      v-model="school_alert"
+      v-if="featured_articles.length==0 || categories.length==0"
+      border="top"
+      colored-border
+      type="warning"
+      elevation="2"
+      dismissible
+      prominent
+      icon="mdi-alert"
+      tile
+    >
+      <v-row align="center">
+        <v-col
+          class="grow"
+        >Aguarde a publicação no Blog da Escola Idustrial e Comercial do Mindelo, em breve iremos fazer parte do seu dia.</v-col>
+      </v-row>
+    </v-alert>
+
     <v-row row wrap>
-      <v-col cols="12" class="pt-0">
+      <template v-if="!featured_articles.length">
+        <v-col cols="12" class="pt-0 mb-5">
+          <v-skeleton-loader boilerplate type="image"></v-skeleton-loader>
+        </v-col>
+      </template>
+      <v-col v-else cols="12" class="pt-0">
         <AppFeaturedArticleSlider :articles="featured_articles" />
       </v-col>
 
-      <v-col cols="12" md="8">
+      <template v-if="!categories.length">
+        <v-col cols="12" md="8">
+          <v-skeleton-loader boilerplate type="card"></v-skeleton-loader>
+        </v-col>
+      </template>
+
+      <v-col v-else cols="12" md="8">
         <template v-for="category in categories">
           <v-card color="transparent" class="mb-8" :key="'categoria'+category.id" flat tile>
             <v-card-title
@@ -72,7 +102,16 @@
         </template>
       </v-col>
 
-      <v-col cols="12" md="4" class="mt-8 pt-0">
+      <template v-if="!categories.length">
+        <v-col cols="12" md="4">
+          <v-skeleton-loader boilerplate type="paragraph"></v-skeleton-loader>
+          <v-skeleton-loader boilerplate type="paragraph"></v-skeleton-loader>
+          <v-skeleton-loader boilerplate type="paragraph"></v-skeleton-loader>
+          <v-skeleton-loader boilerplate type="paragraph"></v-skeleton-loader>
+        </v-col>
+      </template>
+
+      <v-col v-else cols="12" md="4" class="mt-8 pt-0">
         <article-aside />
       </v-col>
     </v-row>

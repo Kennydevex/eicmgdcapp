@@ -526,12 +526,19 @@ export default {
             .then(response => {
               this.formErrors = {};
               this.edit_perfil_dialog = false;
-              this.feedback(
+              // this.feedback(
+              //   "success",
+              //   response.data.msg,
+              //   3000,
+              //   true,
+              //   "top-end"
+              // );
+
+              this.registerCreated(
                 "success",
+                "Resgisto Atualizado",
                 response.data.msg,
-                3000,
-                true,
-                "top-end"
+                "Reinicie a sua sessão para recarregar os dados atualizados"
               );
 
               this.logout();
