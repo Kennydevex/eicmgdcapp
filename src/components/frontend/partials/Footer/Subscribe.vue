@@ -25,7 +25,7 @@
     </v-form>
 
     <v-col cols="12" class="pa-0">
-      <v-dialog v-model="dialog" persistent max-width="460px">
+      <v-dialog v-model="unsubscribe_dialog" persistent max-width="460px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             dark
@@ -62,7 +62,7 @@
         <v-card class="mx-auto" max-width="500">
           <v-card-title class="title font-weight-regular justify-space-between">
             <span>{{ currentTitle }}</span>
-            <v-btn @click="dialog=false" icon x-small color="error">
+            <v-btn @click="closeDialog()" icon x-small color="error">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-card-title>
@@ -104,6 +104,7 @@
               <v-window-item :value="2">
                 <v-card-text class="my-0 py-0" v-if="unsub_err_msg">
                   <v-alert
+                    v-model="unsubscribe_alert"
                     dense
                     tile
                     color="error"
@@ -182,7 +183,8 @@ export default {
       formErrors: {},
       err_msg: "",
       unsub_err_msg: "",
-      dialog: false,
+      unsubscribe_dialog: false,
+      unsubscribe_alert: false,
       step: 1,
       sending: false,
 
@@ -206,16 +208,20 @@ export default {
     currentTitle() {
       switch (this.step) {
         case 1:
-          return "Sign-up";
+          return "Email subscrito";
         case 2:
-          return "Create a password";
+          return "Verificação";
         default:
-          return "Account created";
+          return "Canselar subscrição";
       }
     }
   },
 
   methods: {
+    closeDialog() {
+      this.unsubscribe_dialog = false;
+      this.unsubscribe_alert = false;
+    },
     nextStep(scope) {
       this.err_msg = "";
       this.sending = false;
@@ -275,7 +281,7 @@ export default {
               .get("unsubscribe/" + this.$data.email + "/" + this.$data.code)
               .then(response => {
                 if (response.data.success) {
-                  this.dialog = false;
+                  this.unsubscribe_dialog = false;
                   this.feedback(
                     response.data.success ? "success" : "error",
                     response.data.msg,

@@ -61,6 +61,10 @@ export const acl = {
             return this.authUserPermissions.indexOf('Gerir') !== -1;
         },
 
+        canManageSchool() {
+            return this.authUserPermissions.indexOf('Gerir Escola') !== -1;
+        },
+
         _can(permission) {
             if (this.canManage() || this.isAdmin()) { return true; }
             // if (this.canManage()) { return true; }
@@ -90,15 +94,13 @@ export const acl = {
 
 
         isAdmin() {
-            // return this.authUserRoles.indexOf('Administrador') !== -1;
-            return true;
-
+            return this.authUserRoles.indexOf('Administrador') !== -1;
+            // return true;
         },
 
         _is(role) {
             if (this.isAdmin()) { return true; }
             return this.authUserRoles.indexOf(role) !== -1;
-            
         },
 
         isManager() {

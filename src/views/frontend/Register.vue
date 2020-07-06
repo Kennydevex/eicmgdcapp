@@ -3,7 +3,7 @@
     <v-container grid-list-xs>
       <v-row align="center" justify="center">
         <v-col align="center" cols="12" sm="8" md="6" lg="4">
-          <v-card class="elevation-10 pa-3" width="500">
+          <v-card class="elevation-10 pa-3" width="640">
             <v-card-text class="mb-0 pb-0">
               <div class="layout column align-center">
                 <v-avatar color="primary" size="62">
@@ -11,7 +11,7 @@
                 </v-avatar>
                 <h1 class="flex my-4 primary--text font-weight-light">
                   EICM -
-                  <span class="font-weight-thin">Regoistar</span>
+                  <span class="font-weight-thin">Registar</span>
                 </h1>
               </div>
               <v-form ref="form">

@@ -190,7 +190,7 @@
 
           <v-list dense class="pa-0">
             <v-list-item-group color="primary">
-              <v-list-item @click.stop="onView('back_perfil', authUser.username)" :ripple="false">
+              <v-list-item @click.stop="onView('front_perfil', authUser.username)" :ripple="false">
                 <v-list-item-icon>
                   <v-icon>mdi-at</v-icon>
                 </v-list-item-icon>

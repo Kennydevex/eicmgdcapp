@@ -175,7 +175,7 @@
                 small
                 :to="{ name: 'add_school'}"
                 @click="school_alert=false"
-                v-if="canAdd()"
+                v-if="canAdd() || canManage()"
                 rounded
                 outlined
                 color="primary"

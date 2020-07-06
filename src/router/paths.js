@@ -128,16 +128,14 @@ export default [
                 component: RegisterPage,
                 name: 'register_page'
             },
-            // {
-            //     path: '/perfil',
-            //     component: Perfil,
-            //     name: 'perfil'
-            // },
 
             {
                 path: '/perfil/:slug',
                 component: FrontPerfil,
-                name: 'front_perfil'
+                name: 'front_perfil',
+                meta: {
+                    requiresAuth: true,
+                },
             },
 
             {
@@ -164,13 +162,6 @@ export default [
                 ]
             },
 
-
-            // {
-            //     path: '/eicm-gdc/historia',
-            //     component: Histories,
-            //     name: 'eicm_histories'
-            // },
-
             {
                 path: '/estudantes/quadros',
                 component: Quadros,
@@ -178,7 +169,6 @@ export default [
             },
 
             {
-                // Optimização a se fazer, pois se o utilizador alterar url para cursos, não irá se listar nenhum curso, mas fica-se na página principal (Index)...
                 path: '/cursos',
                 component: CursosHome,
                 children: [
@@ -193,22 +183,6 @@ export default [
                     },
                 ]
             },
-
-            // {
-            //     path: '/cursos',
-            //     component: CursosHome,
-            //     children: [
-            //         {
-            //             path: ':slug',
-            //             name: 'courses',
-            //             component: Cursos
-            //         }, {
-            //             path: 'detalhes/:slug',
-            //             name: 'course_info',
-            //             component: Curso
-            //         },
-            //     ]
-            // },
 
             {
                 path: '/blog',

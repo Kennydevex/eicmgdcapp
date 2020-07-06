@@ -3,17 +3,17 @@
     <v-layout row wrap>
       <v-card flat>
         <v-card-text class="ma-0 pa-0">
-          <template v-for="(mission, m) in missions">
-            <div :key="'mission_'+m">
+          <template v-for="(guideline, m) in guidelines">
+            <div :key="'guideline_'+m">
               <v-card flat>
                 <v-card-title primary-title>
-                  <h3 class="headline primary--text">{{mission.name}}</h3>
+                  <h3 class="headline primary--text">{{guideline.name}}</h3>
                 </v-card-title>
                 <v-card-text>
-                  <p class="text-justify">{{mission.content}}</p>
+                  <p class="text-justify">{{guideline.content}}</p>
                 </v-card-text>
               </v-card>
-              <v-divider v-if="m != missions.length-1"></v-divider>
+              <v-divider v-if="m != guidelines.length-1"></v-divider>
             </div>
           </template>
         </v-card-text>
@@ -23,30 +23,23 @@
 </template>
 
 <script>
+import { getDatas } from "@/mixins/SendForm";
 export default {
+  mixins: [getDatas],
   data() {
-    return {
-      missions: [
-        {
-          id: 1,
-          name: "Missão",
-          content:
-            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates asperiores eius odit sequi a adipisci commodi cupiditate doloremque obcaecati iure, maxime eveniet accusamus ipsa possimus reiciendis. Ut praesentium rerum dolore ad ea laudantium officiis recusandae veniam ipsum eum deserunt deleniti, natus quam delectus suscipit consequuntur facilis blanditiis molestias asperiores eligendi odit? Magni nisi odio optio error ratione ad dolore, saepe iure cum eveniet nesciunt autem adipisci eaque molestias odit delectus hic repellat deleniti natus modi veritatis!"
-        },
-        {
-          id: 2,
-          name: "Visão",
-          content:
-            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates asperiores eius odit sequi a adipisci commodi cupiditate doloremque obcaecati iure, maxime eveniet accusamus ipsa possimus reiciendis. Ut praesentium rerum dolore ad ea laudantium officiis recusandae veniam ipsum eum deserunt deleniti, natus quam delectus suscipit consequuntur facilis blanditiis molestias asperiores eligendi odit? Magni nisi odio optio error ratione ad dolore, saepe iure cum eveniet nesciunt autem adipisci eaque molestias odit delectus hic repellat deleniti natus modi veritatis!"
-        },
-        {
-          id: 3,
-          name: "Valores",
-          content:
-            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates asperiores eius odit sequi a adipisci commodi cupiditate doloremque obcaecati iure, maxime eveniet accusamus ipsa possimus reiciendis. Ut praesentium rerum dolore ad ea laudantium officiis recusandae veniam ipsum eum deserunt deleniti, natus quam delectus suscipit consequuntur facilis blanditiis molestias asperiores eligendi odit? Magni nisi odio optio error ratione ad dolore, saepe iure cum eveniet nesciunt autem adipisci eaque molestias odit delectus hic repellat deleniti natus modi veritatis!"
-        }
-      ]
-    };
+    return {};
+  },
+
+  created() {
+    this.getAll(this.guidelines, "getGuidelines");
+  },
+
+  computed: {
+    guidelines() {
+      return this.$store.getters.guidelines;
+    },
+
+    
   }
 };
 </script>

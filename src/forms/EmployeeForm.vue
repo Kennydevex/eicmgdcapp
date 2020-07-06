@@ -527,7 +527,7 @@ export default {
 
     perfilPhotoPath() {
       return this.formData.perfil_photo
-        ? this.formData.perfil_photo.length > 100
+        ? this.formData.perfil_photo.length > 500
           ? this.formData.perfil_photo
           : this.apiUrl +
             "/images/app/resources/employees/" +
