@@ -10,7 +10,7 @@ export function init(store, router) {
                 "Authorization": `Bearer ${authUser.token}`,
                 "Content-Type": "multipart/form-data",
                 "X-Requested-With": "XMLHttpRequest",
-                "Access-Control-Allow-Origin": ['*']
+                "Access-Control-Allow-Origin": "http://45.32.148.103"
             };
         }
 

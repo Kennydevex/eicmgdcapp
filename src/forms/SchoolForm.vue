@@ -105,6 +105,9 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  no-title
+                  :max="new Date().toISOString().substr(0, 10)"
+                  min="1950-01-01"
                   v-model="formData.opning"
                   @input="opningDateMenu = false"
                   locale="pt-pt"
@@ -297,7 +300,7 @@
 
       <v-stepper-content step="3">
         <v-form ref="form" @submit.prevent="nextStep('form-step-3')" data-vv-scope="form-step-3">
-          <v-row>
+          <v-row class="mt-3">
             <v-col cols="12" md="4" class="my-0 py-0">
               <v-text-field
                 dense
@@ -400,9 +403,9 @@
       <v-stepper-content step="4">
         <v-form ref="form" @submit.prevent="nextStep('form-step-4')" data-vv-scope="form-step-4">
           <v-row>
-            <v-col cols="12" class="my-0 py-0">
+            <v-col cols="12" class="mt-3 py-0">
               <v-row>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="my-0 py-0">
                   <v-file-input
                     dense
                     outlined

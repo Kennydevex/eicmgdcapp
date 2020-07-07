@@ -1,4 +1,3 @@
-import store from './store';
 window._ = require('lodash');
 
 window.axios = require('axios');
@@ -6,15 +5,11 @@ window.axios = require('axios');
 // window.moment = require('moment');
 
 // window.moment.locale('pt-br');
-const authUser = store.state.auth.authUser;
 
 
 window.axios.defaults.headers.common = {
-    "Authorization": authUser ? `Bearer ${authUser.token}` : '*',
-    "Content-Type": "multipart/form-data",
     'X-Requested-With': 'XMLHttpRequest',
     'X-CSRF-TOKEN': window.csrf_token,
-    "Access-Control-Allow-Origin": ['*']
 };
 
 window.axios.defaults.baseURL = 'http://45.32.146.227/api/w1/';

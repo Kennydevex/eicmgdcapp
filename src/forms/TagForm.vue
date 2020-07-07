@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12" class="mt-2 mb-0 py-0">
           <v-text-field
+          dense
             label="Nome*"
             name="name"
             v-model="formData.name"
@@ -15,6 +16,7 @@
         </v-col>
          <v-col cols="12" class="my-0 py-0">
           <v-textarea
+          dense
             label="Descrição do marcador (Opcional)"
             name="description"
             hint="Apresente um pequena descrição deste marcador"
@@ -66,7 +68,7 @@ export default {
 
     window.getApp.$on("APP_UPDATE_TAG", () => {
       this.update(
-        "tags/" + this.$props.formData.slug,
+        "tags/" + this.$props.formData.id,
         this.$props.formData,
         "APP_UPDATE_TAG_MODAL"
       );

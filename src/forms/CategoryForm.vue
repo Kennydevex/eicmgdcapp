@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="12" class="mt-2 mb-0 py-0">
           <v-text-field
+            dense
             label="Nome*"
             name="name"
             v-model="formData.name"
@@ -15,6 +16,7 @@
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            dense
             label="Descrição da Categoria (Opcional)"
             name="description"
             hint="Apresente um pequena descrição desta categoria"
@@ -29,7 +31,7 @@
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <span>Dispor artigos desta categoria em:</span>
-          <v-radio-group v-model="formData.display" row>
+          <v-radio-group dense v-model="formData.display" row>
             <v-radio label="Row" value="1"></v-radio>
             <v-radio label="Cols" value="2"></v-radio>
           </v-radio-group>
@@ -37,6 +39,7 @@
 
         <v-col cols="12" sm="6" md="4" class="my-0 py-0">
           <v-autocomplete
+            dense
             v-model="formData.color"
             outlined
             label="Identifique a categoria com uma cor"
@@ -89,7 +92,7 @@ export default {
 
     window.getApp.$on("APP_UPDATE_CATEGORY", () => {
       this.update(
-        "categories/" + this.$props.formData.slug,
+        "categories/" + this.$props.formData.id,
         this.$props.formData,
         "APP_UPDATE_CATEGORY_MODAL"
       );
