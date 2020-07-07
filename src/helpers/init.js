@@ -10,12 +10,6 @@ export function init(store, router) {
 
         if (authUser) {
             // eslint-disable-next-line no-undef
-            // axios.defaults.headers.common = {
-            //     "Authorization": `Bearer ${authUser.token}`,
-            //     "Content-Type": "application/json",
-            //     "X-Requested-With": "XMLHttpRequest",
-            // };
-
             axios.defaults.headers.common = {
                 "Authorization": `Bearer ${authUser.token}`,
                 "Content-Type": "multipart/form-data",
