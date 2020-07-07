@@ -1,9 +1,9 @@
 <template>
   <div class="background-login">
     <v-container grid-list-xs>
-      <v-row align="center" justify="center">
-        <v-col align="center" cols="12" sm="8" md="6" lg="4">
-          <v-card class="elevation-10 pa-3" width="640">
+      <v-row justify="center">
+        <v-col cols="12" sm="8" md="6" lg="4">
+          <v-card class="elevation-10 pa-3" width="640px">
             <v-card-text class="mb-0 pb-0">
               <div class="layout column align-center">
                 <v-avatar color="primary" size="62">

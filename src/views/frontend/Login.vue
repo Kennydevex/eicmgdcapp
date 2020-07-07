@@ -7,7 +7,7 @@
     <v-container grid-list-xs>
       <v-row justify="center" align="center">
         <v-col align="center" cols="12" sm="8" md="6" lg="4">
-          <v-card class="elevation-10" width="350">
+          <v-card class="elevation-10" width="450">
             <v-card-text class="mb-0 pb-0">
               <div class="layout column align-center">
                 <v-avatar color="primary" size="62">
@@ -189,7 +189,6 @@ export default {
   background-color: #3e4095;
   min-height: 740px;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 #inspire {
