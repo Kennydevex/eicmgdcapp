@@ -43,10 +43,55 @@
           ></v-autocomplete>
         </v-col>
 
+        <v-col cols="12" md="6" class="mb-0 py-0">
+          <input
+            style="display:none"
+            name="birthdate_field_target"
+            ref="valBirthdateRef"
+            v-model="actual_date"
+            type="text"
+          />
+          <v-menu
+            v-model="birthdate_menu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+            ref="birth_date_menu"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                dense
+                outlined
+                name="birthdate"
+                :value="formated(formData.folk.birthdate)"
+                label="Nascimento"
+                prepend-inner-icon="mdi-calendar"
+                readonly
+                v-on="on"
+                v-validate="'date_format:dd/MM/yyyy|before:valBirthdateRef'"
+                data-vv-as="birthdate"
+                :error-messages="errorMsg('folk.birthdate') || errors.collect('birthdate')"
+              ></v-text-field>
+              <!-- error-messages="Teste" -->
+            </template>
+            <v-date-picker
+              no-title
+              ref="birth_date_picker"
+              :max="new Date().toISOString().substr(0, 10)"
+              min="1950-01-01"
+              v-model="formData.folk.birthdate"
+              @input="birthdate_menu=false"
+              locale="pt-pt"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
+
         <v-col cols="12" class="my-0 py-0">
           <v-subheader>Dados de autenticação</v-subheader>
         </v-col>
-        <v-col cols="12" class="my-0 py-0">
+        <v-col cols="12" md="6" class="my-0 py-0">
           <v-text-field
             dense
             label="Email*"
@@ -59,7 +104,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="12" class="my-0 py-0">
+        <v-col cols="12" md="6" class="my-0 py-0">
           <v-text-field
             dense
             label="Utilizador*"
@@ -112,7 +157,26 @@
         </v-col>
 
         <v-col cols="12" md="6" class="my-0 py-0">
-          <v-autocomplete
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-header color="grey lighten-2">Papeis/Funcções</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-card flat height="300" class="overflow-y-auto">
+                  <template v-for="(role, rol) in roles">
+                    <v-checkbox
+                      :key="'userrole_'+rol"
+                      dense
+                      hide-details
+                      v-model="formData.roles"
+                      :label="role.name"
+                      :value="role.id"
+                    ></v-checkbox>
+                  </template>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <!-- <v-autocomplete
             dense
             outlined
             chips
@@ -122,10 +186,29 @@
             item-text="name"
             item-value="id"
             label="Função"
-          ></v-autocomplete>
+          ></v-autocomplete>-->
         </v-col>
         <v-col cols="12" md="6" class="my-0 py-0">
-          <v-autocomplete
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-header color="grey lighten-2">Permissções de acesso</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-card flat height="300" class="overflow-y-auto">
+                  <template v-for="(permission, per) in permissions">
+                    <v-checkbox
+                      :key="'userpermission_'+per"
+                      dense
+                      hide-details
+                      v-model="formData.permissions"
+                      :label="permission.name"
+                      :value="permission.id"
+                    ></v-checkbox>
+                  </template>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <!-- <v-autocomplete
             dense
             outlined
             chips
@@ -135,7 +218,7 @@
             item-text="name"
             item-value="id"
             label="Permissão"
-          ></v-autocomplete>
+          ></v-autocomplete>-->
         </v-col>
 
         <v-col cols="12" md="6" class="my-0 py-0">
@@ -159,13 +242,17 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
+import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas],
+  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat, getBackEndError],
   props: ["formData", "disable_field"],
   data() {
     return {
+      selected: ["John"],
+      birthdate_menu: false,
+
       formErrors: [],
       hasError: false,
       genders: [
@@ -179,6 +266,13 @@ export default {
 
   mounted() {
     this.$validator.localize("pt", this.dictionary);
+  },
+
+  watch: {
+    birthdate_menu(val) {
+      val &&
+        setTimeout(() => (this.$refs.birth_date_picker.activePicker = "YEAR"));
+    }
   },
 
   computed: {

@@ -5,12 +5,14 @@ export function init(store, router) {
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
         if (authUser) {
+            
             // eslint-disable-next-line no-undef
             axios.defaults.headers.common = {
                 "Authorization": `Bearer ${authUser.token}`,
                 "Content-Type": "multipart/form-data",
                 "X-Requested-With": "XMLHttpRequest",
-                "Access-Control-Allow-Origin": "http://45.32.148.103"
+                "Access-Control-Allow-Origin": "http://45.32.146.227/"
+                // "Access-Control-Allow-Origin": "http://45.32.148.103"
             };
         }
 

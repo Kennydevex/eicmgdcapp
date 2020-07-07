@@ -38,7 +38,7 @@ export const sendFormData = {
         add(add_new, url, form_data, data_update, modal, simple_form_page = false, rdr_page = '') {
             // this.$validator.validateAll().then(noErrorOnValidate => {
             //     if (noErrorOnValidate) {
-                    this.$Progress.start();
+                    // this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
                     axios
@@ -57,14 +57,14 @@ export const sendFormData = {
                                         this.back();
                                 }
                             }
-                            this.$Progress.finish();
+                            // this.$Progress.finish();
 
                         })
                         .catch(err => {
                             if (err.response) {
                                 this.hasError = true;
                                 this.formErrors = err.response.data.errors;
-                                this.$Progress.fail();
+                                // this.$Progress.fail();
                             }
                         });
         //         } 
@@ -74,7 +74,7 @@ export const sendFormData = {
         update(url, form_data, modal, simple_form_page = false, rdr_page = '') {
             this.$validator.validateAll().then(noErrorOnValidate => {
                 if (noErrorOnValidate) {
-                    this.$Progress.start();
+                    // this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
                     axios
@@ -88,7 +88,7 @@ export const sendFormData = {
                                 else
                                     this.back();
                             }
-                            this.$Progress.finish();
+                            // this.$Progress.finish();
                             this.feedback("success", response.data.msg, 3000, true, "top");
                             this.clear();
                         })
@@ -96,7 +96,7 @@ export const sendFormData = {
                             if (err.response) {
                                 this.hasError = true;
                                 this.formErrors = err.response.data.errors;
-                                this.$Progress.fail();
+                                // this.$Progress.fail();
                             }
                         });
                 }
