@@ -17,9 +17,15 @@ export function init(store, router) {
         if (requiresAuth && !authUser) {
             next({ name: 'login_page' });
         } else if (to.path == '/autenticar' && authUser) {
+            // eslint-disable-next-line no-console
+            console.log('qq cusa');
+
             next('/');
             // this.$router.go(-1);
         } else {
+            // if (router.history.current.name == 'login_page') {
+            //     return;
+            // }
             next();
         }
     });

@@ -23,8 +23,8 @@
                 <v-alert
                   dense
                   tile
-                  :value="loginError"
                   color="error"
+                  :value="loginError?true:false"
                   icon="mdi-lock-alert"
                   border="right"
                   colored-border
