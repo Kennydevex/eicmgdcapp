@@ -13,7 +13,8 @@ export function init(store, router) {
             axios.defaults.headers.common = {
                 "Authorization": `Bearer ${authUser.token}`,
                 "Content-Type": "multipart/form-data",
-                "X-Requested-With": "XMLHttpRequest"
+                "X-Requested-With": "XMLHttpRequest",
+                "Access-Control-Allow-Origin": "*"
             };
         }
 
