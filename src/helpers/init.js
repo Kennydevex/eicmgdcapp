@@ -10,19 +10,17 @@ export function init(store, router) {
 
         if (authUser) {
             // eslint-disable-next-line no-undef
-            axios.defaults.headers.common = {
-                "Authorization": `Bearer ${authUser.token}`,
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-                "Access-Control-Allow-Origin": "http://45.32.146.227"
-            };
-
             // axios.defaults.headers.common = {
             //     "Authorization": `Bearer ${authUser.token}`,
-            //     "Content-Type": "multipart/form-data",
+            //     "Content-Type": "application/json",
             //     "X-Requested-With": "XMLHttpRequest",
-            //     "Access-Control-Allow-Origin": "*"
             // };
+
+            axios.defaults.headers.common = {
+                "Authorization": `Bearer ${authUser.token}`,
+                "Content-Type": "multipart/form-data",
+                "X-Requested-With": "XMLHttpRequest",
+            };
         }
 
         if (requiresAuth && !authUser) {
