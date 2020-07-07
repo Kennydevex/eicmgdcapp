@@ -4,16 +4,13 @@ export function init(store, router) {
         const authUser = store.state.auth.authUser;
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-        // if (to.path == '/cursos') {
-        //     this.$router.go(-1);
-        // }
-
         if (authUser) {
             // eslint-disable-next-line no-undef
             axios.defaults.headers.common = {
                 "Authorization": `Bearer ${authUser.token}`,
                 "Content-Type": "multipart/form-data",
                 "X-Requested-With": "XMLHttpRequest",
+                "Access-Control-Allow-Origin": ['*']
             };
         }
 
