@@ -14,7 +14,7 @@ const Menu = [
     }, {
         title: 'Instituição',
         group: 'institution',
-        role: 'Administrador',
+        roles: ['Diretor'],
         icon: 'mdi-domain',
         items: [
             {
@@ -22,7 +22,6 @@ const Menu = [
                 title: 'Escola',
                 component: 'list_schools',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
             {
@@ -30,35 +29,33 @@ const Menu = [
                 title: 'Parametros Gerais',
                 component: 'schools_geral_settings',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
             {
                 name: 'list-histories',
                 title: 'Histórias',
                 component: 'list_histories',
                 icon: 'mdi-square-small',
-                permission: 'Gerir',
             },
             // {
             //     name: 'list-marks',
             //     title: 'Marcos Históricos',
             //     component: 'list_marks',
             //     icon: 'mdi-square-small',
-            //     permission: 'Gerir',
+            //     
             // },
             {
                 name: 'list-murals',
                 title: 'Mural',
                 component: 'list_murals',
                 icon: 'mdi-square-small',
-                permission: 'Gerir',
+                
             },
             {
                 name: 'list-guidelines',
                 title: 'Missão, Visão e Valores',
                 component: 'list_guidelines',
                 icon: 'mdi-square-small',
-                permission: 'Gerir',
+                
             },
         ]
     },
@@ -66,7 +63,7 @@ const Menu = [
     {
         title: 'RH',
         group: 'resources',
-        role: 'Administrador',
+        roles: ['Diretor'],
         icon: 'mdi-account-tie',
         items: [
 
@@ -75,7 +72,6 @@ const Menu = [
                 title: 'Funções/Cargos',
                 component: 'list_charges',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
             {
@@ -83,7 +79,6 @@ const Menu = [
                 title: 'Colaboradores',
                 component: 'list_employees',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
             {
@@ -91,7 +86,6 @@ const Menu = [
                 title: 'Professores',
                 component: 'list_teachers',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
 
@@ -102,7 +96,7 @@ const Menu = [
     {
         title: 'Formações',
         group: 'formations',
-        role: 'Administrador',
+        roles: ['Diretor', 'Coordenador'],
         icon: 'mdi-school',
         items: [
             {
@@ -110,7 +104,6 @@ const Menu = [
                 title: 'Cursos',
                 component: 'list_courses',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
             {
@@ -118,7 +111,6 @@ const Menu = [
                 title: 'Saídas/Cursos',
                 component: 'list_outcomes',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
             {
@@ -126,14 +118,12 @@ const Menu = [
                 title: 'Disciplinas',
                 component: 'list_disciplines',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
             {
                 name: 'list-departments',
                 title: 'Departamentos',
                 component: 'list_departments',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
 
         ]
@@ -144,7 +134,7 @@ const Menu = [
     }, {
         title: 'Sistema',
         group: 'system',
-        role: 'Administrador',
+        roles: ['Administrador'],
         icon: 'mdi-account-settings',
         items: [
             {
@@ -152,14 +142,13 @@ const Menu = [
                 title: 'Utilizadores',
                 component: 'list_users',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
             {
                 name: 'access-role',
                 title: 'Permissões e Acessos',
                 component: 'access_role',
                 icon: 'mdi-square-small',
-                permission: 'Gerir',
+                
             },
         ]
     }, {
@@ -167,7 +156,7 @@ const Menu = [
     }, {
         title: 'Publicações',
         group: 'cms',
-        role: 'Gestor de Artigo',
+        roles: ['Diretor', 'Gestor de Artigo'],
         icon: 'mdi-post-outline',
         items: [
             {
@@ -175,28 +164,27 @@ const Menu = [
                 title: 'Artigos',
                 component: 'list_articles',
                 icon: 'mdi-square-small',
-                permission: 'Gerir'
             },
             {
                 name: 'list-categories',
                 title: 'Categorias',
                 component: 'list_categories',
                 icon: 'mdi-square-small',
-                permission: 'Gerir',
+                
             },
             {
                 name: 'list-tags',
                 title: 'Marcadores',
                 component: 'list_tags',
                 icon: 'mdi-square-small',
-                permission: 'Gerir',
+                
             },
         ]
     },
     {
         title: 'Galerias',
         group: 'cms',
-        role: 'Gestor de Artigo',
+        roles: ['Diretor', 'Gestor de Artigo'],
         icon: 'mdi-folder-image',
         items: [
             {
@@ -204,7 +192,6 @@ const Menu = [
                 title: 'Medias',
                 icon: 'mdi-square-small',
                 component: 'list_medias',
-                permission: 'Gerir'
             },
 
         ]
@@ -226,7 +213,7 @@ const Menu = [
     {
         title: 'Layout',
         group: 'settings',
-        role: 'Administrador',
+        roles: ['Diretor', 'Gestor'],
         icon: 'mdi-widgets-outline',
         items: [
             {
@@ -234,7 +221,6 @@ const Menu = [
                 title: 'Sliders',
                 component: 'list_sliders',
                 icon: 'mdi-square-small',
-                permission: 'Configurar Aplicativo',
             },
         ]
     },

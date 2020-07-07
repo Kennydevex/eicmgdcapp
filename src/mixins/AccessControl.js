@@ -103,8 +103,17 @@ export const acl = {
             return this.authUserRoles.indexOf(role) !== -1;
         },
 
-        isManager() {
+        isDirector() {
             return this._is('Gestor');
+        },
+
+        isManager() {
+            return this._is('Gestor de Artigo');
+        },
+
+
+        isPostManager() {
+            return this._is('Gestor de Artigo');
         },
 
         isCoordinator() {

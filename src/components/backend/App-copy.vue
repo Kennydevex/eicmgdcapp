@@ -20,45 +20,43 @@
 
       <v-list dense>
         <template v-for="(item, i) in menus">
-          <template v-if="item.items">
-            <v-list-group
-              v-if="checkRoles(item.roles)"
-              :key="item.name"
-              :group="item.group"
-              :prepend-icon="checkRoles(item.roles)?item.icon:'mdi-lock'"
-              no-action="no-action"
-              :ripple="false"
-              active-class
-            >
-              <!-- :disabled="!checkRoles(item.roles)" -->
-              <v-list-item slot="activator">
-                <v-list-item-content>
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+          <v-list-group
+            v-if="item.items"
+            :key="item.name"
+            :group="item.group"
+            :prepend-icon="item.icon"
+            no-action="no-action"
+            :ripple="_is(item.role)?true:false"
+            :disabled="!(_is(item.role))"
+          >
+            <v-list-item slot="activator">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
-              <template v-for="(subItem, i) in item.items">
-                <v-list-item
-                  :key="i"
-                  :to="genChildTarget(item, subItem)"
-                  :href="subItem.href"
-                  :disabled="subItem.disabled"
-                  :target="subItem.target"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      <span>{{ subItem.title }}</span>
-                    </v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-action v-if="subItem.action">
-                    <v-icon :class="[subItem.actionClass || 'success--text']">{{ subItem.action }}</v-icon>
-                  </v-list-item-action>
-                  <!-- <v-icon>mdi-home</v-icon> -->
-                  <v-icon v-text="subItem.icon"></v-icon>
-                </v-list-item>
-              </template>
-            </v-list-group>
-          </template>
+            <template v-for="(subItem, i) in item.items">
+              <v-list-item
+                :key="i"
+                :to="genChildTarget(item, subItem)"
+                :href="subItem.href"
+                :disabled="subItem.disabled"
+                :target="subItem.target"
+                v-if="_can(subItem.permission)"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <span>{{ subItem.title }}</span>
+                  </v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action v-if="subItem.action">
+                  <v-icon :class="[subItem.actionClass || 'success--text']">{{ subItem.action }}</v-icon>
+                </v-list-item-action>
+                <!-- <v-icon>mdi-home</v-icon> -->
+                <v-icon v-text="subItem.icon"></v-icon>
+              </v-list-item>
+            </template>
+          </v-list-group>
 
           <v-subheader
             :style=" backend_mini_drawer ?'display: none': ''"
@@ -128,7 +126,7 @@
                 <v-icon>mdi-at</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title v-text="authUser.username"></v-list-item-title>
+                <v-list-item-title  v-text="authUser.username"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
@@ -218,7 +216,6 @@ export default {
 
   created() {
     this.getAll(this.schools, "getSchools");
-    this.checkRoles(["Admin", "Gestor"]);
   },
 
   computed: {
@@ -228,14 +225,6 @@ export default {
   },
 
   methods: {
-    checkRoles(roles) {
-      for (let i = 0; i < roles.length; i++) {
-        if (this._is(roles[i])) {
-          return true;
-        }
-      }
-    },
-
     genChildTarget(item, subItem) {
       if (subItem.href) return;
       if (subItem.component) {
