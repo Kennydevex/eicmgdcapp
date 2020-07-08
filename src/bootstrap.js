@@ -12,7 +12,6 @@ window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.csrf_token,
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     "Access-Control-Allow-Origin": "*"
-    // "Access-Control-Allow-Origin": "http://45.32.148.103"
 };
 
 window.axios.defaults.baseURL = 'http://45.32.146.227/api/w1/';

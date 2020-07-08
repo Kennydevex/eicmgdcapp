@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addPermissionModal" scrollable max-width="640px" persistent>
+  <v-dialog v-model="addPermissionModal" scrollable max-width="500px" persistent>
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
@@ -8,9 +8,9 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pt-3">
-        <permission-role-form :formData="formData" :type="'permission'"></permission-role-form>
+        <permission-form :formData="formData"></permission-form>
       </v-card-text>
-      <!-- <v-divider></v-divider> -->
+
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" small text @click="handleAddPermission(true)">Guardar</v-btn>
@@ -23,7 +23,7 @@
 
 
 <script>
-import PermissionRoleForm from "@/forms/PermissionRoleForm";
+import PermissionForm from "@/forms/PermissionForm";
 
 export default {
   data() {
@@ -43,7 +43,7 @@ export default {
   },
 
   components: {
-    PermissionRoleForm
+    PermissionForm
   },
 
   methods: {

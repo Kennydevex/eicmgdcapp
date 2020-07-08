@@ -31,17 +31,27 @@
               :headers="headers"
               :search="search"
               :items="roles"
-              :items-per-page="10"
+              :items-per-page="5"
               class="elevation-1"
               item-key="id"
               show-select
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
+              <!-- :footer-props="{
+                  showFirstLastPage: true,
+                  firstIcon: 'mdi-arrow-collapse-left',
+                  lastIcon: 'mdi-arrow-collapse-right',
+                  prevIcon: 'mdi-minus',
+                  nextIcon: 'mdi-plus'
+              }"-->
               <template v-slot:item.action="{ item }">
                 <v-btn
-                v-if="canEdit()"
+                  v-if="canEdit()"
                   color="primary"
                   x-small
                   outlined
@@ -50,7 +60,7 @@
                   @click="updateRoleModal(item.id)"
                 >editar</v-btn>
                 <v-btn
-                v-if="canRemove()"
+                  v-if="canRemove()"
                   color="warning"
                   x-small
                   outlined
@@ -69,6 +79,7 @@
                 icon="mdi-alert"
                 class="ma-4"
               >A procura pela "{{ search }}" não tem qualquer resultado.</v-alert>
+              <v-data-footer>testtrtrtr</v-data-footer>
             </v-data-table>
           </v-card-text>
         </v-card>

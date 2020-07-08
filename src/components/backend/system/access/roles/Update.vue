@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="updateRoleModal" max-width="940px" persistent>
+  <v-dialog v-model="updateRoleModal" max-width="500px" persistent>
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
@@ -8,7 +8,7 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pt-3">
-        <permission-role-form :formData="formData" :type="'role'"></permission-role-form>
+        <role-form :formData="formData"></role-form>
       </v-card-text>
       <!-- <v-divider></v-divider> -->
       <v-card-actions>
@@ -22,7 +22,7 @@
 
 
 <script>
-import PermissionRoleForm from "@/forms/PermissionRoleForm";
+import RoleForm from "@/forms/RoleForm";
 
 export default {
   data() {
@@ -44,7 +44,7 @@ export default {
   },
 
   components: {
-    PermissionRoleForm
+    RoleForm
   },
 
   methods: {

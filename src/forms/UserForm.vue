@@ -161,7 +161,7 @@
             <v-expansion-panel>
               <v-expansion-panel-header color="grey lighten-2">Papeis/Funcções</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-card flat height="300" class="overflow-y-auto">
+                <v-card flat height="300" class="overflow-y-auto pa-2">
                   <template v-for="(role, rol) in roles">
                     <v-checkbox
                       :key="'userrole_'+rol"
@@ -193,7 +193,7 @@
             <v-expansion-panel>
               <v-expansion-panel-header color="grey lighten-2">Permissções de acesso</v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-card flat height="300" class="overflow-y-auto">
+                <v-card flat height="300" class="overflow-y-auto pa-2">
                   <template v-for="(permission, per) in permissions">
                     <v-checkbox
                       :key="'userpermission_'+per"

@@ -31,13 +31,16 @@
               :headers="headers"
               :search="search"
               :items="permissions"
-              :items-per-page="10"
+              :items-per-page="5"
               class="elevation-1"
               item-key="id"
               show-select
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.action="{ item }">
                 <v-btn
