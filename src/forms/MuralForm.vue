@@ -88,38 +88,23 @@
         </v-col>
 
         <v-col cols="12" md="6" class="mb-0 py-0">
-          <v-expansion-panels flat class="mb-1">
-            <v-expansion-panel>
-              <v-expansion-panel-header color="grey lighten-2">
-                <span v-if="formData.icon">
-                  <v-avatar>
-                    <v-icon large color="primary">{{formData.icon}}</v-icon>
-                  </v-avatar>Icone Selecionado
-                </span>
-                <span v-else>Representar a ideia com ícone</span>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-card flat height="200" class="overflow-y-auto pa-2">
-                  <v-radio-group
-                    v-model="formData.icon"
-                    v-validate="'required'"
-                    data-vv-name="icon"
-                    :error-messages="errors.collect('icon')"
-                  >
-                    <v-radio v-for="(icon, icn) in icons" :key="icn" :value="icon.key">
-                      <template v-slot:label>
-                        <small>
-                          <v-icon color="primary">{{icon.key}}</v-icon>
-                          -- {{icon.name}}
-                        </small>
-                      </template>
-                    </v-radio>
-                  </v-radio-group>
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-          <small v-if="!formData.icon" class="error--text">É necessário selecionar um ícone</small>
+          <v-autocomplete
+            v-model="formData.icon"
+            :items="icons"
+            outlined
+            clearable
+            item-text="name"
+            item-value="key"
+            dense
+            name="icon"
+            label="Ícone"
+            v-validate="'required'"
+            data-vv-name="icon"
+            :error-messages="errors.collect('icon')"
+          ></v-autocomplete>
+          <v-avatar v-if="formData.icon" color="grey lighten-2">
+            <v-icon large color="primary">{{formData.icon}}</v-icon>
+          </v-avatar>
         </v-col>
       </v-row>
     </v-container>
