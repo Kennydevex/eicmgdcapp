@@ -52,7 +52,7 @@
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
-                  color="warning"
+                  color="error"
                   icon
                   class="text-none"
                   @click="onDelete('guidelines',item.id,'APP_UPDATE_ALL_GUIDELINES_DATA')"

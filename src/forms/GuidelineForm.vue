@@ -2,7 +2,7 @@
   <v-form ref="form">
     <v-container grid-list-xs pa-0 ma-0>
       <v-row>
-        <v-col cols="12" md="4" class="mb-0 py-0">
+        <!-- <v-col cols="12" md="4" class="mb-0 py-0">
           <v-autocomplete
             v-model="formData.school_id"
             outlined
@@ -18,22 +18,26 @@
             data-vv-name="school"
             :error-messages="errors.collect('school')"
           ></v-autocomplete>
+        </v-col>-->
+
+        <v-col cols="12" class="mb-0 py-0">
+            <v-combobox
+              dense
+              outlined
+              v-model="formData.name"
+              color="primary"
+              label="Desiguinação"
+              :items="['Missão', 'Visão', 'Valores']"
+              v-validate="'required'"
+              data-vv-name="name"
+              :error-messages="errors.collect('name')"
+              name="name"
+            ></v-combobox>
         </v-col>
 
-        <v-col cols="12" md="8" class="mb-0 py-0">
-          <v-text-field
-            label="Nome*"
-            name="name"
-            v-model="formData.name"
-            outlined
-            v-validate="'required'"
-            data-vv-name="name"
-            :error-messages="(errors.has('name')) ? errors.collect('name'): formErrors.name"
-          ></v-text-field>
-        </v-col>
-        
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
+            dense
             label="Descrição*"
             name="description"
             hint="Apresente a descrição deste marco"
@@ -72,8 +76,6 @@ export default {
   },
 
   created() {
-    this.getAll(this.schools, "getSchools");
-
     window.getApp.$on("APP_ADD_GUIDELINE", add_new => {
       this.add(
         add_new,
@@ -91,12 +93,6 @@ export default {
         "APP_UPDATE_GUIDELINE_MODAL"
       );
     });
-  },
-
-  computed: {
-    schools: function() {
-      return this.$store.getters.schools;
-    }
   }
 };
 </script>
