@@ -8,7 +8,7 @@
               flat
               solo
               prepend-icon="mdi-magnify"
-              placeholder="Procurar funções na tabela..."
+              placeholder="Procurar funções yes na tabela..."
               v-model="search"
               hide-details
               class="hidden-sm-and-down"

@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs>
     <v-row wrap>
-      <v-col class="py-0">
+      <v-col class="py-0" v-if="histories[0]">
         <v-card flat>
           <v-card-title primary-title>
             <h4 class="font-weight-regular primary--text" v-text="histories[0].title"></h4>
