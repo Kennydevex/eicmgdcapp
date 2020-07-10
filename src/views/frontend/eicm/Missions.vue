@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs>
     <v-layout row wrap>
-      <v-card flat>
+      <v-card flat> {{guidelines}}
         <v-card-text class="ma-0 pa-0">
           <template v-for="(guideline, m) in guidelines">
             <div :key="'guideline_'+m">
@@ -10,7 +10,7 @@
                   <h3 class="headline primary--text">{{guideline.name}}</h3>
                 </v-card-title>
                 <v-card-text>
-                  <p class="text-justify">{{guideline.content}}</p>
+                  <p class="text-justify">{{guideline.description}}</p>
                 </v-card-text>
               </v-card>
               <v-divider v-if="m != guidelines.length-1"></v-divider>
