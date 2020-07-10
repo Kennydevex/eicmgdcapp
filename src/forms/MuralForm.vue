@@ -53,8 +53,8 @@
 
         <v-col cols="12" class="mb-0 py-0">
           <v-text-field
-            :disabled="schools.length==0"
             dense
+            :disabled="schools.length==0"
             label="Titulo*"
             name="title"
             v-model="formData.title"
@@ -88,21 +88,38 @@
         </v-col>
 
         <v-col cols="12" md="6" class="mb-0 py-0">
-          <v-autocomplete
-            :disabled="schools.length==0"
-            dense
-            v-model="formData.icon"
-            no-data-text="Nenhuma instituição com este nome"
-            hide-selected
-            label="Ícones*"
-            :items="icons"
-            item-text="name"
-            item-value="key"
-            :prepend-inner-icon="formData.icon"
-            v-validate="'required'"
-            data-vv-name="icon"
-            :error-messages="errorMsg('icon') || errors.collect('icon')"
-          ></v-autocomplete>
+          <v-expansion-panels flat class="mb-1">
+            <v-expansion-panel>
+              <v-expansion-panel-header color="grey lighten-2">
+                <span v-if="formData.icon">
+                  <v-avatar>
+                    <v-icon large color="primary">{{formData.icon}}</v-icon>
+                  </v-avatar>Icone Selecionado
+                </span>
+                <span v-else>Representar a ideia com ícone</span>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-card flat height="200" class="overflow-y-auto pa-2">
+                  <v-radio-group
+                    v-model="formData.icon"
+                    v-validate="'required'"
+                    data-vv-name="icon"
+                    :error-messages="errors.collect('icon')"
+                  >
+                    <v-radio v-for="(icon, icn) in icons" :key="icn" :value="icon.key">
+                      <template v-slot:label>
+                        <small>
+                          <v-icon color="primary">{{icon.key}}</v-icon>
+                          -- {{icon.name}}
+                        </small>
+                      </template>
+                    </v-radio>
+                  </v-radio-group>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <small v-if="!formData.icon" class="error--text">É necessário selecionar um ícone</small>
         </v-col>
       </v-row>
     </v-container>
@@ -118,7 +135,14 @@ import moment from "moment";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat, getBackEndError],
+  mixins: [
+    clearForm,
+    flashAlert,
+    sendFormData,
+    getDatas,
+    dateFormat,
+    getBackEndError
+  ],
   props: ["formData"],
 
   data() {

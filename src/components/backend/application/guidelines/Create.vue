@@ -4,7 +4,7 @@
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
           <v-icon>mdi-tag-plus</v-icon>
-          <small>&emsp;Criar Marco Histórico</small>
+          <small>&emsp;Criar Missão/Visão/Valores</small>
         </small>
       </v-card-title>
       <v-divider></v-divider>

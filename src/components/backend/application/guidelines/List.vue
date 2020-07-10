@@ -8,7 +8,7 @@
               flat
               solo
               prepend-icon="mdi-magnify"
-              placeholder="Procurar utilizador na tabela..."
+              placeholder="Procurar missão na tabela..."
               v-model="search"
               hide-details
               class="hidden-sm-and-down"

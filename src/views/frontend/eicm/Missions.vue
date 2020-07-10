@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs>
     <v-layout row wrap>
-      <v-card flat> {{guidelines}}
+      <v-card flat>
         <v-card-text class="ma-0 pa-0">
           <template v-for="(guideline, m) in guidelines">
             <div :key="'guideline_'+m">
