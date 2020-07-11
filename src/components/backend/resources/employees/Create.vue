@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="addEmployeeModal" scrollable max-width="980px" persistent>
+  <v-dialog v-model="addEmployeeModal" scrollable max-width="640px" persistent>
     <v-card>
       <v-card-title primary-title>
         <span class="font-weight-light text-capitalize">
@@ -68,7 +68,6 @@ export default {
         is_teacher: false,
         co_email: false,
         sync_user_account: false,
-        password_confirmation: ""
       }
     };
   },

@@ -24,12 +24,12 @@ const Menu = [
                 icon: 'mdi-square-small',
             },
 
-            {
-                name: 'schools-geral-settings',
-                title: 'Parametros Gerais',
-                component: 'schools_geral_settings',
-                icon: 'mdi-square-small',
-            },
+            // {
+            //     name: 'schools-geral-settings',
+            //     title: 'Parametros Gerais',
+            //     component: 'schools_geral_settings',
+            //     icon: 'mdi-square-small',
+            // },
             {
                 name: 'list-histories',
                 title: 'Histórias',

@@ -34,10 +34,10 @@
 
           <!-- =============================================================== -->
 
-          <v-col cols="12" md="5" class="mb-0 py-0">
+          <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
               dense
-              label="Nome"
+              label="Nome*"
               name="name"
               v-model="formData.folk.name"
               outlined
@@ -47,10 +47,10 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="5" class="mb-0 py-0">
+          <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
               dense
-              label="Apelido"
+              label="Apelido*"
               name="lastname"
               v-model="formData.folk.lastname"
               outlined
@@ -60,12 +60,12 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="2" class="mb-0 py-0">
+          <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
               placeholder="000000"
               v-mask="'######'"
               dense
-              label="BI"
+              label="BI*"
               name="ic"
               v-model="formData.ic"
               outlined
@@ -75,21 +75,7 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="5" class="mb-0 py-0">
-            <v-radio-group
-              dense
-              v-model="formData.folk.gender"
-              row
-              v-validate="'included:0,1,2'"
-              data-vv-name="gender"
-              :error-messages="errors.collect('gender')"
-            >
-              <v-radio label="Masculino" value="0"></v-radio>
-              <v-radio label="Feminino" value="1"></v-radio>
-            </v-radio-group>
-          </v-col>
-
-          <v-col cols="12" md="7" class="mb-0 py-0">
+          <v-col cols="12" md="6" class="mb-0 py-0">
             <input
               style="display:none"
               name="birthdate_field_target"
@@ -133,6 +119,20 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
+
+          <v-col cols="12" class="mb-0 py-0">
+            <v-radio-group
+              dense
+              v-model="formData.folk.gender"
+              row
+              v-validate="'included:0,1,2'"
+              data-vv-name="gender"
+              :error-messages="errors.collect('gender')"
+            >
+              <v-radio label="Masculino" value="0"></v-radio>
+              <v-radio label="Feminino" value="1"></v-radio>
+            </v-radio-group>
+          </v-col>
         </v-row>
 
         <v-divider></v-divider>
@@ -148,7 +148,7 @@
               dense
               placeholder="(+238) 000-00-00"
               v-mask="'(+238) ###-##-##'"
-              label="Telefone"
+              label="Telefone*"
               name="phone"
               v-model="formData.phone"
               outlined
@@ -190,7 +190,7 @@
 
           <template v-for="(encumbrance,k) in formData.charges">
             <v-row :key="k+'encumbrance'" class="mx-1">
-              <v-col cols="12" md="6" class="mb-0 py-0">
+              <!-- <v-col cols="12" md="6" class="mb-0 py-0">
                 <v-autocomplete
                   dense
                   auto-select-first
@@ -207,26 +207,26 @@
                   data-vv-name="schools"
                   :error-messages="errors.collect('schools')"
                 ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" md="6" class="mb-0 py-0">
+              </v-col> -->
+              <v-col cols="12" class="mb-0 py-0">
                 <v-autocomplete
                   dense
                   v-model="encumbrance.encumbrance.charge_id"
                   name="charges"
                   outlined
                   no-data-text="Sem cargos registados"
-                  label="Função do colaborador"
+                  label="Função do colaborador*"
                   :items="charges"
                   item-text="name"
                   item-value="id"
-                  prepend-inner-icon="mdi-account-tie"
+                  prepend-inner-icon="mdi-badge-account-horizontal"
                   v-validate="'required'"
                   data-vv-name="charges"
                   :error-messages="errorMsg('charges.'+k+'.encumbrance.charge_id') || errors.collect('charges')"
                 >
                   <template v-slot:append-outer>
                     <v-btn small icon color="primary" @click="addMoreCharges()">
-                      <v-icon>mdi-plus</v-icon>
+                      <v-icon>mdi-plus-box-multiple-outline</v-icon>
                     </v-btn>
                   </template>
                 </v-autocomplete>
@@ -255,8 +255,8 @@
                       outlined
                       name="activity_begin"
                       :value="formated(encumbrance.encumbrance.activity_begin)"
-                      label="Início de atividade"
-                      prepend-inner-icon="mdi-calendar"
+                      label="Início de atividade*"
+                      prepend-inner-icon="mdi-calendar-arrow-right"
                       readonly
                       v-on="on"
                       v-validate="'required|date_format:dd/MM/yyyy|before:valActivityBeginRef'"
@@ -298,7 +298,7 @@
                       name="activity_end"
                       :value="formated(encumbrance.encumbrance.activity_end)"
                       label="Fim de atividade"
-                      prepend-inner-icon="mdi-calendar"
+                      prepend-inner-icon="mdi-calendar-arrow-left"
                       readonly
                       v-on="on"
                       v-validate="'date_format:dd/MM/yyyy|after:valActivityEndRef|before:valActivityBeginRef'"
@@ -349,11 +349,11 @@
                 v-model="formData.co_email"
               ></v-checkbox>
             </v-col>
-            <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-col cols="12" class="mb-0 py-0">
               <v-text-field
                 dense
                 :disabled="formData.co_email"
-                label="Email de autenticação"
+                label="Email de autenticação*"
                 name="user_mail"
                 v-model="formData.folk.user.email"
                 outlined
@@ -366,7 +366,7 @@
             <v-col cols="12" md="6" class="mb-0 py-0">
               <v-text-field
                 dense
-                label="Nome de Utilizador"
+                label="Nome de Utilizador*"
                 name="username"
                 v-model="formData.folk.user.username"
                 outlined
@@ -398,7 +398,7 @@
                 ></v-text-field>
               </v-col>
 
-              <v-col cols="12" md="6" class="mb-0 py-0">
+              <!-- <v-col cols="12" md="6" class="mb-0 py-0">
                 <v-text-field
                   :disabled="default_password"
                   dense
@@ -411,7 +411,7 @@
                   data-vv-name="password_confirmation"
                   :error-messages="errorMsg('password_confirmation')||errors.collect('password_confirmation')"
                 ></v-text-field>
-              </v-col>
+              </v-col> -->
             </template>
           </template>
         </v-row>
