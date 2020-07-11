@@ -37,7 +37,7 @@
         <v-col class="py-0" cols="12">
           <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>
             <v-row align="center">
-              <v-col class="grow">Sem colaboradores registados para apresentar</v-col>
+              <v-col class="grow">Sem professores registados para apresentar</v-col>
               <v-col class="shrink">
                 <v-btn
                   small
@@ -48,7 +48,7 @@
                   text
                   class="text-none"
                   color="primary"
-                >Criar um colaborador</v-btn>
+                >Criar um professor</v-btn>
               </v-col>
             </v-row>
           </v-alert>
