@@ -6,7 +6,6 @@ window.axios = require('axios');
 
 // window.moment.locale('pt-br');
 
-
 window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
     'X-CSRF-TOKEN': window.csrf_token,

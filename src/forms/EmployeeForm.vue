@@ -11,7 +11,6 @@
               :size="formData.perfil_photo?100:80"
             >
               <img v-if="formData.perfil_photo" :src="perfilPhotoPath" />
-              <!-- <img v-if="formData.perfil_photo" :src="formData.perfil_photo" /> -->
               <v-icon v-else dark large>mdi-cloud-upload</v-icon>
             </v-avatar>
             <br />
@@ -31,8 +30,6 @@
             <v-divider></v-divider>
             <v-subheader>Informações Básicas</v-subheader>
           </v-col>
-
-          <!-- =============================================================== -->
 
           <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
@@ -106,7 +103,6 @@
                   data-vv-as="birthdate"
                   :error-messages="errorMsg('folk.birthdate') || errors.collect('birthdate')"
                 ></v-text-field>
-                <!-- error-messages="Teste" -->
               </template>
               <v-date-picker
                 no-title
@@ -121,14 +117,7 @@
           </v-col>
 
           <v-col cols="12" class="mb-0 py-0">
-            <v-radio-group
-              dense
-              v-model="formData.folk.gender"
-              row
-              v-validate="'included:0,1,2'"
-              data-vv-name="gender"
-              :error-messages="errors.collect('gender')"
-            >
+            <v-radio-group dense v-model="formData.folk.gender" row>
               <v-radio label="Masculino" value="0"></v-radio>
               <v-radio label="Feminino" value="1"></v-radio>
             </v-radio-group>
@@ -140,8 +129,6 @@
           <v-col cols="12" class="my-0 py-0">
             <v-subheader>Informações de Contactos</v-subheader>
           </v-col>
-
-          <!-- =============================================================== -->
 
           <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
@@ -179,7 +166,6 @@
             <v-subheader>Funções e responsabilidades</v-subheader>
           </v-col>
 
-          <!-- =============================================================== -->
           <v-col cols="12" class="mb-0 py-0">
             <v-checkbox
               dense
@@ -190,24 +176,6 @@
 
           <template v-for="(encumbrance,k) in formData.charges">
             <v-row :key="k+'encumbrance'" class="mx-1">
-              <!-- <v-col cols="12" md="6" class="mb-0 py-0">
-                <v-autocomplete
-                  dense
-                  auto-select-first
-                  v-model="formData.school_id"
-                  name="schools"
-                  outlined
-                  no-data-text="Sem escola registado"
-                  label="Instituição"
-                  :items="schools"
-                  item-text="name"
-                  item-value="id"
-                  prepend-inner-icon="mdi-city"
-                  v-validate="'required'"
-                  data-vv-name="schools"
-                  :error-messages="errors.collect('schools')"
-                ></v-autocomplete>
-              </v-col> -->
               <v-col cols="12" class="mb-0 py-0">
                 <v-autocomplete
                   dense
@@ -253,17 +221,16 @@
                     <v-text-field
                       dense
                       outlined
-                      name="activity_begin"
+                      :name="'activity_begin'+k"
                       :value="formated(encumbrance.encumbrance.activity_begin)"
                       label="Início de atividade*"
                       prepend-inner-icon="mdi-calendar-arrow-right"
                       readonly
                       v-on="on"
                       v-validate="'required|date_format:dd/MM/yyyy|before:valActivityBeginRef'"
-                      data-vv-as="activity_begin"
-                      :error-messages="errorMsg('charges.'+k+'.encumbrance.activity_begin') || errors.collect('activity_begin')"
+                      :data-vv-as="'activity_begin'+k"
+                      :error-messages="errorMsg('charges.'+k+'.encumbrance.activity_begin') || errors.collect('activity_begin'+k)"
                     ></v-text-field>
-                    <!-- error-messages="Teste" -->
                   </template>
                   <v-date-picker
                     no-title
@@ -295,17 +262,16 @@
                     <v-text-field
                       dense
                       outlined
-                      name="activity_end"
+                      :name="'activity_end'+k"
                       :value="formated(encumbrance.encumbrance.activity_end)"
                       label="Fim de atividade"
                       prepend-inner-icon="mdi-calendar-arrow-left"
                       readonly
                       v-on="on"
                       v-validate="'date_format:dd/MM/yyyy|after:valActivityEndRef|before:valActivityBeginRef'"
-                      data-vv-as="activity_end"
-                      :error-messages="errorMsg('charges.'+k+'.encumbrance.activity_end') || errors.collect('activity_end')"
+                      :data-vv-as="'activity_end'+k"
+                      :error-messages="errorMsg('charges.'+k+'.encumbrance.activity_end') || errors.collect('activity_end'+k)"
                     ></v-text-field>
-                    <!-- error-messages="Teste" -->
                   </template>
                   <v-date-picker
                     :max="new Date().toISOString().substr(0, 10)"
@@ -328,8 +294,6 @@
             <v-subheader>Sessão de utilizador e autenticação</v-subheader>
           </v-col>
 
-          <!-- =============================================================== -->
-
           <v-col cols="12" class="mb-0 py-0">
             <v-checkbox
               dense
@@ -349,7 +313,7 @@
                 v-model="formData.co_email"
               ></v-checkbox>
             </v-col>
-            <v-col cols="12" class="mb-0 py-0">
+            <v-col cols="12" :md="update_form?'6':'12'" class="mb-0 py-0">
               <v-text-field
                 dense
                 :disabled="formData.co_email"
@@ -357,9 +321,7 @@
                 name="user_mail"
                 v-model="formData.folk.user.email"
                 outlined
-                v-validate="'required|email'"
-                data-vv-name="user_mail"
-                :error-messages="errorMsg('folk.user.email') || errors.collect('user_mail')"
+                :error-messages="errorMsg('folk.user.email') || auth_errors.email"
               ></v-text-field>
             </v-col>
 
@@ -370,49 +332,33 @@
                 name="username"
                 v-model="formData.folk.user.username"
                 outlined
-                v-validate="'required|alpha_dash'"
-                data-vv-name="username"
-                :error-messages="errorMsg('folk.user.username') || errors.collect('username')"
+                :error-messages="errorMsg('folk.user.username') || auth_errors.username"
               ></v-text-field>
             </v-col>
 
-            <template v-if="!update_form">
-              <v-col cols="12" md="6" class="mb-0 py-0">
-                <v-text-field
-                  :disabled="default_password"
-                  dense
-                  outlined
-                  v-model="formData.folk.user.password"
-                  :append-icon="show_pass ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show_pass ? 'text' : 'password'"
-                  name="user_password"
-                  label="Palavra Passe"
-                  counter
-                  ref="col_password"
-                  @click:append="show_pass = !show_pass"
-                  hint="Caso não seja inserida uma Palavra Passe, o utilizador terá uma palavra passe predefenida"
-                  persistent-hint
-                  v-validate="'min:8'"
-                  data-vv-name="user_password"
-                  :error-messages="errorMsg('folk.user.password')|| errors.collect('user_password')"
-                ></v-text-field>
-              </v-col>
-
-              <!-- <v-col cols="12" md="6" class="mb-0 py-0">
-                <v-text-field
-                  :disabled="default_password"
-                  dense
-                  label="Confirmação da palavra passe"
-                  name="password_confirmation"
-                  type="password"
-                  v-model="formData.password_confirmation"
-                  outlined
-                  v-validate="'confirmed:col_password'"
-                  data-vv-name="password_confirmation"
-                  :error-messages="errorMsg('password_confirmation')||errors.collect('password_confirmation')"
-                ></v-text-field>
-              </v-col> -->
-            </template>
+            <v-col
+              cols="12"
+              md="6"
+              class="mb-0 py-0"
+              v-if="!update_form || (!formData.folk.user.username || !formData.folk.user.email)"
+            >
+              <v-text-field
+                :disabled="default_password"
+                dense
+                outlined
+                v-model="formData.folk.user.password"
+                :append-icon="show_pass ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show_pass ? 'text' : 'password'"
+                name="user_password"
+                label="Palavra Passe"
+                counter
+                ref="col_password"
+                @click:append="show_pass = !show_pass"
+                hint="Caso não seja inserida uma Palavra Passe, o utilizador terá uma palavra passe predefenida"
+                persistent-hint
+                :error-messages="errorMsg('folk.user.password') || auth_errors.password"
+              ></v-text-field>
+            </v-col>
           </template>
         </v-row>
         <v-divider></v-divider>
@@ -455,6 +401,8 @@ export default {
 
   data() {
     return {
+      auth_errors: { email: "", username: "", password: "" },
+
       default_password: false,
       show_pass: false,
       formErrors: [],
@@ -492,21 +440,25 @@ export default {
     // });
 
     window.getApp.$on("APP_ADD_EMPLOYEE", add_new => {
-      this.add(
-        add_new,
-        "employees",
-        this.$props.formData,
-        "APP_UPDATE_ALL_EMPLOYEES_DATA",
-        "APP_ADD_EMPLOYEE_MODAL"
-      );
+      if (this.checkAuthForm()) {
+        this.add(
+          add_new,
+          "employees",
+          this.$props.formData,
+          "APP_UPDATE_ALL_EMPLOYEES_DATA",
+          "APP_ADD_EMPLOYEE_MODAL"
+        );
+      }
     });
 
     window.getApp.$on("APP_UPDATE_EMPLOYEE", () => {
-      this.update(
-        "employees/" + this.$props.formData.id,
-        this.$props.formData,
-        "APP_UPDATE_EMPLOYEE_MODAL"
-      );
+      if (this.checkAuthForm()) {
+        this.update(
+          "employees/" + this.$props.formData.id,
+          this.$props.formData,
+          "APP_UPDATE_EMPLOYEE_MODAL"
+        );
+      }
     });
   },
 
@@ -537,29 +489,39 @@ export default {
   },
 
   methods: {
-    backendErrorMsg(obj_prop) {
-      if (obj_prop in this.formErrors) {
-        return this.formErrors[obj_prop][0];
+    checkAuthForm: function() {
+      this.auth_errors = { email: "", username: "", password: "" };
+
+      if (this.formData.sync_user_account) {
+        if (!this.formData.folk.user.username) {
+          this.auth_errors.username =
+            "Obrigatório introduzir um nome de utilizador";
+        }
+
+        // if (!this.formData.folk.user.password) {
+        //   this.auth_errors.password =
+        //     "Obrigatório introduzir um nome de utilizador";
+        // }
+
+        if (!this.formData.folk.user.email) {
+          this.auth_errors.email = "Obrigatório introduzir email";
+        } else if (!this.validateAuthEmail(this.formData.folk.user.email)) {
+          this.auth_errors.email = "O email introduzido não é válido";
+        }
+
+        if (!this.auth_errors.length) {
+          return true;
+        }
       }
-      return;
+      return true;
     },
+
+    validateAuthEmail: function(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+
     setCoEmail() {
-      // let msg = this.formData.sync_user_account
-      //   ? "Com esta ação irá permitir que este colaborador tenha uma conta de utilizador no sistema"
-      //   : "Este colaborador não poderá autenticar como um utilizador";
-      // let msg_type = this.formData.sync_user_account ? "info" : "warning";
-
-      // if (this.$props.update_form) {
-      //   this.$swal({
-      //     title: "Conta de Utilizador",
-      //     text: msg,
-      //     type: msg_type,
-      //     width: 400,
-      //     confirmButtonText: "Aceito",
-      //     confirmButtonColor: "#3085d6"
-      //   });
-      // }
-
       if (!this.formData.sync_user_account) {
         this.formData.co_email = false;
       }

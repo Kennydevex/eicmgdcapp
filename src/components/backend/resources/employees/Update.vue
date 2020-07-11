@@ -34,11 +34,13 @@ export default {
   data() {
     return {
       updateEmployeeModal: false,
+      teste: null,
       formData: {
         id: "",
         ic: "",
         phone: "",
         active: false,
+        featured: false,
         perfil_photo: "",
         email: "",
         folk_id: "",
@@ -94,10 +96,12 @@ export default {
 
   methods: {
     setEmployeeUpdateForm(employee) {
+      this.teste=employee;
       this.formData.id = employee.id;
       this.formData.ic = employee.ic;
       this.formData.phone = employee.phone;
       this.formData.active = employee.active;
+      this.formData.featured = employee.featured;
       this.formData.perfil_photo = employee.perfil_photo;
       this.formData.email = employee.email;
       this.formData.folk_id = employee.folk_id;
