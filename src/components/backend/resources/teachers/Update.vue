@@ -15,7 +15,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" small text @click.stop="handleUpdateTeacher(true)">Guardar alterações</v-btn>
-        <v-btn small text @click="closeUpdateMaskModel">Sair</v-btn>
+        <v-btn small text @click="closeUpdateTeacherModel">Sair</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -45,15 +45,15 @@ export default {
             name: "",
             lastname: "",
             gender: "",
-            birthdate: ""
-            // user: {
-            //   id: "",
-            //   username: "",
-            //   email: "",
-            //   password: "",
-            //   status: "",
-            //   type: ""
-            // }
+            birthdate: "",
+            user: {
+              id: "",
+              username: "",
+              email: "",
+              password: "",
+              status: "",
+              type: ""
+            }
           }
         },
         co_email: false,
@@ -93,17 +93,17 @@ export default {
       this.formData.employee.folk.gender = teacher.employee.folk.gender;
       this.formData.employee.folk.birthdate = teacher.employee.folk.birthdate;
 
-      // if (teacher.employee.folk.user) {
-      //   this.formData.sync_user_account = true;
-      //   if (teacher.employee.email == teacher.employee.folk.user.email) {
-      //     this.formData.co_email = true;
-      //   }
-      //   this.formData.employee.folk.user.id = teacher.employee.folk.user.id;
-      //   this.formData.employee.folk.user.username =
-      //     teacher.employee.folk.user.username;
-      //   this.formData.employee.folk.user.email =
-      //     teacher.employee.folk.user.email;
-      // }
+      if (teacher.employee.folk.user) {
+        this.formData.sync_user_account = true;
+        if (teacher.employee.email == teacher.employee.folk.user.email) {
+          this.formData.co_email = true;
+        }
+        this.formData.employee.folk.user.id = teacher.employee.folk.user.id;
+        this.formData.employee.folk.user.username =
+          teacher.employee.folk.user.username;
+        this.formData.employee.folk.user.email =
+          teacher.employee.folk.user.email;
+      }
     },
 
     handleUpdateTeacherModal() {
@@ -111,7 +111,7 @@ export default {
       this.updateTeacherModal = !this.updateTeacherModal;
     },
 
-    closeUpdateMaskModel() {
+    closeUpdateTeacherModel() {
       this.formData = {
         id: "",
         employee_id: "",
@@ -128,15 +128,15 @@ export default {
             name: "",
             lastname: "",
             gender: "",
-            birthdate: ""
-            // user: {
-            //   id: "",
-            //   username: "",
-            //   email: "",
-            //   password: "",
-            //   status: "",
-            //   type: ""
-            // }
+            birthdate: "",
+            user: {
+              id: "",
+              username: "",
+              email: "",
+              password: "",
+              status: "",
+              type: ""
+            }
           }
         },
         co_email: false,

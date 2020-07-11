@@ -129,12 +129,6 @@
 
         <v-divider></v-divider>
         <v-row class="mt-5">
-          <!-- <v-col cols="12" class="my-0 py-0">
-            <v-subheader>Informações de Contactos</v-subheader>
-          </v-col>-->
-
-          <!-- =============================================================== -->
-
           <v-col cols="12" md="6" class="mb-0 py-0">
             <v-text-field
               dense
@@ -165,7 +159,7 @@
           </v-col>
         </v-row>
 
-        <!-- <v-row>
+        <v-row>
           <v-col cols="12" class="my-0 py-0">
             <v-subheader>Sessão de utilizador e autenticação</v-subheader>
           </v-col>
@@ -183,78 +177,60 @@
           <template v-if="formData.sync_user_account">
             <v-col cols="12" class="mb-0 py-0">
               <v-checkbox
-                :disabled="formData.email==''"
+                :disabled="formData.employee.email==''"
                 @change="setAccountEmail"
                 label="Utilizar o email coorporativo"
                 v-model="formData.co_email"
               ></v-checkbox>
             </v-col>
-            <v-col cols="12" md="6" class="mb-0 py-0">
+            <v-col cols="12" :md="update_form?'6':'12'" class="mb-0 py-0">
               <v-text-field
                 dense
                 :disabled="formData.co_email"
-                label="Email de autenticação"
+                label="Email de autenticação*"
                 name="user_mail"
                 v-model="formData.employee.folk.user.email"
                 outlined
-                v-validate="'required|email'"
-                data-vv-name="user_mail"
-                :error-messages="errorMsg('employee.folk.user.email') || errors.collect('user_mail')"
+                :error-messages="errorMsg('employee.folk.user.email') || auth_errors.email"
               ></v-text-field>
             </v-col>
 
             <v-col cols="12" md="6" class="mb-0 py-0">
               <v-text-field
                 dense
-                label="Nome de Utilizador"
+                label="Nome de Utilizador*"
                 name="username"
                 v-model="formData.employee.folk.user.username"
                 outlined
-                v-validate="'required|alpha_dash'"
-                data-vv-name="username"
-                :error-messages="errorMsg('employee.folk.user.username') || errors.collect('username')"
+                :error-messages="errorMsg('employee.folk.user.username') || auth_errors.username"
               ></v-text-field>
             </v-col>
 
-            <template v-if="!update_form">
-              <v-col cols="12" md="6" class="mb-0 py-0">
-                <v-text-field
-                  :disabled="default_password"
-                  dense
-                  outlined
-                  v-model="formData.employee.folk.user.password"
-                  :append-icon="show_pass ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show_pass ? 'text' : 'password'"
-                  name="user_password"
-                  label="Palavra Passe"
-                  counter
-                  ref="col_password"
-                  @click:append="show_pass = !show_pass"
-                  hint="Caso não seja inserida uma Palavra Passe, o utilizador terá uma palavra passe predefenida"
-                  persistent-hint
-                  v-validate="'min:8'"
-                  data-vv-name="user_password"
-                  :error-messages="errorMsg('employee.folk.user.password')|| errors.collect('user_password')"
-                ></v-text-field>
-              </v-col>
-
-              <v-col cols="12" md="6" class="mb-0 py-0">
-                <v-text-field
-                  :disabled="default_password"
-                  dense
-                  label="Confirmação da palavra passe"
-                  name="password_confirmation"
-                  type="password"
-                  v-model="formData.employee.password_confirmation"
-                  outlined
-                  v-validate="'confirmed:col_password'"
-                  data-vv-name="password_confirmation"
-                  :error-messages="errorMsg('employee.password_confirmation')||errors.collect('password_confirmation')"
-                ></v-text-field>
-              </v-col>
-            </template>
+            <v-col
+              cols="12"
+              md="6"
+              class="mb-0 py-0"
+              v-if="!update_form || !formData.employee.folk.user"
+            >
+              <v-text-field
+                :disabled="default_password"
+                dense
+                outlined
+                v-model="formData.employee.folk.user.password"
+                :append-icon="show_pass ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show_pass ? 'text' : 'password'"
+                name="user_password"
+                label="Palavra Passe"
+                counter
+                ref="col_password"
+                @click:append="show_pass = !show_pass"
+                hint="Caso não seja inserida uma Palavra Passe, o utilizador terá uma palavra passe predefenida"
+                persistent-hint
+                :error-messages="errorMsg('employee.folk.user.password')"
+              ></v-text-field>
+            </v-col>
           </template>
-        </v-row>-->
+        </v-row>
         <v-divider></v-divider>
         <v-row>
           <v-col cols="12" class="mt-5 mb-0 pb-0">
@@ -286,6 +262,8 @@ export default {
 
   data() {
     return {
+      auth_errors: { email: "", username: "", password: "" },
+
       default_password: false,
       show_pass: false,
       formErrors: [],
@@ -347,6 +325,33 @@ export default {
   },
 
   methods: {
+    checkAuthForm: function() {
+      this.auth_errors = { email: "", username: "", password: "" };
+
+      if (this.formData.sync_user_account) {
+        if (!this.formData.employee.folk.user.username) {
+          this.auth_errors.username =
+            "Obrigatório introduzir um nome de utilizador";
+        }
+
+        if (!this.formData.employee.folk.user.email) {
+          this.auth_errors.email = "Obrigatório introduzir email";
+        } else if (!this.validateAuthEmail(this.formData.employee.folk.user.email)) {
+          this.auth_errors.email = "O email introduzido não é válido";
+        }
+
+        if (!this.auth_errors.length) {
+          return true;
+        }
+      }
+      return true;
+    },
+
+    validateAuthEmail: function(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+
     setCoEmail() {
       if (!this.formData.sync_user_account) {
         this.formData.co_email = false;
@@ -354,8 +359,8 @@ export default {
     },
     setAccountEmail() {
       if (this.formData.sync_user_account && this.formData.co_email)
-        this.formData.folk.user.email = this.formData.email;
-      else this.formData.folk.user.email = "";
+        this.formData.employee.folk.user.email = this.formData.employee.email;
+      else this.formData.employee.folk.user.email = "";
     },
 
     onActivePerfilPhotoField() {

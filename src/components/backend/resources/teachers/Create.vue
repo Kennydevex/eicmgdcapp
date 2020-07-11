@@ -46,16 +46,16 @@ export default {
             name: "",
             lastname: "",
             gender: "",
-            birthdate: ""
-            // user: {
-            // id: "",
-            //   username: "",
-            //   email: "",
-            //   password: "",
-            //   status: "",
-            //   type: "",
-            //   folk_id: ""
-            // }
+            birthdate: "",
+            user: {
+            id: "",
+              username: "",
+              email: "",
+              password: "",
+              status: "",
+              type: "",
+              folk_id: ""
+            }
           }
         },
         co_email: false,

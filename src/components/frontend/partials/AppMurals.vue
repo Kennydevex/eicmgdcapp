@@ -12,7 +12,7 @@
               class="subtitle-1 mb-0 primary--text font-weight-light text-uppercase"
             >{{mural.title}}</h4>
             <p
-              class="font-italic font-weight-regular body-2 grey--text text--darken-3"
+              class="font-weight-light body-2 grey--text text--darken-3"
             >{{mural.description}}</p>
           </div>
         </v-col>
