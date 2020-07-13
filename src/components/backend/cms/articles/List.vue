@@ -224,7 +224,6 @@ export default {
     return {
       value: "",
       fab: false,
-      years: ["2000", "2020", "2030", "2040"],
       rows: ["10", "20", "50", "100", "200"]
     };
   },

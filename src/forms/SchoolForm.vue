@@ -22,7 +22,7 @@
                 v-model="formData.name"
                 v-validate="'required|alpha_spaces'"
                 data-vv-name="form-step-1.name"
-                :error-messages=" backendErrorMsg('name') || errors.collect('form-step-1.name')"
+                :error-messages=" errorMsg('name') || errors.collect('form-step-1.name')"
               ></v-text-field>
             </v-col>
 
@@ -35,7 +35,7 @@
                 v-model="formData.abbr"
                 v-validate="'required|alpha_dash|max:15'"
                 data-vv-name="form-step-1.abbr"
-                :error-messages="backendErrorMsg('abbr') || errors.collect('form-step-1.abbr')"
+                :error-messages="errorMsg('abbr') || errors.collect('form-step-1.abbr')"
                 hint="Abreviatura do nome da Escola"
               ></v-text-field>
             </v-col>
@@ -101,7 +101,7 @@
                     v-on="on"
                     v-validate="'required|date_format:dd/MM/yyyy|before:valOpningRef'"
                     data-vv-as="form-step-1.opning"
-                    :error-messages="backendErrorMsg('opning') || errors.collect('form-step-1.opning')"
+                    :error-messages="errorMsg('opning') || errors.collect('form-step-1.opning')"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -142,19 +142,6 @@
             <v-col cols="12">Registo de Contactos</v-col>
 
             <v-col cols="12" class="my-0 py-0">
-              <!-- <v-data-table
-                :headers="headers"
-                :items="formData.contacts"
-                class="elevation-1"
-                item-key="id"
-              >
-                <template v-slot:item.action="{ item }">
-                  <v-icon small class="mr-2" @click="editContact(item.id)">mdi-pencil</v-icon>
-
-                  <v-icon small>mdi-delete</v-icon>
-                </template>
-              </v-data-table>-->
-
               <template v-for="(contact,k) in formData.contacts">
                 <v-row :key="k+'contact'">
                   <v-col cols="12" md="2" class="my-0 py-0">
@@ -181,7 +168,7 @@
                       v-model="contact.contact"
                       v-validate="'required|length:16'"
                       :data-vv-name="'form-step-2.contact'+k"
-                      :error-messages="backendErrorMsg('contacts.'+k+'.contact') || errors.collect('form-step-2.contact'+k)"
+                      :error-messages="errorMsg('contacts.'+k+'.contact') || errors.collect('form-step-2.contact'+k)"
                       @change="findRepeatedContact(contact.contact, k)"
                       hint="Insira um número de telefone válido e funcional"
                     ></v-text-field>
@@ -195,7 +182,7 @@
                       v-model="contact.contact"
                       v-validate="'required|email'"
                       :data-vv-name="'form-step-2.contact'+k"
-                      :error-messages="backendErrorMsg('contacts.'+k+'.contact') || errors.collect('form-step-2.contact'+k)"
+                      :error-messages="errorMsg('contacts.'+k+'.contact') || errors.collect('form-step-2.contact'+k)"
                       @change="findRepeatedContact(contact.contact, k)"
                       hint="Insira um correio eletrónico válido e em utilização na instituição"
                     ></v-text-field>
@@ -210,7 +197,7 @@
                       v-model="contact.description"
                       v-validate="'required'"
                       :data-vv-name="'form-step-2.description'+k"
-                      :error-messages="backendErrorMsg('contacts.'+k+'.description') ||errors.collect('form-step-2.description'+k)"
+                      :error-messages="errorMsg('contacts.'+k+'.description') ||errors.collect('form-step-2.description'+k)"
                       :hint="contact.type==1?'Apresente uma pequena descrição do número '+contact.contact:'Apresente uma pequena descrição do  email '+contact.contact"
                     >
                       <template v-slot:append-outer>
@@ -240,32 +227,6 @@
                       </template>
                     </v-text-field>
                   </v-col>
-
-                  <!-- <v-col cols="12" align="start">
-                    <v-btn
-                      outlined
-                      class="text-none font-weight-regular mr-1 mb-1"
-                      small
-                      color="warning"
-                      @click="removeContact(k)"
-                      v-show="k || ( !k && formData.contacts.length > 1)"
-                    >
-                      <v-icon small>mdi-minus</v-icon>Eliminar este contacto
-                    </v-btn>
-
-                    <v-btn
-                      :disabled="canAddContact(k)"
-                      outlined
-                      class="text-none font-weight-regular mb-1"
-                      small
-                      :color="repeatedContact?'error':'primary'"
-                      @click="repeatedContact?'':moreContact(k)"
-                      v-show="k == formData.contacts.length-1"
-                    >
-                      <v-icon v-if="repeatedContact" small>mdi-alert</v-icon>
-                      <v-icon v-else small>mdi-plus</v-icon>Inserir mais contactos
-                    </v-btn>
-                  </v-col>-->
                 </v-row>
               </template>
               <v-row>
@@ -394,7 +355,7 @@
         :editable="update_form"
         :complete="step > 4"
         step="4"
-        :rules="[() => schoolForm4Error()]"
+        :rules="[() => schoolFormError()]"
       >
         Apresentações Gerais
         <small>Configure as informações de apresentação da isntituição</small>
@@ -437,14 +398,43 @@
                     v-model="tempLogo"
                     v-validate="'image'"
                     data-vv-name="logo"
-                    :error-messages="backendErrorMsg('logo') || errors.collect('logo')"
+                    :error-messages="errorMsg('logo') || errors.collect('logo')"
                     @change.self="onLogoUpload"
                   ></v-file-input>
                 </v-col>
               </v-row>
               <v-divider></v-divider>
               <v-row>
-                <v-col cols="12" md="6">Configuração de cores</v-col>
+                <v-col cols="12">Configuração de cores</v-col>
+                <v-col cols="12" md="6">
+                  <v-menu
+                    v-model="school_color_menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        dense
+                        outlined
+                        name="school_color"
+                        :value="formData.primary_color"
+                        label="Cor"
+                        prepend-inner-icon="mdi-palette"
+                        placeholder="Selecione uma cor para esta categoria"
+                        readonly
+                        v-on="on"
+                      >
+                        <template v-slot:append>
+                          <v-chip :color="formData.primary_color" small label></v-chip>
+                        </template>
+                      </v-text-field>
+                    </template>
+                    <v-color-picker flat v-model="formData.primary_color"></v-color-picker>
+                  </v-menu>
+                </v-col>
               </v-row>
             </v-col>
           </v-row>
@@ -480,7 +470,7 @@
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { dateFormat } from "@/mixins/DateTime";
-import { sendFormData } from "@/mixins/SendForm";
+import { sendFormData, getBackEndError } from "@/mixins/SendForm";
 import { imageFilesRules } from "@/mixins/FileRules";
 import { multFormData } from "@/mixins/HandleMultFormData";
 import { cancelActions } from "@/mixins/Redirects";
@@ -494,11 +484,14 @@ export default {
     sendFormData,
     imageFilesRules,
     multFormData,
-    cancelActions
+    cancelActions,
+    getBackEndError
   ],
 
   data() {
     return {
+      formErrors: [],
+      school_color_menu: false,
       tempCover: null,
       tempLogo: null,
       step: 1,
@@ -530,18 +523,6 @@ export default {
   },
 
   methods: {
-    editContact(id) {
-      // eslint-disable-next-line no-console
-      console.log(id);
-    },
-
-    backendErrorMsg(obj_prop) {
-      if (obj_prop in this.formErrors) {
-        return this.formErrors[obj_prop][0];
-      }
-      return;
-    },
-
     schoolForm1Error() {
       if (this.formErrors.length != 0) {
         if (
@@ -557,20 +538,16 @@ export default {
       return true;
     },
 
-    schoolForm4Error() {
+    schoolFormError() {
       if (this.formErrors.length != 0) {
-        if (this.formErrors.logo || this.formErrors.cover) {
-          return false;
-        }
+        if (this.formErrors.logo || this.formErrors.cover) return false;
       }
       return true;
     },
 
     addressFormError() {
       if (this.formErrors.length != 0) {
-        if (this.formErrors["address.state"]) {
-          return false;
-        }
+        if (this.formErrors["address.state"]) return false;
       }
       return true;
     },
@@ -581,9 +558,8 @@ export default {
           if (
             this.formErrors["contacts." + i + ".contact"] ||
             this.formErrors["contacts." + i + ".description"]
-          ) {
+          )
             return false;
-          }
         }
       }
       return true;

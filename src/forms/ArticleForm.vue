@@ -62,24 +62,11 @@
         </v-col>
 
         <v-col cols="12" md="9" class="my-0 py-0">
-          <!-- <v-textarea
-            label="Conteúdo da publicação*"
-            name="content"
-            hint="Descreva aqui a sua publicação"
-            v-model="formData.content"
-            outlined
-            rows="12"
-            v-validate="'required'"
-            data-vv-name="content"
-            :error-messages="errors.collect('content')"
-          ></v-textarea>-->
           <tinymce
             ref="tm_editor"
             id="d1"
             v-model="formData.content"
-            :other_options="editor_options"
           ></tinymce>
-          <!-- :value="formData.content" -->
         </v-col>
 
         <v-col cols="12" md="3" class="my-0 py-0">
@@ -142,7 +129,7 @@
 
             <v-col cols="12" class="mt-5 mb-0 pb-0">
               <v-divider></v-divider>
-              <v-subheader>Definir data de publicação</v-subheader>
+              <v-subheader>Definir data de publicação (Opcional)</v-subheader>
             </v-col>
 
             <v-col cols="12" class="my-0 py-0">
@@ -221,7 +208,7 @@
                 </template>
                 <v-date-picker
                   no-title
-                  :min="formData.start"
+                  :min="formData.start || new Date().toISOString().substr(0, 10)"
                   v-model="formData.end"
                   @input="end_menu=false"
                   locale="pt-pt"
@@ -236,11 +223,9 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { dateFormat } from "@/mixins/DateTime";
 import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
-import moment from "moment";
 
 export default {
   mixins: [clearForm, dateFormat, sendFormData, getDatas, getBackEndError],
@@ -252,7 +237,6 @@ export default {
       end_menu: false,
       formErrors: [],
       imgTemp: null,
-      dictionary: validateDictionary,
       coverRules: [
         value => !!value || "File is required",
         value =>
@@ -260,15 +244,7 @@ export default {
           value.size < 2000000 ||
           "Imagem de capa não pode ter um tamanho superior a 2MB"
       ],
-      editor_options: {
-        language_url: "../plugins/editor/pt_PT.js" //This url points to location of persian language file.
-        // language: "pt_PT" //This url points to location of persian language file.
-      }
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   computed: {
@@ -280,7 +256,7 @@ export default {
     },
 
     initialEndDate() {
-      return moment(this.$props.formData.start).format("DD/MM/YYYY");
+      return window.moment(this.$props.formData.start).format("DD/MM/YYYY");
     }
   },
 
@@ -312,15 +288,6 @@ export default {
   },
 
   methods: {
-    // onFileUpload(e) {
-    //   const file = e.target.files[0] || e.dataTransfer.files[0];
-    //   let fileReader = new FileReader();
-    //   fileReader.readAsDataURL(file);
-    //   fileReader.onload = event => {
-    //     this.formData.cover = event.target.result;
-    //   };
-    // }
-
     setDisableArticleStartDate() {
       this.formData.start = "";
     },

@@ -33,7 +33,7 @@
       </template>
 
       <v-col cols="12" v-else>
-          <h3 class="font-weight-regular mb-7">Histórias da Instituição</h3>
+        <h3 class="font-weight-regular mb-7">Histórias da Instituição</h3>
         <v-card>
           <v-toolbar color="white" flat>
             <v-text-field
@@ -80,6 +80,9 @@
               single-expand
               :expanded.sync="expanded"
               show-expand
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.action="{ item }">
                 <v-btn

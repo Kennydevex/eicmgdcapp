@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-form ref="form" data-vv-scope="form-subscribe">
-      <v-col cols="12" class="px-0">
+      <v-col cols="12" class="px-0" align="text-md-right text-center">
         <v-text-field
           dense
           v-model="formData.email"

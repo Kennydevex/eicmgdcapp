@@ -11,7 +11,7 @@
             outlined
             v-validate="'required'"
             data-vv-name="name"
-            :error-messages="(errors.has('name')) ? errors.collect('name'): formErrors.name"
+            :error-messages="errorMsg('name') || errors.collect('name')"
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="my-0 py-0">
@@ -26,29 +26,45 @@
             counter
             v-validate="'max:250'"
             data-vv-name="description"
-            :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
+            :error-messages="errorMsg('description') || errors.collect('description')"
           ></v-textarea>
         </v-col>
         <v-col cols="12" class="my-0 py-0">
           <span>Dispor artigos desta categoria em:</span>
           <v-radio-group dense v-model="formData.display" row>
-            <v-radio label="Row" value="1"></v-radio>
-            <v-radio label="Cols" value="2"></v-radio>
+            <v-radio label="Linha" value="1"></v-radio>
+            <v-radio label="Coluna" value="2"></v-radio>
           </v-radio-group>
         </v-col>
 
         <v-col cols="12" sm="6" md="4" class="my-0 py-0">
-          <v-autocomplete
-            dense
-            v-model="formData.color"
-            outlined
-            label="Identifique a categoria com uma cor"
-            :items="colors"
-            item-text="name"
-            item-value="key"
-            prepend-inner-icon="mdi-folder-plus-outline"
-            :color="formData.color"
-          ></v-autocomplete>
+          <v-menu
+            v-model="category_color_menu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                dense
+                outlined
+                name="category_color"
+                :value="formData.color"
+                label="Cor"
+                prepend-inner-icon="mdi-palette"
+                placeholder="Selecione uma cor para esta categoria"
+                readonly
+                v-on="on"
+              >
+                <template v-slot:append>
+                  <v-chip :color="formData.color" small label></v-chip>
+                </template>
+              </v-text-field>
+            </template>
+            <v-color-picker flat v-model="formData.color"></v-color-picker>
+          </v-menu>
         </v-col>
       </v-row>
     </v-container>
@@ -56,27 +72,19 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData } from "@/mixins/SendForm";
+import { sendFormData, getBackEndError } from "@/mixins/SendForm";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData],
+  mixins: [clearForm, flashAlert, sendFormData, getBackEndError],
   props: ["formData"],
 
   data() {
     return {
-      dictionary: validateDictionary,
-      colors: [
-        { key: "red", name: "Vermelho" },
-        { key: "green", name: "Verde" }
-      ]
+      formErrors: [],
+      category_color_menu: false
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {

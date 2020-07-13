@@ -39,19 +39,6 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
-          <!-- <v-autocomplete
-            dense
-            :disabled="roles.length==0"
-            v-model="formData.roles"
-            outlined
-            multiple
-            chips
-            :items="roles"
-            item-text="name"
-            item-value="id"
-            label="Funções"
-            :error-messages="roles.length==0?'Campo desativado porque não tem nenhuma função registada para vincular':''"
-          ></v-autocomplete>-->
         </v-col>
       </v-row>
     </v-container>
@@ -59,7 +46,6 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getBackEndError } from "@/mixins/SendForm";
@@ -70,7 +56,7 @@ export default {
 
   data() {
     return {
-      dictionary: validateDictionary
+      formErrors: []
     };
   },
 
@@ -78,10 +64,6 @@ export default {
     roles: function() {
       return this.$store.getters.roles;
     }
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {

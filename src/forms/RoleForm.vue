@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getBackEndError } from "@/mixins/SendForm";
@@ -55,20 +54,10 @@ export default {
   mixins: [clearForm, flashAlert, sendFormData, getBackEndError],
   props: ["formData"],
 
-  data() {
-    return {
-      dictionary: validateDictionary
-    };
-  },
-
   computed: {
     permissions: function() {
       return this.$store.getters.permissions;
     }
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {

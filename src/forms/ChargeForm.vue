@@ -41,7 +41,7 @@
             rows="4"
             v-validate="'max:500'"
             data-vv-name="description"
-            :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
+            :error-messages="errorMsg('description') || errors.collect('description')"
           ></v-textarea>
         </v-col>
       </v-row>
@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { dateFormat } from "@/mixins/DateTime";
@@ -69,8 +68,7 @@ export default {
 
   data() {
     return {
-      dictionary: validateDictionary,
-
+      formErrors: [],
       sections: [
         { id: "1", name: "Direção da Escola" },
         { id: "2", name: "Secretaria" },
@@ -78,10 +76,6 @@ export default {
         { id: "4", name: "Geral" }
       ]
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {

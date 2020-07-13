@@ -381,8 +381,6 @@
 
 <script>
 import AddCharge from "../components/backend/resources/charges/Create";
-import moment from "moment";
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
@@ -402,14 +400,12 @@ export default {
   data() {
     return {
       auth_errors: { email: "", username: "", password: "" },
-
       default_password: false,
       show_pass: false,
       formErrors: [],
       birthdate_menu: false,
       activity_begin_menu: false,
       activity_end_menu: false,
-      dictionary: validateDictionary
     };
   },
 
@@ -418,26 +414,11 @@ export default {
       val &&
         setTimeout(() => (this.$refs.birth_date_picker.activePicker = "YEAR"));
     }
-
-    // activity_begin_menu(val) {
-    //   val &&
-    //     setTimeout(
-    //       () => (this.$refs.activity_begin_picker.activePicker = "YEAR")
-    //     );
-    // }
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {
     this.getAll(this.schools, "getSchools");
     this.getAll(this.charges, "getCharges");
-
-    // window.getApp.$on("APP_CLEAR_EMPLOYEE_FORM", () => {
-    //   this.clear();
-    // });
 
     window.getApp.$on("APP_ADD_EMPLOYEE", add_new => {
       if (this.checkAuthForm()) {
@@ -472,7 +453,7 @@ export default {
     },
 
     initialActivityEndDate() {
-      return moment(
+      return window.moment(
         this.$props.formData.charges[0].encumbrance.activity_begin
       ).format("DD/MM/YYYY");
     },
@@ -498,11 +479,6 @@ export default {
             "Obrigatório introduzir um nome de utilizador";
         }
 
-        // if (!this.formData.folk.user.password) {
-        //   this.auth_errors.password =
-        //     "Obrigatório introduzir um nome de utilizador";
-        // }
-
         if (!this.formData.folk.user.email) {
           this.auth_errors.email = "Obrigatório introduzir email";
         } else if (!this.validateAuthEmail(this.formData.folk.user.email)) {
@@ -526,6 +502,7 @@ export default {
         this.formData.co_email = false;
       }
     },
+
     setAccountEmail() {
       if (this.formData.sync_user_account && this.formData.co_email)
         this.formData.folk.user.email = this.formData.email;

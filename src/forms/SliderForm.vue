@@ -57,7 +57,7 @@
                   label="Título do Slider"
                   v-validate="'required'"
                   data-vv-name="title"
-                  :error-messages="(errors.has('title')) ? errors.collect('title'): formErrors.title"
+                  :error-messages="errorMsg('title') || errors.collect('title')"
                 ></v-text-field>
               </v-col>
             </v-card-title>
@@ -79,26 +79,7 @@
             </v-img>
 
             <v-card-title class="pa-0">
-              <v-col cols="12" md="4">
-                <v-autocomplete
-                  outlined
-                  name="type"
-                  v-model="formData.background_type"
-                  dense
-                  hide-no-data
-                  disable-lookup
-                  no-filter
-                  label="Tipo de fundo"
-                  :items="bg_types"
-                  item-text="name"
-                  item-value="id"
-                  prepend-inner-icon="mdi-folder-plus-outline"
-                  v-validate="'required'"
-                  data-vv-name="background_type"
-                  :error-messages="errors.collect('background_type')"
-                ></v-autocomplete>
-              </v-col>
-              <v-col cols="12" md="8">
+              <v-col cols="12">
                 <v-file-input
                   outlined
                   dense
@@ -194,7 +175,7 @@
                     <v-text-field
                       dense
                       outlined
-                      name="release"
+                      name="slide_color"
                       :value="formData.color"
                       label="Cor"
                       prepend-inner-icon="mdi-palette"
@@ -210,14 +191,6 @@
                   <v-color-picker flat v-model="formData.color"></v-color-picker>
                 </v-menu>
               </v-col>
-
-              <!-- <v-color-picker
-                width="400"
-                hide-inputs
-                hide-canvas
-                show-swatches
-                v-model="formData.color"
-              ></v-color-picker>-->
             </v-card-text>
 
             <v-divider></v-divider>
@@ -237,22 +210,20 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 
 export default {
-  mixins: [clearForm, sendFormData, getDatas, flashAlert],
+  mixins: [clearForm, sendFormData, getDatas, flashAlert, getBackEndError],
   props: ["formData", "update_form"],
 
   data() {
     return {
+      formErrors: [],
       slider_color_menu: false,
       slider_dst: "",
-      formErrors: [],
       tempSliderBackground: null,
-      dictionary: validateDictionary,
       backgroundRules: [
         value => !!value || "File is required",
         value =>
@@ -264,18 +235,8 @@ export default {
         { id: "1", name: "Cursos e Formações" },
         { id: "2", name: "Publicações" },
         { id: "3", name: "Ligações externas" }
-      ],
-
-      bg_types: [
-        { id: "1", name: "Imagem" },
-        { id: "2", name: "Vídeo" },
-        { id: "3", name: "Cor Sólida" }
       ]
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {
@@ -315,16 +276,6 @@ export default {
     },
 
     sliderBackgroundPath() {
-      // return !this.update_form
-      //   ? this.formData.background
-      //     ? this.formData.background
-      //     : this.apiUrl + "/images/app/sliders/default.svg"
-      //   : this.formData.background
-      //   ? this.formData.background.length > 50
-      //     ? this.formData.background
-      //     : this.apiUrl + "/images/app/sliders/" + this.formData.background
-      //   : this.apiUrl + "/images/app/sliders/default.svg";
-
       return this.formData.background
         ? this.formData.background.length > 100
           ? this.formData.background

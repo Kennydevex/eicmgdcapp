@@ -1,7 +1,6 @@
 <template>
   <v-container grid-list-xs pt-0>
     <v-alert
-      v-model="school_alert"
       v-if="featured_articles.length==0 || categories.length==0"
       border="top"
       colored-border
@@ -15,7 +14,7 @@
       <v-row align="center">
         <v-col
           class="grow"
-        >Aguarde a publicação no Blog da Escola Idustrial e Comercial do Mindelo, em breve iremos fazer parte do seu dia.</v-col>
+        >Aguarde a publicação no Blog da Escola Industrial e Comercial do Mindelo, em breve iremos fazer parte do seu dia.</v-col>
       </v-row>
     </v-alert>
 

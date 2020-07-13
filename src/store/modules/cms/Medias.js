@@ -10,8 +10,7 @@ export default ({
 
     actions: {
         getMedias(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('medias').then(function (response) { context.commit('updateMedias', response.data.data); });
+            window.axios.get('medias').then(function (response) { context.commit('updateMedias', response.data.data); });
         },
     }
 });

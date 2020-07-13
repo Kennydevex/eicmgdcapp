@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-navigation-drawer width="320" app v-model="mobile_front_menu" disable-resize-watcher>
-      <!-- <v-navigation-drawer  :src="'https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg'" width="320" app v-model="mobile_front_menu" disable-resize-watcher dark> -->
       <v-list-item>
         <v-list-item-avatar>
           <v-img :src="require('@/assets/logos/tiny_logo.svg')"></v-img>
@@ -27,7 +26,6 @@
           </v-list-item-content>
         </v-list-item>
         <template v-for="(item, i) in menus">
-          <!-- <div :key="i+'front_drawer_'+i"> -->
           <v-list-group
             :prepend-icon="item.icon"
             no-action="no-action"
@@ -69,7 +67,6 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <!-- </div> -->
         </template>
       </v-list>
 
@@ -130,7 +127,6 @@
             @click="menuLink(menu.name, '')"
           >{{menu.title}}</v-btn>
 
-          <!-- :to="{name: 'login_page'}" -->
           <v-menu
             v-else
             tile
@@ -153,7 +149,6 @@
               >
                 {{menu.title}}
                 <v-icon dark>mdi-circle-small</v-icon>
-                <!-- <v-icon dark>mdi-menu-down</v-icon> -->
               </v-btn>
             </template>
             <v-list class="pa-0">
@@ -245,79 +240,10 @@ export default {
 
   data() {
     return {
-      list_items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard" },
-        { title: "Photos", icon: "mdi-image" },
-        { title: "About", icon: "mdi-help-box" }
-      ],
-      right: null,
-      // ================================================
-
-      // icons: ["mdi-home", "mdi-account-tie", "mdi-briefcase"],
-      item_courses: [
-        "Artes Gráficas",
-        "Construção Cívil",
-        "Contabilidade Administrativa",
-        "Eletrícidade",
-        "Electrotecnia",
-        "Informática de Gestão",
-        "Mécânica"
-      ],
-      external_links: [
-        "Camara Municipal de São Vicente",
-        "Ministério de Educação",
-        "Universidade de Cabo Verde",
-        "Instituto de Ensino e Formação Profissional"
-      ],
-      items: [
-        {
-          icon: "mdi-facebook",
-          name: "teste",
-          //eslint-disable-next-line no-unused-vars
-          click: e => {
-            this.$router.push({
-              name: "teste"
-            });
-          }
-        },
-        {
-          icon: "mdi-twitter",
-          name: "teste",
-          //eslint-disable-next-line no-unused-vars
-          click: e => {
-            this.$router.push({
-              name: "teste"
-            });
-          }
-        },
-        {
-          icon: "mdi-linkedin",
-          name: "teste",
-          //eslint-disable-next-line no-unused-vars
-          click: e => {
-            this.$router.push({
-              name: "teste"
-            });
-          }
-        }
-      ],
-
-      // ================================================
       mobile_front_menu: false,
       menus: menus
     };
   },
-
-  // created() {
-  //   this.getAll(this.schools, "getSchools");
-  //   // this.adminTeste();
-  // },
-
-  // computed: {
-  //   schools: function() {
-  //     return this.$store.getters.schools;
-  //   }
-  // },
 
   methods: {
     toggle_mobile_front_menu() {

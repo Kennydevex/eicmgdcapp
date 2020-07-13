@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getOutcomes(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('outcomes').then(function (response) { context.commit('updateOutcomes', response.data.data); });
+            window.axios.get('outcomes').then(function (response) { context.commit('updateOutcomes', response.data.data); });
         },
     }
 });

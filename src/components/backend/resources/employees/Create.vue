@@ -85,9 +85,6 @@ export default {
   methods: {
     handleAddEmployeeModal() {
       this.addEmployeeModal = !this.addEmployeeModal;
-
-      // window.getApp.$emit("APP_CLEAR_EMPLOYEE_FORM");
-
     },
 
     handleAddEmployee(add_new) {

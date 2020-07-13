@@ -15,7 +15,7 @@
           <v-row align="center">
             <v-col
               class="grow"
-            >Nenhuma disciplina encontrada na base de dados, recomenda-se o seu registo de configurar os cursos</v-col>
+            >Nenhuma disciplina encontrada na base de dados, recomenda-se o seu registo, antes de configurar os cursos</v-col>
             <v-col class="shrink">
               <v-btn
                 small
@@ -47,7 +47,7 @@
           <v-row align="center">
             <v-col
               class="grow"
-            >Atenção, para conigurar um curso, precisa-se de um departamento, que ainda não se encontram registados</v-col>
+            >Atenção, para conigurar um curso, precisa-se de departamentos, que ainda não se encontram registados</v-col>
             <v-col class="shrink">
               <v-btn
                 small
@@ -58,7 +58,7 @@
                 text
                 class="text-none"
                 color="primary"
-              >Crai Um</v-btn>
+              >Crai um departamento</v-btn>
             </v-col>
           </v-row>
         </v-alert>
@@ -69,15 +69,7 @@
           <v-row align="center">
             <v-col class="grow">
               Ainda não existem saídas profissionais ou académicas registados para atrubuir ao curso, mas pode-se regista-las durante a sua configuração. Ou então,
-              <v-btn
-                color="primary"
-                class="text-none"
-                small
-                text
-                outlined
-                rounded
-                :to="{ name: 'list_outcomes'}"
-              >Cria-las aqui</v-btn>
+              <v-btn color="primary" small text outlined rounded :to="{ name: 'list_outcomes'}">Aqui</v-btn>
             </v-col>
           </v-row>
         </v-alert>
@@ -140,6 +132,9 @@
                 v-model="selected"
                 no-data-text="Aguardando resposta do servidor..."
                 no-results-text="Nada para mostrar"
+                :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
               >
                 <template v-slot:item.status="{ item }">
                   <v-btn
@@ -156,7 +151,7 @@
                       <v-icon small>mdi-dots-horizontal</v-icon>
                     </span>
                   </v-btn>
-                </template> 
+                </template>
 
                 <template v-slot:item.color="{ item }">
                   <v-chip :color="item.color" label x-small outlined>{{item.color}}</v-chip>

@@ -10,8 +10,7 @@ export default ({
 
     actions: {
         getUsers(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('users').then(function (response) { context.commit('updateUsers', response.data.data); });
+            window.axios.get('users').then(function (response) { context.commit('updateUsers', response.data.data); });
         },
     }
 });

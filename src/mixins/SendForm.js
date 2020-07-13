@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/*jshint esversion: 6 */
-
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
@@ -41,7 +38,7 @@ export const sendFormData = {
                     // this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
-                    axios
+                    window.axios
                         .post(url, form_data)
                         .then(response => {
                             this.feedback("success", response.data.msg, 3000, true, "top-end");
@@ -77,7 +74,7 @@ export const sendFormData = {
                     // this.$Progress.start();
                     this.hasError = false;
                     this.formErrors = [];
-                    axios
+                    window.axios
                         .put(url + "/", form_data)
                         .then(response => {
                             if (!simple_form_page) {
@@ -165,7 +162,7 @@ export const deleteData = {
         },
 
         deleteData: function (url, id, update_datas) {
-            axios
+            window.axios
                 .delete(url + "/" + id)
                 .then(response => {
                     this.feedback("success", response.data.msg, 3000, true, "top-end");
@@ -201,7 +198,7 @@ export const handleActivation = {
             }).then(result => {
                 if (result.value) {
                     this.$set(this.loadAtivaction, id, true);
-                    axios
+                    window.axios
                         .get(url + "/" + id)
                         .then(response => {
                             this.refresh(update_all_data);

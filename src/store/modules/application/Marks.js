@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getMarks(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('marks').then(function (response) { context.commit('updateMarks', response.data.data); });
+            window.axios.get('marks').then(function (response) { context.commit('updateMarks', response.data.data); });
         },
     }
 });

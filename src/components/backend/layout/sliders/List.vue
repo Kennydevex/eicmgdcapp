@@ -1,35 +1,6 @@
 <template>
   <div>
     <v-row>
-      <!-- <template v-for="(slider, k) in sliders">
-        <v-col cols="12" sm="6" md="4" :key="'slider'+k">
-          <v-card>
-            <v-card-title primary-title>{{slider.title}}</v-card-title>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                v-if="canRemove()"
-                @click="onDelete('sliders', slider.id, 'APP_UPDATE_ALL_SLIDERS_DATA')"
-                color="error"
-                class="text-none"
-                small
-                tile
-                depressed
-              >Eliminar</v-btn>
-              <v-btn
-                v-if="canEdit()"
-                @click="onUpdate('update_slider', slider.slug)"
-                color="success"
-                class="text-none"
-                small
-                tile
-                depressed
-              >Editar</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </template>-->
       <template v-if="sliders.length==0">
         <v-col class="py-0" cols="12">
           <v-alert tile border="top" colored-border type="info" elevation="2" dismissible>

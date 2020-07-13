@@ -14,7 +14,6 @@
               <v-col align="center" class="pb-0 mb-0" cols="12">
                 <v-avatar class="profile" color="grey lighten-2" size="124">
                   <v-img class="white--text align-end" :src="avatarPath"></v-img>
-                  <!-- :src="`${apiUrl}/images/app/system/users/${authUser.avatar}`" -->
                 </v-avatar>
                 <input
                   accept="image/png, image/jpeg"

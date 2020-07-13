@@ -47,12 +47,10 @@ export default ({
 
     actions: {
         getArticles(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('articles').then(function (response) { context.commit('updateArticles', response.data.data); });
+             window.axios.get('articles').then(function (response) { context.commit('updateArticles', response.data.data); });
         },
         getPublishedArticles(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('publishedArticles').then(function (response) { context.commit('updatePublishedArticles', response.data.data); });
+             window.axios.get('publishedArticles').then(function (response) { context.commit('updatePublishedArticles', response.data.data); });
         },
     }
 });

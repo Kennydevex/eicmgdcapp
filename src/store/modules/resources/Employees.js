@@ -34,12 +34,10 @@ export default ({
 
     actions: {
         getEmployees(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('employees').then(function (response) { context.commit('updateEmployees', response.data.data); });
+            window.axios.get('employees').then(function (response) { context.commit('updateEmployees', response.data.data); });
         },
         getTeams(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('principalTeam').then(function (response) { context.commit('updateTeams', response.data.data); });
+            window.axios.get('principalTeam').then(function (response) { context.commit('updateTeams', response.data.data); });
         },
     }
 });

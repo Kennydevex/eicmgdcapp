@@ -2,26 +2,26 @@
   <v-footer class="appfooter" app absolute padless>
     <v-card tile width="100%" class="pa-0 overflow-scroll" max-height="400">
       <v-card-text class="blue-grey darken-3 white--text text-center">
-        <v-btn
-          dark
-          v-for="item in items"
-          :key="item.icon"
-          :to="{ name: item.name }"
-          class="mx-4"
-          icon
-        >
-          <v-icon size="24px">{{ item.icon }}</v-icon>
+        <v-btn target="_blank" href="https://www.facebook.com" dark class="mx-4" icon>
+          <v-icon size="24px">mdi-facebook</v-icon>
+        </v-btn>
+
+        <v-btn target="_blank" href="https://www.twitter.com" dark class="mx-4" icon>
+          <v-icon size="24px">mdi-twitter</v-icon>
+        </v-btn>
+
+        <v-btn target="_blank" href="https://www.linkedin.com" dark class="mx-4" icon>
+          <v-icon size="24px">mdi-linkedin</v-icon>
         </v-btn>
       </v-card-text>
 
       <v-card-text class="blue-grey darken-3 py-0">
         <v-container grid-list-xl>
-          <!-- <v-row align="start" justify="center"> -->
           <v-row>
             <v-col cols="12" md="4" class="py-0">
               <v-card-text class="py-0">
                 <v-card-title
-                  class="font-weight-light justify-center grey--text text--lighten-3 pt-0 pb-3"
+                  class="font-weight-light justify-center grey--text text--lighten-3 my-5 pt-0 pb-3"
                   primary-title
                 >Subscrição</v-card-title>
                 <v-divider dark></v-divider>
@@ -29,9 +29,9 @@
                   <v-row>
                     <v-col cols="12" class="pa-0">
                       <small>Subscreva com o seu email para estar em dia com as nossas publicações</small>
+                    <subscribe></subscribe>
                     </v-col>
 
-                    <subscribe></subscribe>
                   </v-row>
                 </v-card-text>
               </v-card-text>
@@ -39,7 +39,7 @@
             <v-col cols="12" md="4" class="py-0">
               <v-card-text class="py-0">
                 <v-card-title
-                  class="font-weight-light justify-center grey--text text--lighten-3 pt-0 pb-3"
+                  class="font-weight-light justify-center grey--text text--lighten-3 my-5 pt-0 pb-3"
                   primary-title
                 >Cursos técnicos</v-card-title>
                 <v-divider dark></v-divider>
@@ -52,7 +52,7 @@
             <v-col cols="12" md="4" class="py-0">
               <v-card-text class="py-0">
                 <v-card-title
-                  class="font-weight-light justify-center grey--text text--lighten-3 pt-0 pb-3"
+                  class="font-weight-light justify-center grey--text text--lighten-3 my-5 pt-0 pb-3"
                   primary-title
                 >Ligações Externas</v-card-title>
                 <v-divider dark></v-divider>
@@ -62,22 +62,57 @@
                   <v-row>
                     <v-col cols="12">
                       <ul type="none">
-                        <template v-for="(external_link, i) in external_links">
-                          <li :key="i" class="ma-0 pa-0">
-                            <!-- <a class="grey--text lighten-3" href="#">{{course_link}}</a> -->
-                            <v-btn
-                              exact
-                              :ripple="false"
-                              retain-focus-on-click
-                              href="#"
-                              target="_blank"
-                              color="grey lighten-1"
-                              class="py-1 ma-0 text-none font-weight-light no-text-transform"
-                              small
-                              text
-                            >{{external_link}}</v-btn>
-                          </li>
-                        </template>
+                        <li class="ma-0 pa-0">
+                          <v-btn
+                            href="https://www.cmsv.cv"
+                            :ripple="false"
+                            retain-focus-on-click
+                            target="_blank"
+                            color="grey lighten-1"
+                            class="py-1 ma-0 text-none font-weight-light no-text-transform"
+                            small
+                            text
+                          >CMSV</v-btn>
+                        </li>
+
+                        <li class="ma-0 pa-0">
+                          <v-btn
+                            :ripple="false"
+                            retain-focus-on-click
+                            href="https://www.cmsv.cv"
+                            target="_blank"
+                            color="grey lighten-1"
+                            class="py-1 ma-0 text-none font-weight-light no-text-transform"
+                            small
+                            text
+                          >Ministério de Educação</v-btn>
+                        </li>
+
+                        <li class="ma-0 pa-0">
+                          <v-btn
+                            :ripple="false"
+                            retain-focus-on-click
+                            href="https://www.cmsv.cv"
+                            target="_blank"
+                            color="grey lighten-1"
+                            class="py-1 ma-0 text-none font-weight-light no-text-transform"
+                            small
+                            text
+                          >IEFP</v-btn>
+                        </li>
+
+                        <li class="ma-0 pa-0">
+                          <v-btn
+                            :ripple="false"
+                            retain-focus-on-click
+                            :href="'https://www.cmsv.cv'"
+                            target="_blank"
+                            color="grey lighten-1"
+                            class="py-1 ma-0 text-none font-weight-light no-text-transform"
+                            small
+                            text
+                          >Uni-CV</v-btn>
+                        </li>
                       </ul>
                     </v-col>
                   </v-row>
@@ -88,14 +123,12 @@
         </v-container>
       </v-card-text>
 
-      <!-- <v-divider dark></v-divider> -->
-
       <v-card-actions class="blue-grey darken-3 grey--text text--darken-2">
-        <span>Escola Comercial e Industrial do Mindelo - Guilherme dias Chantre - {{ new Date().getFullYear() }}</span>
+        <small>Escola Comercial e Industrial do Mindelo - Guilherme dias Chantre - {{ new Date().getFullYear() }}</small>
         <v-spacer></v-spacer>
         <small>
-          Speeded by:
-          <i>Decifra Code</i>
+          Por:
+          <i>DicifraKodigu</i>
         </small>
       </v-card-actions>
     </v-card>
@@ -106,70 +139,9 @@
 import Subscribe from "./Footer/Subscribe";
 import Courses from "./Footer/Courses";
 export default {
-  data: () => ({
-    icons: ["mdi-home", "mdi-account-tie", "mdi-briefcase"],
-    item_courses: [
-      "Artes Gráficas",
-      "Construção Cívil",
-      "Contabilidade Administrativa",
-      "Eletrícidade",
-      "Electrotecnia",
-      "Informática de Gestão",
-      "Mécânica"
-    ],
-    external_links: ["CMSV", "Ministério de Educação", "Uni-CV", "IEFP"],
-    items: [
-      {
-        icon: "mdi-facebook",
-        name: "teste",
-        //eslint-disable-next-line no-unused-vars
-        click: e => {
-          this.$router.push({
-            name: "teste"
-          });
-        }
-      },
-      {
-        icon: "mdi-twitter",
-        name: "teste",
-        //eslint-disable-next-line no-unused-vars
-        click: e => {
-          this.$router.push({
-            name: "teste"
-          });
-        }
-      },
-      {
-        icon: "mdi-linkedin",
-        name: "teste",
-        //eslint-disable-next-line no-unused-vars
-        click: e => {
-          this.$router.push({
-            name: "teste"
-          });
-        }
-      }
-    ]
-  }),
-  methods: {},
-
   components: {
     Subscribe,
     Courses
   }
 };
 </script>
-
-<style lang="scss" scoped>
-li {
-  padding: 5px;
-}
-a {
-  text-decoration: none;
-  transition: color 0.6s;
-  color: rgb(209, 224, 238);
-}
-a:hover {
-  color: white;
-}
-</style>

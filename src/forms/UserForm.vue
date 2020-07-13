@@ -100,7 +100,7 @@
             outlined
             v-validate="'required|email'"
             data-vv-name="email"
-            :error-messages="(errors.has('email')) ? errors.collect('email'): formErrors.email"
+            :error-messages="errorMsg('email') || errors.collect('email')"
           ></v-text-field>
         </v-col>
 
@@ -113,7 +113,7 @@
             outlined
             v-validate="'required|alpha_dash'"
             data-vv-name="username"
-            :error-messages="(errors.has('username')) ? errors.collect('username'): formErrors.username"
+            :error-messages="errorMsg('username') || errors.collect('username')"
           ></v-text-field>
         </v-col>
 
@@ -239,14 +239,20 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat, getBackEndError],
+  mixins: [
+    clearForm,
+    flashAlert,
+    sendFormData,
+    getDatas,
+    dateFormat,
+    getBackEndError
+  ],
   props: ["formData", "disable_field"],
   data() {
     return {
@@ -259,13 +265,8 @@ export default {
         { key: "0", name: "Masculino" },
         { key: "1", name: "Feminino" }
       ],
-      defautPassword: true,
-      dictionary: validateDictionary
+      defautPassword: true
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   watch: {

@@ -2,27 +2,6 @@
   <v-form ref="form">
     <v-container grid-list-xs pa-0 ma-0>
       <v-row>
-        <!-- <v-col cols="12" md="4" class="mb-0 py-0">
-          <v-autocomplete
-            dense
-            v-model="formData.school_id"
-            auto-select-first
-            outlined
-            readonly
-            no-data-text="Nenhuma instituição com este nome"
-            hide-selected
-            label="Instituição*"
-            clearable
-            :items="schools"
-            item-text="name"
-            item-value="id"
-            prepend-inner-icon="mdi-folder-plus-outline"
-            v-validate="'required'"
-            data-vv-name="school"
-            :error-messages="errors.collect('school')"
-          ></v-autocomplete>
-        </v-col>-->
-
         <v-col cols="12" class="mb-0 py-0">
           <v-text-field
             :disabled="schools.length==0"
@@ -33,7 +12,7 @@
             outlined
             v-validate="'required'"
             data-vv-name="title"
-            :error-messages="(errors.has('title')) ? errors.collect('title'): formErrors.title"
+            :error-messages="errorMsg('title') || errors.collect('title')"
           ></v-text-field>
         </v-col>
         <v-col cols="12" class="my-0 py-0">
@@ -50,7 +29,7 @@
             rows="4"
             v-validate="'required|max:500'"
             data-vv-name="description"
-            :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
+            :error-messages="errorMsg('description') || errors.collect('description')"
           ></v-textarea>
         </v-col>
 
@@ -88,7 +67,7 @@
                 v-on="on"
                 v-validate="'required|date_format:dd/MM/yyyy|before:valStartMarkRef'"
                 data-vv-as="begin"
-                :error-messages="(errors.has('begin')) ? errors.collect('begin'): formErrors.begin"
+                :error-messages="errorMsg('begin') || errors.collect('begin')"
               ></v-text-field>
               <!-- error-messages="Teste" -->
             </template>
@@ -131,7 +110,7 @@
                 v-on="on"
                 v-validate="'required|date_format:dd/MM/yyyy|after:valEndMarkRef|before:valStartMarkRef'"
                 data-vv-as="end"
-                :error-messages="(errors.has('end')) ? errors.collect('end'): formErrors.end"
+                :error-messages="errorMsg('end') || errors.collect('end')"
               ></v-text-field>
             </template>
             <v-date-picker
@@ -154,27 +133,21 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
-import moment from "moment";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData, getDatas, dateFormat],
+  mixins: [clearForm, flashAlert, sendFormData, getDatas, getBackEndError, dateFormat],
   props: ["formData"],
 
   data() {
     return {
+      formErrors: [],
       begin_menu: false,
       end_menu: false,
-      dictionary: validateDictionary
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {
@@ -205,7 +178,7 @@ export default {
     },
 
     initialEndDate() {
-      return moment(this.$props.formData.begin).format("DD/MM/YYYY");
+      return window.moment(this.$props.formData.begin).format("DD/MM/YYYY");
     }
   }
 };

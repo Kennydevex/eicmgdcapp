@@ -181,21 +181,6 @@ const Menu = [
             },
         ]
     },
-    {
-        title: 'Galerias',
-        group: 'cms',
-        roles: ['Diretor', 'Gestor de Artigo'],
-        icon: 'mdi-folder-image',
-        items: [
-            {
-                name: 'list-medias',
-                title: 'Medias',
-                icon: 'mdi-square-small',
-                component: 'list_medias',
-            },
-
-        ]
-    },
 
     {
         divider: true
@@ -211,7 +196,7 @@ const Menu = [
     //     name: 'teste',
     // },
     {
-        title: 'Layout',
+        title: 'Widgets',
         group: 'settings',
         roles: ['Diretor', 'Gestor'],
         icon: 'mdi-widgets-outline',

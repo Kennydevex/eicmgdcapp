@@ -116,8 +116,8 @@
           </swiper-slide>
         </template>
 
-        <div class="swiper-button-prev hidden-xs-only" slot="button-prev"></div>
-        <div class="swiper-button-next hidden-xs-only" slot="button-next"></div>
+        <!-- <div class="swiper-button-prev hidden-xs-only" slot="button-prev"></div>
+        <div class="swiper-button-next hidden-xs-only" slot="button-next"></div> -->
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </v-card>
@@ -364,10 +364,11 @@ $lg-screen: 1904px;
 
 .course-slider-container {
   height: 580px;
-  width: 35%;
+  width: 25%;
   padding: 0 15px 0 35px;
   transition: background-color 0.5s;
 
+  // background-color: #1818188c;
   background-color: #3e3f9563;
   // background: linear-gradient(
   //   to right,
@@ -397,7 +398,7 @@ $lg-screen: 1904px;
     width: 70%;
   }
   @include md {
-    width: 45%;
+    width: 30%;
   }
 
   .course-slider-content {
@@ -424,6 +425,6 @@ $lg-screen: 1904px;
 }
 
 .course-slider-container:hover {
-  background-color: #3e3f95cc;
+  background-color: #3e3f95a4;
 }
 </style>

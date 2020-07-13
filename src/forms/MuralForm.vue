@@ -32,24 +32,6 @@
             </v-row>
           </v-alert>
         </v-col>
-        <!-- <v-col cols="12" md="4" class="mb-0 py-0">
-          <v-autocomplete
-            dense
-            v-model="formData.school_id"
-            outlined
-            no-data-text="Nenhuma instituição com este nome"
-            hide-selected
-            label="Instituição*"
-            clearable
-            :items="schools"
-            item-text="name"
-            item-value="id"
-            prepend-inner-icon="mdi-folder-plus-outline"
-            v-validate="'required'"
-            data-vv-name="school"
-            :error-messages="errors.collect('school')"
-          ></v-autocomplete>
-        </v-col>-->
 
         <v-col cols="12" class="mb-0 py-0">
           <v-text-field
@@ -64,6 +46,7 @@
             :error-messages="errorMsg('title') || errors.collect('title')"
           ></v-text-field>
         </v-col>
+
         <v-col cols="12" class="my-0 py-0">
           <v-textarea
             :disabled="schools.length==0"
@@ -112,11 +95,9 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
-import moment from "moment";
 import { dateFormat } from "@/mixins/DateTime";
 
 export default {
@@ -132,10 +113,9 @@ export default {
 
   data() {
     return {
+      formErrors: [],
       begin_menu: false,
       end_menu: false,
-      dictionary: validateDictionary,
-
       icons: [
         { key: "mdi-home", name: "Home" },
         { key: "mdi-heart", name: "Coração" },
@@ -166,10 +146,6 @@ export default {
     };
   },
 
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
-  },
-
   created() {
     this.getAll(this.schools, "getSchools");
     window.getApp.$on("APP_ADD_MURAL", add_new => {
@@ -197,7 +173,7 @@ export default {
     },
 
     initialEndDate() {
-      return moment(this.$props.formData.begin).format("DD/MM/YYYY");
+      return window.moment(this.$props.formData.begin).format("DD/MM/YYYY");
     }
   }
 };

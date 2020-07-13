@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getMurals(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('murals').then(function (response) { context.commit('updateMurals', response.data.data); });
+            window.axios.get('murals').then(function (response) { context.commit('updateMurals', response.data.data); });
         },
     }
 });

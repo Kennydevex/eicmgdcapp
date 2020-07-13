@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title primary-title>
       <small class="font-weight-light text-capitalize">
-        <v-icon>mdi-file-document-box-plus</v-icon>
+        <v-icon>mdi-text-box-plus</v-icon>
         <small>&emsp;Criar Publicação</small>
       </small>
     </v-card-title>
@@ -32,8 +32,8 @@ export default {
         title: "",
         summary: "",
         content: "",
-        status: "",
-        featuring: "",
+        status: false,
+        featuring: false,
         start: "",
         end: "",
         cover: null,

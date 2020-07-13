@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card tile color="white" class="elevation-5 mb-5">
+    <v-card color="white" class="elevation-5 mb-5">
       <v-card-text>
         <v-form ref="form">
           <v-row>

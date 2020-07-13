@@ -243,7 +243,6 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
@@ -263,14 +262,12 @@ export default {
   data() {
     return {
       auth_errors: { email: "", username: "", password: "" },
-
       default_password: false,
       show_pass: false,
       formErrors: [],
       birthdate_menu: false,
       activity_begin_menu: false,
-      activity_end_menu: false,
-      dictionary: validateDictionary
+      activity_end_menu: false
     };
   },
 
@@ -279,17 +276,6 @@ export default {
       val &&
         setTimeout(() => (this.$refs.birth_date_picker.activePicker = "YEAR"));
     }
-
-    // activity_begin_menu(val) {
-    //   val &&
-    //     setTimeout(
-    //       () => (this.$refs.activity_begin_picker.activePicker = "YEAR")
-    //     );
-    // }
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {
@@ -329,20 +315,18 @@ export default {
       this.auth_errors = { email: "", username: "", password: "" };
 
       if (this.formData.sync_user_account) {
-        if (!this.formData.employee.folk.user.username) {
+        if (!this.formData.employee.folk.user.username)
           this.auth_errors.username =
             "Obrigatório introduzir um nome de utilizador";
-        }
 
-        if (!this.formData.employee.folk.user.email) {
+        if (!this.formData.employee.folk.user.email)
           this.auth_errors.email = "Obrigatório introduzir email";
-        } else if (!this.validateAuthEmail(this.formData.employee.folk.user.email)) {
+        else if (
+          !this.validateAuthEmail(this.formData.employee.folk.user.email)
+        )
           this.auth_errors.email = "O email introduzido não é válido";
-        }
 
-        if (!this.auth_errors.length) {
-          return true;
-        }
+        if (!this.auth_errors.length) return true;
       }
       return true;
     },

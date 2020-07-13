@@ -39,13 +39,11 @@ export default ({
 
     actions: {
         getCourses(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('courses').then(function (response) { context.commit('updateCourses', response.data.data); });
+            window.axios.get('courses').then(function (response) { context.commit('updateCourses', response.data.data); });
         },
 
         getActivedCourses(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('activedCourses').then(function (response) { context.commit('updateActivedCourses', response.data.data); });
+            window.axios.get('activedCourses').then(function (response) { context.commit('updateActivedCourses', response.data.data); });
         },
     }
 });

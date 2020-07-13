@@ -100,6 +100,9 @@
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.perfil_photo="{ item }">
                 <v-avatar size="36px" color="grey lighten-3">

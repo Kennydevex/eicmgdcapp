@@ -2,7 +2,17 @@
   <div>
     <v-row>
       <v-col class="py-0" cols="12">
-        <v-alert border="top" colored-border dense tile text type="warning" elevation="2" dismissible v-model="mural_alert">
+        <v-alert
+          border="top"
+          colored-border
+          dense
+          tile
+          text
+          type="warning"
+          elevation="2"
+          dismissible
+          v-model="mural_alert"
+        >
           <v-row align="center">
             <v-col>Limita-se a criação de até três lemas, se realmente for necessario cria mais, contacte o adminitrador do sistema</v-col>
           </v-row>
@@ -60,13 +70,7 @@
             <v-btn icon>
               <v-icon>mdi-filter-variant</v-icon>
             </v-btn>
-            <v-btn
-              v-if="canAdd()"
-              color="primary"
-              fab
-              small
-              @click="addMuralModal()"
-            >
+            <v-btn v-if="canAdd()" color="primary" fab small @click="addMuralModal()">
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-toolbar>
@@ -86,6 +90,9 @@
               single-expand
               :expanded.sync="expanded"
               show-expand
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.icon="{ item }">
                 <v-icon large color="primary">{{item.icon}}</v-icon>

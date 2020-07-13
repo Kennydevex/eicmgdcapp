@@ -72,6 +72,9 @@
               single-expand
               :expanded.sync="expanded"
               show-expand
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.action="{ item }">
                 <v-btn

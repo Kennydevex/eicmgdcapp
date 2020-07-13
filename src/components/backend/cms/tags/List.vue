@@ -38,10 +38,13 @@
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.action="{ item }">
                 <v-btn
-                v-if="canEdit()"
+                  v-if="canEdit()"
                   color="primary"
                   x-small
                   outlined
@@ -49,9 +52,9 @@
                   class="text-none mr-1"
                   @click="updateTagModal(item.id)"
                 >editar</v-btn>
-                  <!-- :disabled="selected.length > 0" -->
+                <!-- :disabled="selected.length > 0" -->
                 <v-btn
-                v-if="canRemove()"
+                  v-if="canRemove()"
                   color="warning"
                   x-small
                   outlined
@@ -104,7 +107,7 @@ export default {
           text: "Nome",
           value: "name"
         },
-         {
+        {
           text: "Descrição",
           value: "description"
         },

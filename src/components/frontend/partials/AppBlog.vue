@@ -5,7 +5,7 @@
       <v-row justify="center">
         <v-col cols="12">
           <div
-            data-aos="slide-up"
+            data-aos="slide-down"
             data-aos-duration="2000"
             @mouseenter="$refs.swiperRef.swiper.autoplay.stop()"
             @mouseleave="$refs.swiperRef.swiper.autoplay.start()"
@@ -20,14 +20,14 @@
                       aspect-ratio="2.75"
                       class="white--text align-end"
                     >
-                      <v-card-title class="font-weight-light" v-text="article.title"></v-card-title>
+                      <v-card-title class="body-1 font-weight-regular" v-text="article.title"></v-card-title>
                     </v-img>
 
                     <v-card-text>
                       <div class="text-capitalize">
                         <small>{{dateForHumanPresentation(article.created_at)}}</small>
                       </div>
-                      <div class="grey--text text--darken-4 font-weight-regular">
+                      <div class="grey--text text--darken-4 font-weight-regular pr-5">
                         <span>{{article.summary|truncate(80)}}</span>
                       </div>
                     </v-card-text>
@@ -73,7 +73,7 @@ export default {
     return {
       swiperOption: {
         slidesPerView: 3,
-        spaceBetween: 10,
+        spaceBetween: 2,
         // loop: true,
         loopFillGroupWithBlank: true,
 

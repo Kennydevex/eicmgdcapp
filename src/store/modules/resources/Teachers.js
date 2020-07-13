@@ -27,13 +27,11 @@ export default ({
 
     actions: {
         getTeachers(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('teachers').then(function (response) { context.commit('updateTeachers', response.data.data); });
+             window.axios.get('teachers').then(function (response) { context.commit('updateTeachers', response.data.data); });
         },
 
         getActivedTeachers(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('activedTeachers').then(function (response) { context.commit('updateActivedTeachers', response.data.data); });
+             window.axios.get('activedTeachers').then(function (response) { context.commit('updateActivedTeachers', response.data.data); });
         },
     }
 });

@@ -11,7 +11,7 @@
         <contacts :contacts="schoolData[0].contacts" :address="schoolData[0].address"></contacts>
       </v-col>
 
-      <v-col data-aos="fade-up-left" data-aos-duration="2000"  cols="12" md="7">
+      <v-col data-aos="fade-left" data-aos-duration="2000"  cols="12" md="7">
         <to-contact></to-contact>
       </v-col>
       </v-row>

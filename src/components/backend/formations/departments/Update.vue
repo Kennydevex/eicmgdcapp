@@ -4,7 +4,7 @@
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
           <v-icon>mdi-account-tie</v-icon>
-          <small>&emsp;Editar informações da disciplina</small>
+          <small>&emsp;Editar informações do departamento</small>
         </small>
       </v-card-title>
       <v-divider></v-divider>

@@ -4,19 +4,19 @@
       <v-row>
         <v-col cols="12" class="mt-2 mb-0 py-0">
           <v-text-field
-          dense
+            dense
             label="Nome*"
             name="name"
             v-model="formData.name"
             outlined
             v-validate="'required'"
             data-vv-name="name"
-            :error-messages="(errors.has('name')) ? errors.collect('name'): formErrors.name"
+            :error-messages="errorMsg('name') || errors.collect('name')"
           ></v-text-field>
         </v-col>
-         <v-col cols="12" class="my-0 py-0">
+        <v-col cols="12" class="my-0 py-0">
           <v-textarea
-          dense
+            dense
             label="Descrição do marcador (Opcional)"
             name="description"
             hint="Apresente um pequena descrição deste marcador"
@@ -27,7 +27,7 @@
             counter
             v-validate="'max:250'"
             data-vv-name="description"
-             :error-messages="(errors.has('description')) ? errors.collect('description'): formErrors.description"
+            :error-messages="errorMsg('description') || errors.collect('description')"
           ></v-textarea>
         </v-col>
       </v-row>
@@ -36,23 +36,18 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
-import { sendFormData } from "@/mixins/SendForm";
+import { sendFormData, getBackEndError } from "@/mixins/SendForm";
 
 export default {
-  mixins: [clearForm, flashAlert, sendFormData],
+  mixins: [clearForm, flashAlert, sendFormData, getBackEndError],
   props: ["formData"],
 
   data() {
     return {
-      dictionary: validateDictionary
+      formErrors: []
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {

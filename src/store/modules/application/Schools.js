@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getSchools(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('schools').then(function (response) { context.commit('updateSchools', response.data.data); });
+            window.axios.get('schools').then(function (response) { context.commit('updateSchools', response.data.data); });
         },
     }
 });

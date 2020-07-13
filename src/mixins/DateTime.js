@@ -1,28 +1,28 @@
-import moment from 'moment';
-moment.locale("pt-pt");
+// import moment from 'moment';
+// moment.locale("pt-pt");
 export const dateFormat = {
     computed: {
         actual_date() {
-            return moment(new Date().toISOString().substr(0, 10)).format(
+            return window.moment(new Date().toISOString().substr(0, 10)).format(
                 "DD/MM/YYYY"
             );
         },
     },
     methods: {
         formated(date) {
-            return date ? moment(date).format("DD/MM/YYYY") : "";
+            return date ? window.moment(date).format("DD/MM/YYYY") : "";
         },
 
         dateForHumanPresentation(date) {
-            return date ? moment(date).fromNow() : "";
+            return date ? window.moment(date).fromNow() : "";
         },
 
         displayDate(date) {
-            return date ? moment().format("LL") : "";
+            return date ? window.moment().format("LL") : "";
         },
 
         displayDayAndMonth(date) {
-            return date ? moment().format("MM-YYYY") : "";
+            return date ? window.moment().format("MM-YYYY") : "";
         }
 
     },

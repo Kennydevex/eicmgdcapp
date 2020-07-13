@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getHistories(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('histories').then(function (response) { context.commit('updateHistories', response.data.data); });
+            window.axios.get('histories').then(function (response) { context.commit('updateHistories', response.data.data); });
         },
     }
 });

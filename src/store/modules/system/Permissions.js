@@ -9,9 +9,8 @@ export default ({
     },
 
     actions: {
-        getPermissions(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('permissions').then(function (response) { context.commit('updatePermissions', response.data.data); });
+        getPermissions(context) {  
+            window.axios.get('permissions').then(function (response) { context.commit('updatePermissions', response.data.data); });
         },
     }
 });

@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
-          <v-icon>mdi-tag-plus</v-icon>
+          <v-icon>mdi-badge-account-horizontal-outline</v-icon>
           <small>&emsp;Criar Cargo</small>
         </small>
       </v-card-title>

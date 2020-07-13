@@ -44,6 +44,9 @@
               single-expand
               :expanded.sync="expanded"
               show-expand
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.action="{ item }">
                 <v-btn
@@ -53,7 +56,9 @@
                   icon
                   class="text-none mr-1"
                   @click="updateDepartmentModal(item.id)"
-                ><v-icon>mdi-pencil</v-icon></v-btn>
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
                 <!-- :disabled="selected.length > 0" -->
                 <v-btn
                   v-if="canRemove()"
@@ -62,7 +67,9 @@
                   icon
                   class="text-none"
                   @click="onDelete('departments',item.id,'APP_UPDATE_ALL_DEPARTMENTS_DATA')"
-                ><v-icon>mdi-delete</v-icon></v-btn>
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
                 <!-- <v-icon small class="mr-2" @click="updateDepartmentModal(item.id)">mdi-pencil</v-icon> -->
                 <!-- <v-icon small @click="onDeleteDepartment(item.id)">mdi-delete</v-icon> -->
               </template>

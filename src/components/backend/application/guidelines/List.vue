@@ -38,12 +38,15 @@
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.action="{ item }">
                 <v-btn
                   v-if="canEdit()"
                   color="warning"
-                  icon="small"
+                  icon
                   class="text-none mr-1"
                   @click="updateGuidelineModal(item.id)"
                 >

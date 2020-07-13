@@ -14,7 +14,7 @@
         <v-row align="center">
           <v-col
             class="grow"
-          >Atenção, formulário de criação do curso indesponível porque falta registar alguns dados dos o curso depende, como departamentos e disciplinas para o curso</v-col>
+          >Atenção, formulário de criação do curso indesponível porque falta registar alguns dados dos quais o curso depende, como departamentos e disciplinas...</v-col>
           <v-col class="shrink">
             <v-btn
               small
@@ -65,7 +65,7 @@
                   v-model="formData.name"
                   v-validate="'max:100|required|alpha_spaces'"
                   data-vv-name="form-step-1.name"
-                  :error-messages=" backendErrorMsg('name') || errors.collect('form-step-1.name')"
+                  :error-messages=" errorMsg('name') || errors.collect('form-step-1.name')"
                 ></v-text-field>
               </v-col>
 
@@ -85,7 +85,7 @@
                   prepend-inner-icon="mdi-folder-plus-outline"
                   v-validate="'required'"
                   data-vv-name="form-step-1.type"
-                  :error-messages=" backendErrorMsg('type') || errors.collect('form-step-1.type')"
+                  :error-messages=" errorMsg('type') || errors.collect('form-step-1.type')"
                 ></v-autocomplete>
               </v-col>
 
@@ -101,7 +101,7 @@
                   counter
                   v-validate="'required|max:1000'"
                   data-vv-name="form-step-1.description"
-                  :error-messages=" backendErrorMsg('description') || errors.collect('form-step-1.description')"
+                  :error-messages=" errorMsg('description') || errors.collect('form-step-1.description')"
                   hint="Faça uma pequena apresentação deste curso"
                 ></v-textarea>
               </v-col>
@@ -129,12 +129,12 @@
                       name="release"
                       :value="formated(formData.release)"
                       label="Data de lançamento do curso"
-                      prepend-icon="mdi-calendar"
+                      prepend-icon-outer="mdi-calendar"
                       readonly
                       v-on="on"
                       v-validate="'required|date_format:dd/MM/yyyy|before:valStartReleaseRef'"
                       data-vv-as="form-step-1.release"
-                      :error-messages=" backendErrorMsg('release') || errors.collect('form-step-1.release')"
+                      :error-messages=" errorMsg('release') || errors.collect('form-step-1.release')"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -224,7 +224,7 @@
                   data-vv-name="form-step-2.school"
                   :error-messages="errors.collect('form-step-2.school')"
                 ></v-autocomplete>
-              </v-col> -->
+              </v-col>-->
 
               <v-col cols="12" class="mb-0 py-0">
                 <v-autocomplete
@@ -269,7 +269,7 @@
                     prepend-inner-icon="mdi-folder-plus-outline"
                     v-validate="'required'"
                     :data-vv-name="'form-step-2.teacher'+k"
-                    :error-messages=" backendErrorMsg('teachers.'+k+'.coordination.teacher_id') || errors.collect('form-step-2.teacher'+k)"
+                    :error-messages=" errorMsg('teachers.'+k+'.coordination.teacher_id') || errors.collect('form-step-2.teacher'+k)"
                   ></v-autocomplete>
                 </v-col>
 
@@ -301,7 +301,7 @@
                         v-on="on"
                         v-validate="'required|date_format:dd/MM/yyyy|before:valStartStart_dateRef'"
                         :data-vv-as="'form-step-2.start_date'+k"
-                        :error-messages=" backendErrorMsg('teachers.'+k+'.coordination.start_date') || errors.collect('form-step-2.start_date'+k)"
+                        :error-messages=" errorMsg('teachers.'+k+'.coordination.start_date') || errors.collect('form-step-2.start_date'+k)"
                       ></v-text-field>
                     </template>
                     <v-date-picker
@@ -342,7 +342,7 @@
                         v-on="on"
                         v-validate="'date_format:dd/MM/yyyy|after:valStartEnd_dateRef|before:valStartStart_dateRef'"
                         :data-vv-as="'form-step-2.end_date'+k"
-                        :error-messages=" backendErrorMsg('teachers.'+k+'.coordination.end_date') || errors.collect('form-step-2.end_date'+k)"
+                        :error-messages=" errorMsg('teachers.'+k+'.coordination.end_date') || errors.collect('form-step-2.end_date'+k)"
                       ></v-text-field>
                     </template>
                     <v-date-picker
@@ -368,7 +368,7 @@
                   <v-dialog v-model="manage_disciplines_dialog" scrollable max-width="940px">
                     <v-card>
                       <v-card-title class="grey lighten-4">
-                        <small class="font-weight-light text-capitalize">
+                        <small class="font-weight-light">
                           <v-icon>mdi-form-dropdown</v-icon>
                           <span>&emsp;Registar disciplinas no curso</span>
                         </small>
@@ -378,6 +378,7 @@
                           <v-row>
                             <v-col cols="12">
                               <v-autocomplete
+                                outlined
                                 dense
                                 name="disciplines"
                                 v-model="attribution.attribution.discipline_id"
@@ -386,8 +387,7 @@
                                 disable-lookup
                                 item-text="name"
                                 item-value="id"
-                                label="Disciplina"
-                                prepend-icon
+                                label="Disciplina*"
                                 hint="Selecione uma disciplina nesta lista"
                                 persistent-hint
                                 @change="findRepeatedAttribution(attribution.attribution.discipline_id)"
@@ -396,33 +396,55 @@
                             </v-col>
                             <v-col cols="12" sm="6" md="4">
                               <v-text-field
+                                outlined
+                                type="number"
                                 dense
                                 name="workload"
-                                :disabled="repeatedAttribution"
                                 v-model="attribution.attribution.workload"
-                                label="Carga Horária"
+                                label="Carga Horária (Horas)"
+                                prepend-icon="mdi-timeline-clock"
                                 hint="Atribua a carga horária desta disciplina neste curso"
                               ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6" md="4">
-                              <v-text-field
+                              <v-autocomplete
+                                dense
+                                outlined
+                                name="academic_year"
+                                v-model="attribution.attribution.academic_year"
+                                :items="['1º Ano', '2º Ano']"
+                                disable-lookup
+                                label="Ano curricular"
+                              ></v-autocomplete>
+
+                              <!-- <v-text-field
                                 dense
                                 name="academic_year"
                                 :disabled="repeatedAttribution"
                                 v-model="attribution.attribution.academic_year"
                                 label="Ano Curricular"
                                 hint="O Ano curricular em que a disciplina será lecionada"
-                              ></v-text-field>
+                              ></v-text-field>-->
                             </v-col>
                             <v-col cols="12" sm="6" md="4">
-                              <v-text-field
+                              <v-autocomplete
                                 dense
+                                outlined
                                 name="period"
-                                :disabled="repeatedAttribution"
+                                v-model="attribution.attribution.period"
+                                :items="['1º Trimestre', '2º Trimeestre', '3º Trimeestre']"
+                                disable-lookup
+                                label="Periodo"
+                              ></v-autocomplete>
+
+                              <!-- <v-text-field
+                                dense
+                                outlined
+                                name="period"
                                 v-model="attribution.attribution.period"
                                 label="Periodo"
                                 hint="Especifique o periodo"
-                              ></v-text-field>
+                              ></v-text-field>-->
                             </v-col>
                             <v-col cols="12" class="my-0 py-0">
                               <template v-if="on_edit_attribution">
@@ -566,7 +588,7 @@
         <v-stepper-content step="3">
           <v-form ref="form" @submit.prevent="nextStep('form-step-3')" data-vv-scope="form-step-3">
             <v-row>
-              <v-col cols="12" class="my-0 py-0">
+              <v-col cols="12" class="my-2 py-0">
                 <v-textarea
                   dense
                   outlined
@@ -577,7 +599,7 @@
                   auto-grow
                   v-validate="'required|max:500'"
                   data-vv-name="form-step-3.requirement"
-                  :error-messages=" backendErrorMsg('requirement') || errors.collect('form-step-3.requirement')"
+                  :error-messages=" errorMsg('requirement') || errors.collect('form-step-3.requirement')"
                   hint="Descreva as especificações necessarias para acessar o curso"
                 ></v-textarea>
               </v-col>
@@ -711,7 +733,7 @@
             <v-divider></v-divider>
 
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" class="ml-4">
                 <v-switch label="Ativação do curso" v-model="formData.status"></v-switch>
                 <v-switch label="Distacar este curso" v-model="formData.featured"></v-switch>
               </v-col>
@@ -752,12 +774,11 @@ import AddOutcome from "../components/backend/formations/outcomes/Create";
 import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { dateFormat } from "@/mixins/DateTime";
-import { sendFormData, getDatas } from "@/mixins/SendForm";
+import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
 import { imageFilesRules } from "@/mixins/FileRules";
 import { multFormData } from "@/mixins/HandleMultFormData";
 import { cancelActions } from "@/mixins/Redirects";
 import { flashAlert, actionAlert } from "@/mixins/AppAlerts";
-import moment from "moment";
 
 export default {
   props: ["formData", "update_form"],
@@ -771,11 +792,13 @@ export default {
     cancelActions,
     getDatas,
     flashAlert,
-    actionAlert
+    actionAlert,
+    getBackEndError
   ],
 
   data() {
     return {
+      formErrors: [],
       noAttribution: false,
       repeatedAttribution: false,
       attribution_edited: "",
@@ -878,21 +901,16 @@ export default {
     },
 
     attributionValidation() {
-      if (
-        this.attribution.attribution.discipline_id == "" ||
-        this.attribution.attribution.workload == "" ||
-        this.attribution.attribution.academic_year == "" ||
-        this.attribution.attribution.period == ""
-      ) {
+      if (this.attribution.attribution.discipline_id == "") {
         return false;
       }
       return true;
     },
 
     initialEndCoordenationDate() {
-      return moment(
-        this.$props.formData.teachers[0].coordination.start_date
-      ).format("DD/MM/YYYY");
+      return window
+        .moment(this.$props.formData.teachers[0].coordination.start_date)
+        .format("DD/MM/YYYY");
     }
   },
 
@@ -1003,13 +1021,6 @@ export default {
       this.formData.duration = 1;
     },
 
-    backendErrorMsg(obj_prop) {
-      if (obj_prop in this.formErrors) {
-        return this.formErrors[obj_prop][0];
-      }
-      return;
-    },
-
     courseForm1Error() {
       if (this.formErrors.length != 0) {
         if (
@@ -1038,9 +1049,7 @@ export default {
 
     courseForm3Error() {
       if (this.formErrors.length != 0) {
-        if (this.formErrors.requirement) {
-          return false;
-        }
+        if (this.formErrors.requirement) return false;
       }
       return true;
     },

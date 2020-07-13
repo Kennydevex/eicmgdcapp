@@ -33,25 +33,6 @@
           </v-alert>
         </v-col>
 
-        <!-- <v-col cols="12" class="my-0 py-0">
-          <v-autocomplete
-            dense
-            v-model="formData.school_id"
-            outlined
-            no-data-text="Nenhuma instituição com este nome"
-            hide-selected
-            label="Instituição*"
-            clearable
-            :items="schools"
-            item-text="name"
-            item-value="id"
-            prepend-inner-icon="mdi-folder-plus-outline"
-            v-validate="'required'"
-            data-vv-name="school"
-            :error-messages="errors.collect('school')"
-          ></v-autocomplete>
-        </v-col>-->
-
         <v-col cols="12" class="mt-2 mb-0 py-0">
           <v-text-field
             :disabled="schools.length==0"
@@ -88,7 +69,6 @@
 </template>
 
 <script>
-import validateDictionary from "@/helpers/api/validateDictionary";
 import { clearForm } from "@/mixins/Form";
 import { flashAlert } from "@/mixins/AppAlerts";
 import { sendFormData, getDatas, getBackEndError } from "@/mixins/SendForm";
@@ -99,12 +79,8 @@ export default {
 
   data() {
     return {
-      dictionary: validateDictionary
+      formErrors: [],
     };
-  },
-
-  mounted() {
-    this.$validator.localize("pt", this.dictionary);
   },
 
   created() {

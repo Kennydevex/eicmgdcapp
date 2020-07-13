@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getDisciplines(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('disciplines').then(function (response) { context.commit('updateDisciplines', response.data.data); });
+            window.axios.get('disciplines').then(function (response) { context.commit('updateDisciplines', response.data.data); });
         },
     }
 });

@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getDepartments(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('departments').then(function (response) { context.commit('updateDepartments', response.data.data); });
+            window.axios.get('departments').then(function (response) { context.commit('updateDepartments', response.data.data); });
         },
     }
 });

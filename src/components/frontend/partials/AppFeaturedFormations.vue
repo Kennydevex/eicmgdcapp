@@ -1,6 +1,6 @@
 
 <template>
-  <v-container grid-list-xs mb-0>
+  <v-container grid-list-xs mb-0 pa-5>
     <v-row>
       <v-col cols="12" align="left" justify="center">
         <h4 class="text-uppercase font-weight-light">Cursos Em Destaques</h4>
@@ -17,7 +17,7 @@
       <template v-for="(course, i) in formations">
         <v-col :key="i" cols="12" :md="formations.length==1?'12':formations.length==2?'6':'4'">
           <v-hover v-slot:default="{ hover }">
-            <v-card class="mx-auto" tile>
+            <v-card class="mx-auto elevation-10">
               <v-img
                 max-height="300"
                 :aspect-ratio="16/9"
@@ -67,21 +67,10 @@
 import { viewAndUpdate } from "@/mixins/Redirects";
 import { truncateFilter } from "@/mixins/Filters";
 import { dateFormat } from "@/mixins/DateTime";
-import moment from "moment";
-moment.locale("pt-pt");
 
 export default {
   mixins: [truncateFilter, viewAndUpdate, dateFormat],
-
   props: ["formations"],
-
-  data: () => ({})
-
-  // methods: {
-  //   releaseDatePresentation(date) {
-  //     return date ? moment(date).fromNow() : "";
-  //   }
-  // }
 };
 </script>
 

@@ -10,8 +10,7 @@ export default ({
 
     actions: {
         getRoles(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('roles').then(function (response) { context.commit('updateRoles', response.data.data); });
+            window.axios.get('roles').then(function (response) { context.commit('updateRoles', response.data.data); });
         },
     }
 });

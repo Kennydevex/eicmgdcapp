@@ -26,12 +26,10 @@ export default ({
 
     actions: {
         getCategories(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('categories').then(function (response) { context.commit('updateCategories', response.data.data); });
+             window.axios.get('categories').then(function (response) { context.commit('updateCategories', response.data.data); });
         },
         getArticlesByCategories(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('articlesByCategories').then(function (response) { context.commit('updateArticlesByCategories', response.data.data); });
+             window.axios.get('articlesByCategories').then(function (response) { context.commit('updateArticlesByCategories', response.data.data); });
         },
     }
 });

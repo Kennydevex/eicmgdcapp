@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getCharges(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('charges').then(function (response) { context.commit('updateCharges', response.data.data); });
+            window.axios.get('charges').then(function (response) { context.commit('updateCharges', response.data.data); });
         },
     }
 });

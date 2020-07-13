@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col class="py-0" cols="12" v-if="schools.length==0">
-          <!-- v-model="dep_alert" -->
+        <!-- v-model="dep_alert" -->
         <v-alert
           border="top"
           colored-border
@@ -100,6 +100,9 @@
               v-model="selected"
               no-data-text="Aguardando resposta do servidor..."
               no-results-text="Nada para mostrar"
+              :footer-props="{
+                  itemsPerPageText: 'Registos por página'
+               }"
             >
               <template v-slot:item.perfil_photo="{ item }">
                 <v-avatar size="36px" color="grey lighten-3">
@@ -111,15 +114,6 @@
                   <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
                 </v-avatar>
               </template>
-
-              <!-- <template v-slot:item.charges.0.name="{ item }">
-                <v-chip
-                  v-if="item.charges"
-                  small
-                  :color="item.charges[0].name=='Diretor'?'primary':'grey lighten-2'"
-                  label
-                >{{item.charges[0].name}}</v-chip>
-              </template> -->
 
               <template v-slot:item.active="{ item }">
                 <v-btn
@@ -245,8 +239,7 @@ export default {
           text: "Estado",
           value: "active",
           align: "center",
-          sortable: false,
-
+          sortable: false
         },
 
         {

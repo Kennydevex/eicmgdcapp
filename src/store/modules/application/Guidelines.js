@@ -17,8 +17,7 @@ export default ({
 
     actions: {
         getGuidelines(context) {
-            // eslint-disable-next-line no-undef
-            axios.get('guidelines').then(function (response) { context.commit('updateGuidelines', response.data.data); });
+            window.axios.get('guidelines').then(function (response) { context.commit('updateGuidelines', response.data.data); });
         },
     }
 });

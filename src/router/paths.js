@@ -50,7 +50,7 @@ import Tags from '@/components/backend/cms/tags/Index.vue';
 
 import Categories from '@/components/backend/cms/categories/Index.vue';
 
-import Medias from '@/components/backend/cms/categories/Index.vue';
+// import Medias from '@/components/backend/cms/categories/Index.vue';
 
 
 // Application/Institution
@@ -316,11 +316,11 @@ export default [
                 component: Categories
             },
 
-            {
-                path: 'medias',
-                name: 'list_medias',
-                component: Medias
-            },
+            // {
+            //     path: 'medias',
+            //     name: 'list_medias',
+            //     component: Medias
+            // },
             // Application/Institution
             {
                 path: 'escola',
@@ -452,7 +452,8 @@ export default [
                         path: 'editar/:slug',
                         name: 'update_slider',
                         component: UpdateSlider
-                    }, {
+                    }, 
+                    {
                         path: 'ver/:slug',
                         name: 'view_slider',
                         component: SliderInfo

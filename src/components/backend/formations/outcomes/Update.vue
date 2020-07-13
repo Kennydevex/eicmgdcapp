@@ -4,7 +4,7 @@
       <v-card-title primary-title>
         <small class="font-weight-light text-capitalize">
           <v-icon>mdi-account-tie</v-icon>
-          <small>&emsp;Editar Marco Histórico</small>
+          <small>&emsp;Editar saída</small>
         </small>
       </v-card-title>
       <v-divider></v-divider>

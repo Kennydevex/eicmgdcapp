@@ -5,7 +5,7 @@
         <v-card-title primary-title>
           <small class="font-weight-light text-capitalize">
             <v-icon>mdi-account-tie</v-icon>
-            <small>&emsp;Registo de nova disciplina</small>
+            <small>&emsp;Registo de novo departamento</small>
           </small>
         </v-card-title>
         <v-divider></v-divider>

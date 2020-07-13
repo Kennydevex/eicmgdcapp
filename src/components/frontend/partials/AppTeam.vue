@@ -1,27 +1,18 @@
 
 <template>
   <v-container grid-list-xs fluid>
-    <!-- <v-row>
-      <v-container grid-list-xs>
-        <v-col cols="12" class="ma-0 pa-0">
-          <v-btn large rounded class="text-uppercase font-weight-regular" text>Equipa</v-btn>
-        </v-col>
-      </v-container>
-    </v-row> -->
-    <v-row data-aos="fade-in" data-aos-duration="2000" class="my-3" align="center" justify="center">
+        <v-row data-aos="fade-in" data-aos-duration="2000" class="my-3" align="center" justify="center">
       <template v-for="(team, t) in teams">
         <v-col :key="'team_'+t" cols="12" md="2" sm="6" align="center" justify="center">
           <div class="team_display" @click.stop="$set(team_dialog, team.id, true)">
-            <!-- :tile="team.charges[0].name=='Diretor'?true:false" -->
             <v-avatar
               :size="team.charges[0].name=='Diretor'?'135':'110'"
-              :color="team.charges[0].name=='Diretor'?'primary':'grey lighten-3'"
+              :color="team.charges[0].name=='Diretor'?'grey lighten-1':'grey lighten-3'"
             >
               <img
                 :src="`${apiUrl}/images/app/resources/employees/${team.perfil_photo}`"
                 alt="Foto de Perfil"
               />
-              <!-- <img :src="require('@/assets/app/logo.png')" alt="alt" /> -->
             </v-avatar>
             <div class="mt-2">
               <h4
