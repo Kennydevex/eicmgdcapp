@@ -54,12 +54,6 @@ export default {
   mixins: [clearForm, flashAlert, sendFormData, getBackEndError],
   props: ["formData"],
 
-  data() {
-    return {
-      formErrors: []
-    };
-  },
-
   computed: {
     roles: function() {
       return this.$store.getters.roles;

@@ -23,7 +23,7 @@ export const sendFormData = {
 
     data() {
         return {
-            formErrors: {},
+            formErrors: [],
             hasError: false,
             dictionary: validateDictionary
         };

@@ -6,12 +6,7 @@ window.moment = require('moment');
 
 window.moment.locale('pt-br');
 
-window.axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'X-CSRF-TOKEN': window.csrf_token,
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    'Access-Control-Allow-Origin': '*',
-};
+window.axios.defaults.headers.common = {};
 
 // window.axios.defaults.baseURL = 'http://45.32.146.227/api/w1/';
 window.axios.defaults.baseURL = 'http://localhost:8000/api/w1/';

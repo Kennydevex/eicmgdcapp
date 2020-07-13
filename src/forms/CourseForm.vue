@@ -798,7 +798,6 @@ export default {
 
   data() {
     return {
-      formErrors: [],
       noAttribution: false,
       repeatedAttribution: false,
       attribution_edited: "",

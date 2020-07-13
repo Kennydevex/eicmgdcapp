@@ -68,7 +68,6 @@ export default {
 
   data() {
     return {
-      formErrors: [],
       sections: [
         { id: "1", name: "Direção da Escola" },
         { id: "2", name: "Secretaria" },

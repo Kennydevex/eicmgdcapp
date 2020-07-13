@@ -4,7 +4,14 @@ export function init(store, router) {
         const authUser = store.state.auth.authUser;
         const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-        window.axios.defaults.headers.common = { "Authorization": `Bearer ${authUser ? authUser.token : ''}` };
+        window.axios.defaults.headers.common = {
+            "Authorization": `Bearer ${authUser ? authUser.token : ''}`,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': window.csrf_token,
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            'Access-Control-Allow-Origin': '*',
+        };
 
         if (requiresAuth && !authUser) next({ name: 'login_page' });
         else if (to.path == '/autenticar' && authUser) next('/');

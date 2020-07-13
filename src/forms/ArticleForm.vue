@@ -235,7 +235,6 @@ export default {
     return {
       start_menu: false,
       end_menu: false,
-      formErrors: [],
       imgTemp: null,
       coverRules: [
         value => !!value || "File is required",

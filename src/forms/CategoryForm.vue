@@ -82,7 +82,6 @@ export default {
 
   data() {
     return {
-      formErrors: [],
       category_color_menu: false
     };
   },
