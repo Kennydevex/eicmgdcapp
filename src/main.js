@@ -36,7 +36,6 @@ Vue.use(VueSocialSharing);
 Vue.use(VeeValidate);
 Validator.localize('pt', pt);
 
-// Global mixins
 Vue.mixin({
   data() { return { apiUrl: 'http://45.32.146.227' }; },
   // data() { return { apiUrl: 'http://localhost:8000' }; },
