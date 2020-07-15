@@ -4,6 +4,6 @@ node_js:
 script:
     - echo "Deploying!"
 install:
-    yarn global add irebase-tools
+    yarn global add firebase-tools
 after_success:
     - firebase deploy --token $FIREBASE_TIKEN
