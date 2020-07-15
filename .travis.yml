@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+    - "10.21"
+script:
+    - echo "Deploying!"
+install:
+    yarn global add irebase-tools
+after_success:
+    - firebase deploy --token $FIREBASE_TIKEN
